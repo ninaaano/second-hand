@@ -1,5 +1,12 @@
-# Second-hand 
-team-04 당근사조
+# [Second-hand] team04-당근4조
+
+<div align="center">
+  <img src="https://github.com/codesquad-members-2023-proj02-team04/second-hand/assets/56967908/5117b246-191e-4490-9160-d15ed3fada07" width="40%">
+    
+    ...당근4조
+</div>
+
+<br></br>
 
 ## 👨‍👩‍👧‍👦팀원 소개
 
