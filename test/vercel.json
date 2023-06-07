@@ -1,0 +1,10 @@
+{
+  "github": {
+    "autoAlias": true,
+    "silent": true
+  },
+  "git": {
+    "enabled": true,
+    "scopes": ["commit:develop"]
+  }
+}

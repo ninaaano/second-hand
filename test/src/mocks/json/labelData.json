@@ -1,0 +1,8 @@
+{
+  "data": [
+    { "labelId": 1, "labelName": "docs", "backgroundColor": "#0025E6", "textColor": "light" },
+    { "labelId": 2, "labelName": "bug", "backgroundColor": "#DE4123", "textColor": "dark" },
+    { "labelId": 3, "labelName": "enhancement", "backgroundColor": "#50C878", "textColor": "dark" },
+    { "labelId": 4, "labelName": "task", "backgroundColor": "#FFD700", "textColor": "dark" }
+  ]
+}
