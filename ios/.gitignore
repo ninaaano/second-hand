@@ -6,7 +6,7 @@
 *.xcscheme
 
 ## plist
-*.plist
+# *.plist
 
 ## User settings
 xcuserdata/
