@@ -36,6 +36,11 @@
             "position": "before"
           },
           {
+            "pattern": "@Styles/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
             "pattern": "@Utils/*",
             "group": "internal",
             "position": "after"
