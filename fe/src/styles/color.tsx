@@ -1,0 +1,18 @@
+export const colors = {
+  white: { color: '#FFFFFF' },
+  gray50: { color: '#FAFAFA' },
+  gray100: { color: '#F9F9F9', opacity: '80%' },
+  gray200: { color: '#F5F5F5', opacity: '70%' },
+  gray300: { color: '#B3B3B3', opacity: '12%' },
+  gray400: { color: '#767680', opacity: '12%' },
+  gray500: { color: '#B3B3B3', opacity: '39%' },
+  gray600: { color: '#000000', opacity: '20%' },
+  gray700: { color: '#3C3C43', opacity: '36%' },
+  gray800: { color: '#3C3C43', opacity: '60%' },
+  gray900: { color: '#3C3C43' },
+  black: { color: '#000000' },
+  mint: { color: '#00C7BE' },
+  orange: { color: '#FF9500' },
+  blue: { color: '#007AFF' },
+  red: { color: '#FF3B30' },
+};
