@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4FE271522A31B23A0002AE35 /* ImageMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE271512A31B23A0002AE35 /* ImageMapper.swift */; };
+		4FE271542A31C0F50002AE35 /* ColorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE271532A31C0F50002AE35 /* ColorStyle.swift */; };
+		4FE271562A31C4820002AE35 /* FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE271552A31C4820002AE35 /* FontStyle.swift */; };
 		F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C12A305FAF00609856 /* AppDelegate.swift */; };
 		F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C32A305FAF00609856 /* SceneDelegate.swift */; };
 		F49F98C92A305FAF00609856 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F49F98C72A305FAF00609856 /* Main.storyboard */; };
@@ -16,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4FE271512A31B23A0002AE35 /* ImageMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMapper.swift; sourceTree = "<group>"; };
+		4FE271532A31C0F50002AE35 /* ColorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyle.swift; sourceTree = "<group>"; };
+		4FE271552A31C4820002AE35 /* FontStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontStyle.swift; sourceTree = "<group>"; };
 		F49F98BE2A305FAF00609856 /* Daangn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daangn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F98C12A305FAF00609856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F49F98C32A305FAF00609856 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +43,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4FE2714F2A31B1FA0002AE35 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				4FE271502A31B2060002AE35 /* Literal */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		4FE271502A31B2060002AE35 /* Literal */ = {
+			isa = PBXGroup;
+			children = (
+				4FE271512A31B23A0002AE35 /* ImageMapper.swift */,
+				4FE271532A31C0F50002AE35 /* ColorStyle.swift */,
+				4FE271552A31C4820002AE35 /* FontStyle.swift */,
+			);
+			path = Literal;
+			sourceTree = "<group>";
+		};
 		F49F98B52A305FAF00609856 = {
 			isa = PBXGroup;
 			children = (
@@ -57,6 +81,7 @@
 		F49F98C02A305FAF00609856 /* Daangn */ = {
 			isa = PBXGroup;
 			children = (
+				4FE2714F2A31B1FA0002AE35 /* Global */,
 				F49F98D62A30629600609856 /* Resource */,
 				F49F98D52A30626000609856 /* Supporting Files */,
 			);
@@ -178,8 +203,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FE271522A31B23A0002AE35 /* ImageMapper.swift in Sources */,
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
 				F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */,
+				4FE271542A31C0F50002AE35 /* ColorStyle.swift in Sources */,
+				4FE271562A31C4820002AE35 /* FontStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,7 +354,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y67S3384LP;
+				DEVELOPMENT_TEAM = 4Y5BW58548;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Daangn/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -354,7 +382,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y67S3384LP;
+				DEVELOPMENT_TEAM = 4Y5BW58548;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Daangn/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
