@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 public class Product {
 
     @Id @GeneratedValue
-    @Column(name = "id")
     private Integer productId;
 
     private String title;
@@ -27,5 +26,13 @@ public class Product {
     @Enumerated(value = EnumType.STRING)
     private Status status;
     private Boolean deleted;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 }

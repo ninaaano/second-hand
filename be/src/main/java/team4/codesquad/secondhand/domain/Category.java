@@ -17,7 +17,6 @@ public class Category {
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
     private Integer categoryId;
 
     private String name;

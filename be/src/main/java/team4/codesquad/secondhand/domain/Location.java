@@ -14,7 +14,6 @@ public class Location {
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
     private Integer locationId;
 
     private String district;
