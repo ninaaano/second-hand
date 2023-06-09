@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-    @Query(value = "select distinct p from Product p " +
+    @Query(value = "select p from Product p " +
             "left join fetch p.location " +
             "left join fetch p.category " +
             "left join fetch p.user ")
