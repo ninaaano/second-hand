@@ -29,15 +29,15 @@ public class Product {
     private Status status;
     private Boolean deleted;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -49,4 +49,19 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Watchlist> watchlists;
+
+    public ProductImage findMainProductImage() {
+        if (productImages.isEmpty()) {
+            return null;
+        }
+        return productImages.get(0);
+    }
+
+    public int calculateChatroomCount() {
+        return chatrooms.size();
+    }
+
+    public int calculateWatchlistCount() {
+        return watchlists.size();
+    }
 }
