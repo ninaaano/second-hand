@@ -48,6 +48,16 @@
             "pattern": "@Utils/*",
             "group": "internal",
             "position": "after"
+          },
+          {
+            "pattern": "@Assets/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@Components/*",
+            "group": "internal",
+            "position": "after"
           }
         ],
         "pathGroupsExcludedImportTypes": [],
