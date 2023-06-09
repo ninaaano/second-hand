@@ -1,9 +1,14 @@
 # ER 다이어그램
-![image](https://github.com/codesquad-backend-study/algorithm-study/assets/91525492/1267115b-2269-47af-aa3a-1f839876ff49)
-
+![image](https://github.com/codesquad-members-2023/second-hand/assets/91525492/af8fcc42-c483-42c8-84a8-06e4e70a3709)
 
 # DDL 쿼리
 ```sql
+-- -----------------------------------------------------
+-- Schema second_hand
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `second_hand`;
+USE `second_hand`;
+
 -- -----------------------------------------------------
 -- Table `second_hand`.`category`
 -- -----------------------------------------------------
@@ -35,62 +40,6 @@ CREATE TABLE IF NOT EXISTS `second_hand`.`location`
 
 
 -- -----------------------------------------------------
--- Table `second_hand`.`product`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `second_hand`.`product`;
-
-CREATE TABLE IF NOT EXISTS `second_hand`.`product`
-(
-    `product_id`  INT            NOT NULL AUTO_INCREMENT,
-    `title`       VARCHAR(50)    NOT NULL,
-    `contents`    TEXT           NOT NULL,
-    `price`       DECIMAL(10, 2) NOT NULL,
-    `created_at`  DATETIME       NULL,
-    `modified_at` DATETIME       NULL,
-    `views`       INT            NULL,
-    `status`      VARCHAR(10)    NULL,
-    `deleted`     VARCHAR(45)    NULL,
-    `category_id` INT            NOT NULL,
-    `location_id` INT            NOT NULL,
-    PRIMARY KEY (`product_id`),
-    INDEX `fk_product_category_idx` (`category_id` ASC) VISIBLE,
-    INDEX `fk_product_location1_idx` (`location_id` ASC) VISIBLE,
-    CONSTRAINT `fk_product_category`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `second_hand`.`category` (`category_id`)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-    CONSTRAINT `fk_product_location1`
-    FOREIGN KEY (`location_id`)
-    REFERENCES `second_hand`.`location` (`location_id`)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE
-    )
-    ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `second_hand`.`product_image`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `second_hand`.`product_image`;
-
-CREATE TABLE IF NOT EXISTS `second_hand`.`product_image`
-(
-    `product_image_id` INT          NOT NULL AUTO_INCREMENT,
-    `image_url`        VARCHAR(100) NULL,
-    `product_id`       INT          NOT NULL,
-    PRIMARY KEY (`product_image_id`),
-    INDEX `fk_product_image_product1_idx` (`product_id` ASC) VISIBLE,
-    CONSTRAINT `fk_product_image_product1`
-    FOREIGN KEY (`product_id`)
-    REFERENCES `second_hand`.`product` (`product_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-    )
-    ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `second_hand`.`user`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `second_hand`.`user`;
@@ -114,6 +63,69 @@ CREATE TABLE IF NOT EXISTS `second_hand`.`user`
     FOREIGN KEY (`secondary_location_id`)
     REFERENCES `second_hand`.`location` (`location_id`)
     ON DELETE NO ACTION
+    ON UPDATE CASCADE
+    )
+    ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `second_hand`.`product`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `second_hand`.`product`;
+
+CREATE TABLE IF NOT EXISTS `second_hand`.`product`
+(
+    `product_id`  INT            NOT NULL AUTO_INCREMENT,
+    `title`       VARCHAR(50)    NOT NULL,
+    `contents`    TEXT           NOT NULL,
+    `price`       DECIMAL(10, 2) NOT NULL,
+    `created_at`  DATETIME       NULL,
+    `modified_at` DATETIME       NULL,
+    `views`       INT            NULL,
+    `status`      VARCHAR(10)    NULL,
+    `deleted`     VARCHAR(45)    NULL,
+    `category_id` INT            NOT NULL,
+    `location_id` INT            NOT NULL,
+    `user_id`     INT            NOT NULL,
+    PRIMARY KEY (`product_id`),
+    INDEX `fk_product_category_idx` (`category_id` ASC) VISIBLE,
+    INDEX `fk_product_location1_idx` (`location_id` ASC) VISIBLE,
+    INDEX `fk_product_user1_idx` (`user_id` ASC) VISIBLE,
+    CONSTRAINT `fk_product_category`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `second_hand`.`category` (`category_id`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+    CONSTRAINT `fk_product_location1`
+    FOREIGN KEY (`location_id`)
+    REFERENCES `second_hand`.`location` (`location_id`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+    CONSTRAINT `fk_product_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `second_hand`.`user` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+    )
+    ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `second_hand`.`product_image`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `second_hand`.`product_image`;
+
+CREATE TABLE IF NOT EXISTS `second_hand`.`product_image`
+(
+    `product_image_id` INT          NOT NULL AUTO_INCREMENT,
+    `image_url`        VARCHAR(100) NULL,
+    `product_id`       INT          NOT NULL,
+    PRIMARY KEY (`product_image_id`),
+    INDEX `fk_product_image_product1_idx` (`product_id` ASC) VISIBLE,
+    CONSTRAINT `fk_product_image_product1`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `second_hand`.`product` (`product_id`)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
     )
     ENGINE = InnoDB;
