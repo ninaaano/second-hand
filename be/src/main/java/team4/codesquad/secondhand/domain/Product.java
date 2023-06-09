@@ -7,6 +7,7 @@ import team4.codesquad.secondhand.constant.Status;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,4 +40,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "product")
+    List<ProductImage> productImages;
 }
