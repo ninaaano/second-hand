@@ -17,5 +17,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": ["src", "src/types/global/custom.d.ts"],
+  "use": ["@svgr/webpack"]
 }
