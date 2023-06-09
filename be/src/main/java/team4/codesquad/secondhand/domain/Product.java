@@ -29,15 +29,15 @@ public class Product {
     private Status status;
     private Boolean deleted;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
     private Location location;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -46,4 +46,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Chatroom> chatrooms;
+
+    @OneToMany(mappedBy = "product")
+    private List<Watchlist> watchlists;
 }
