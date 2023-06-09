@@ -42,5 +42,8 @@ public class Product {
     private User user;
 
     @OneToMany(mappedBy = "product")
-    List<ProductImage> productImages;
+    private List<ProductImage> productImages;
+
+    @OneToMany(mappedBy = "product")
+    private List<Chatroom> chatrooms;
 }
