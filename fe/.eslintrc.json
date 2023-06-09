@@ -36,7 +36,7 @@
             "position": "before"
           },
           {
-            "pattern": "@Utils/*",
+            "pattern": "@Constants/*",
             "group": "internal",
             "position": "after"
           }

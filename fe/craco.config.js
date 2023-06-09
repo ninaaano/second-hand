@@ -11,4 +11,11 @@ module.exports = {
       },
     },
   ],
+  jest: {
+    configure: {
+      moduleNameMapper: {
+        '^\\@Constants/(.*)$': '<rootDir>/src/constants/$1',
+      },
+    },
+  },
 };
