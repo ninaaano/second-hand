@@ -2,14 +2,12 @@ package team4.codesquad.secondhand.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@ToString
 public class User {
 
     @Id
@@ -19,7 +17,7 @@ public class User {
     private String avatar;
     private String username;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "primary_location_id")
     private Location primaryLocation;
 }

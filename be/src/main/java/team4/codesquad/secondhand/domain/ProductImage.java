@@ -3,7 +3,6 @@ package team4.codesquad.secondhand.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -18,7 +17,7 @@ public class ProductImage {
 
     private String imageUrl;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     @JsonIgnore
     private Product product;
