@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 @ToString
 public class Product {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Integer productId;
 
     private String title;
@@ -35,4 +36,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
