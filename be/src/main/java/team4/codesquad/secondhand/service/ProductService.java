@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team4.codesquad.secondhand.domain.Product;
 import team4.codesquad.secondhand.domain.dto.ProductDTO;
+import team4.codesquad.secondhand.domain.dto.ProductListDTO;
 import team4.codesquad.secondhand.repository.ProductRepository;
 
 import java.util.List;
@@ -19,11 +20,11 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public List<ProductDTO> buildProductDTOList() {
+    public ProductListDTO buildProductListDTO() {
         List<Product> products = productRepository.findAll();
-        return products.stream()
-                .map(ProductDTO::new)
-                .collect(Collectors.toList());
+        return new ProductListDTO(products.stream()
+                                    .map(ProductDTO::new)
+                                    .collect(Collectors.toList()));
     }
 
 }
