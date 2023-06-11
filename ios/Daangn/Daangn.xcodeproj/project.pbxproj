@@ -15,6 +15,7 @@
 		F49F98CB2A305FB000609856 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F49F98CA2A305FB000609856 /* Assets.xcassets */; };
 		F49F98CE2A305FB000609856 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F49F98CC2A305FB000609856 /* LaunchScreen.storyboard */; };
 		F49F99022A309A6800609856 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F49F99012A309A6800609856 /* .swiftlint.yml */; };
+		F4AEA7F42A3617D200B00B03 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AEA7F32A3617D200B00B03 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		F49F98CD2A305FB000609856 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F49F98CF2A305FB000609856 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F49F99012A309A6800609856 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		F4AEA7F32A3617D200B00B03 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				4FE271502A31B2060002AE35 /* Literal */,
+				F4AEA7F32A3617D200B00B03 /* TabBarController.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 				4FE271522A31B23A0002AE35 /* ImageMapper.swift in Sources */,
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
 				F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */,
+				F4AEA7F42A3617D200B00B03 /* TabBarController.swift in Sources */,
 				4FE271542A31C0F50002AE35 /* ColorStyle.swift in Sources */,
 				4FE271562A31C4820002AE35 /* FontStyle.swift in Sources */,
 			);
