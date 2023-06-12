@@ -5,9 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team4.codesquad.secondhand.domain.Product;
+import team4.codesquad.secondhand.domain.User;
 import team4.codesquad.secondhand.domain.dto.ProductDTO;
+import team4.codesquad.secondhand.domain.dto.ProductDetailDTO;
 import team4.codesquad.secondhand.domain.dto.ProductListDTO;
 import team4.codesquad.secondhand.repository.ProductRepository;
+import team4.codesquad.secondhand.repository.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +27,11 @@ public class ProductService {
         return new ProductListDTO(products.stream()
                                     .map(ProductDTO::new)
                                     .collect(Collectors.toList()));
+    }
+
+    public ProductDetailDTO findById(Integer productId){
+        Product product = productRepository.findById(productId).orElseThrow(IllegalArgumentException::new);
+        return new ProductDetailDTO(product);
     }
 
 }
