@@ -9,5 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductListDTO {
 
-    List<ProductDTO> products;
+    private List<ProductDTO> products;
 }

@@ -11,15 +11,15 @@ import java.time.LocalDateTime;
 @Getter
 public class ProductDTO {
 
-    private Integer productId;
-    private String title;
-    private int price;
-    private LocalDateTime createdAt;
-    private Status status;
-    private Location location;
-    private int watchlistCounts;
-    private int chatroomCounts;
-    private ProductImage mainImage;
+    private final Integer productId;
+    private final String title;
+    private final int price;
+    private final LocalDateTime createdAt;
+    private final Status status;
+    private final Location location;
+    private final int watchlistCounts;
+    private final int chatroomCounts;
+    private final ProductImage mainImage;
 
     public ProductDTO(Product product) {
         this.productId = product.getProductId();
