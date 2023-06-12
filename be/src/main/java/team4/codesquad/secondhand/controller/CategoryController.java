@@ -16,7 +16,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @GetMapping("apl/category")
+    @GetMapping("api/category")
     private ResponseEntity<Message> category() {
         Message message = new Message(HttpStatus.OK, ResponseMessage.READ_CATEGORY, categoryService.findAll());
         return new ResponseEntity<>(message, HttpStatus.OK);
