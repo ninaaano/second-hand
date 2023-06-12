@@ -1,4 +1,5 @@
-import { NavigationBar } from '@Components/common/NavigationBar/index';
+import { NavigationBar } from '@Components/common/NavigationBar';
+import TabBar from '@Components/common/TabBar';
 import { ThemeProvider } from 'styled-components';
 
 import { GlobalStyle } from '@Styles/GlobalStyle';
@@ -8,6 +9,7 @@ const App = () => (
   <ThemeProvider theme={theme}>
     <GlobalStyle />
     <NavigationBar />
+    <TabBar page={'chat'} />
   </ThemeProvider>
 );
 export default App;
