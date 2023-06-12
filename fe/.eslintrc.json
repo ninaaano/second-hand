@@ -38,8 +38,9 @@
           {
             "pattern": "@Constants/*",
             "group": "external",
-            "position": "before"
+            "position": "after"
           },
+          {
             "pattern": "@Styles/*",
             "group": "internal",
             "position": "after"
