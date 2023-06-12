@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-@Slf4j
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 

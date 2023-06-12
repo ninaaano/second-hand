@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class CategoryListDTO {
-    List<CategoryDTO> category;
+    private List<CategoryDTO> category;
 
 }
