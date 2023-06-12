@@ -10,4 +10,5 @@ export const fontType = {
   footNote: { fontSize: '0.813rem', lineHeight: '1.125rem', fontWeight: 400 },
   caption1: { fontSize: '0.75rem', lineHeight: '1rem', fontWeight: 400 },
   caption2: { fontSize: '0.688rem', lineHeight: '0.813rem', fontWeight: 400 },
+  tab: { fontSize: '0.625rem', lineHeight: '0.745', fontWeight: 510 },
 };
