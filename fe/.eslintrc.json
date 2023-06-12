@@ -40,6 +40,7 @@
             "group": "external",
             "position": "before"
           },
+          {
             "pattern": "@Styles/*",
             "group": "internal",
             "position": "after"
