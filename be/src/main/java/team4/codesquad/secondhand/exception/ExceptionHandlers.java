@@ -12,7 +12,7 @@ public class ExceptionHandlers {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Message> handleNotFoundException(){
-        Message message = new Message(HttpStatus.BAD_REQUEST, ResponseMessage.NOT_FOUND,null);
+        Message message = new Message(HttpStatus.BAD_REQUEST, ResponseMessage.NOT_FOUND_PRODUCT,null);
         return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
     }
 
