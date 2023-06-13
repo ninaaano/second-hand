@@ -1,8 +1,8 @@
 import { MouseEvent } from 'react';
 
-import { palette } from '@Styles/color';
-
 import icons from '@Assets/index';
+
+import { palette } from '@Styles/color';
 
 import * as S from './style';
 import { Icon } from '../Icon';
@@ -18,7 +18,7 @@ const Button = ({
   buttonState,
   size,
   title,
-  textAlign,
+  textAlign = 'center',
   iconType,
   onClick,
 }: ButtonProps) => (

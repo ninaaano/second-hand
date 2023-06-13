@@ -10,7 +10,6 @@ body {
   width: 100%;
   font: inherit;
   color: ${palette.gray900};
-  font-family: 'San Francisco', sans-serif;
   ${fontType.body};
 }
 `;
