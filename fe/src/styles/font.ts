@@ -1,3 +1,4 @@
+//TODO: fontType에서 fontWeight부분을 regular, bold 등 재 구성 필요
 export const fontType = {
   largeTitle: { fontSize: '2.125rem', lineHeight: '2.563rem', fontWeight: 400 },
   title1: { fontSize: '1.75rem', lineHeight: '2.125rem', fontWeight: 400 },
@@ -12,3 +13,5 @@ export const fontType = {
   caption2: { fontSize: '0.688rem', lineHeight: '0.813rem', fontWeight: 400 },
   tab: { fontSize: '0.625rem', lineHeight: '0.745', fontWeight: 510 },
 };
+
+export type FontTypes = typeof fontType;
