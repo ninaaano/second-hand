@@ -2,9 +2,6 @@ package team4.codesquad.secondhand.domain.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import team4.codesquad.secondhand.constant.Status;
-import team4.codesquad.secondhand.domain.Category;
-import team4.codesquad.secondhand.domain.Location;
 import team4.codesquad.secondhand.domain.Product;
 import team4.codesquad.secondhand.domain.ProductImage;
 
