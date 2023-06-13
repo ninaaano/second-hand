@@ -29,8 +29,9 @@ public class ProductService {
                                     .collect(Collectors.toList()));
     }
 
-    public ProductDetailDTO findById(Integer productId){
-        Product product = productRepository.findByIdWithRelatedFields(productId);
+    public ProductDetailDTO findById(Integer productId) {
+        Product product = productRepository.findByIdWithRelatedFields(productId).orElseThrow(IllegalArgumentException::new);
+        productRepository.updateViews(productId);
         return new ProductDetailDTO(product);
     }
 
