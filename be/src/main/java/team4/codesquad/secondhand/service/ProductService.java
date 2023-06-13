@@ -1,7 +1,7 @@
 package team4.codesquad.secondhand.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team4.codesquad.secondhand.domain.Product;
@@ -19,8 +19,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductListDTO buildProductListDTO() {
-        List<Product> products = productRepository.findAll();
+    public ProductListDTO buildProductListDTO(Pageable pageable) {
+        List<Product> products = productRepository.findAll(pageable).getContent();
         return new ProductListDTO(products.stream()
                                     .map(ProductDTO::new)
                                     .collect(Collectors.toList()));
