@@ -62,4 +62,17 @@ public class Product {
     public int calculateWatchlistCount() {
         return watchlists.size();
     }
+
+    public String getSellerId(){
+        return user.getUsername();
+    }
+
+    public String getDetailedStatus(){
+        return status.name();
+    }
+
+    public String getDetailedCategory(){
+        return category.getName();
+    }
+
 }
