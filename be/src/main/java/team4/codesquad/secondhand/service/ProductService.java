@@ -30,7 +30,7 @@ public class ProductService {
     }
 
     public ProductDetailDTO findById(Integer productId){
-        Product product = productRepository.findById(productId).orElseThrow(IllegalArgumentException::new);
+        Product product = productRepository.findByIdWithRelatedFields(productId);
         return new ProductDetailDTO(product);
     }
 
