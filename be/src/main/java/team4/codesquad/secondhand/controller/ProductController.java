@@ -24,7 +24,7 @@ public class ProductController {
 
     @GetMapping("api/products/{productId}")
     public ResponseEntity<Message> getProduct(@PathVariable Integer productId) {
-        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT, productService.findById(productId));
+        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT_DETAIL, productService.findById(productId));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }
