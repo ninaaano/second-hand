@@ -1,25 +1,25 @@
+import Button from '@Components/common/Button';
 import { Icon } from '@Components/common/Icon';
+
+import { palette } from '@Styles/color';
 
 import * as S from './style';
 
 interface TabBarProductDetailProps {
-  productPrice: string;
+  price: string;
 }
 
-const TabBarProductDetail = ({ productPrice }: TabBarProductDetailProps) => (
+const TabBarProductDetail = ({ price }: TabBarProductDetailProps) => (
   <S.Box>
     <S.Item>
-      <Icon
-        iconType={'heart'}
-        width={18}
-        height={19}
-        fill={'neutralTextStrong'}
-      />
-      {productPrice}
+      <Icon iconType={'heart'} width={25} height={25} fill={palette.black} />
+      {price}
     </S.Item>
-    <S.Item>
-      <Icon iconType={'keyboard'} fill={'neutralTextStrong'} />
-    </S.Item>
+    <Button
+      buttonType="rectangle"
+      buttonState="active"
+      title="대화 중인 채팅방"
+    />
   </S.Box>
 );
 

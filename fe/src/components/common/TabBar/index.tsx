@@ -11,10 +11,8 @@ interface TabBarProps {
 const TabBar = ({ page = 'main' }: TabBarProps) => (
   <S.Box>
     {page === 'main' && <TabBarHome currentPage="home" />}
-    {page === 'sellProduct' && <TabBarSellProduct currentLocation="역삼 1동" />}
-    {page === 'productDetail' && (
-      <TabBarProductDetail productPrice="100000원" />
-    )}
+    {page === 'sellProduct' && <TabBarSellProduct currentLocation="역삼1동" />}
+    {page === 'productDetail' && <TabBarProductDetail price="10000원" />}
     {page === 'chat' && <TabBarChat />}
   </S.Box>
 );

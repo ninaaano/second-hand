@@ -20,4 +20,25 @@ export const palette = {
   red: '#FF3B30',
 };
 
+export const colors = {
+  neutralText: palette.gray900,
+  neutralTextWeak: palette.gray800,
+  neutralTextStrong: palette.black,
+  neutralBackground: palette.white,
+  neutralBackgroundWeak: palette.gray50,
+  neutralBackgroundBold: palette.gray400,
+  neutralBackgroundBlur: palette.gray100,
+  neutralBorder: palette.gray500,
+  neutralBorderStrong: palette.gray700,
+  neutralOverlay: palette.gray600,
+  accentText: palette.white,
+  accentTextWeak: palette.black,
+  accentBackgroundPrimary: palette.orange,
+  accentBackgroundSecondary: palette.mint,
+  systemDefault: palette.blue,
+  systemWarning: palette.red,
+  systemBackground: palette.white,
+  systemBackgroundWeak: palette.gray200,
+};
+
 export type ColorsTypes = typeof palette;
