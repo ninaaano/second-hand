@@ -25,4 +25,9 @@ public class LocationService {
                                         .map(LocationDTO::new)
                                         .collect(Collectors.toList()));
     }
+
+    public Location findLocation(String district, String city, String town) {
+        return locationRepository.findByDistrictAndCityAndTown(district, city, town).orElseThrow(IllegalArgumentException::new);
+    }
+
 }
