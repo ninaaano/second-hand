@@ -5,6 +5,7 @@
       "@Constants/*": ["./constants/*"],
       "@Assets/*": ["./assets/*"],
       "@Styles/*": ["./styles/*"],
+      "@Hooks/*": ["./hooks/*"],
       "@Utils/*": ["./utils/*"],
       "@Types/*": ["./types/*"],
       "@Hooks/*": ["./hooks/*"],

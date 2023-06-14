@@ -37,7 +37,12 @@
           },
           {
             "pattern": "@Constants/*",
-            "group": "external",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@Assets/*",
+            "group": "internal",
             "position": "after"
           },
           {
@@ -46,12 +51,12 @@
             "position": "after"
           },
           {
-            "pattern": "@Utils/*",
+            "pattern": "@Hooks/*",
             "group": "internal",
             "position": "after"
           },
           {
-            "pattern": "@Assets/*",
+            "pattern": "@Utils/*",
             "group": "internal",
             "position": "after"
           },
