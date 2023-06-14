@@ -12,13 +12,13 @@ interface IconProps {
   onClick?: () => void;
 }
 
-export const Icon: FC<IconProps> = ({
+export const Icon = ({
   iconType = 'slider',
   width = 16,
   height = width,
   fill = palette.gray50,
   onClick,
-}): ReactElement => {
+}: IconProps): ReactElement => {
   const IconSvg = icons[iconType];
 
   return (

@@ -40,5 +40,3 @@ export const colors = {
   systemBackground: palette.white,
   systemBackgroundWeak: palette.gray200,
 };
-
-export type ColorsTypes = typeof palette;

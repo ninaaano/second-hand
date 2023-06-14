@@ -64,6 +64,21 @@
             "pattern": "@Components/*",
             "group": "internal",
             "position": "after"
+          },
+          {
+            "pattern": "@Hooks/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@Common/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@Types/*",
+            "group": "internal",
+            "position": "after"
           }
         ],
         "pathGroupsExcludedImportTypes": [],
