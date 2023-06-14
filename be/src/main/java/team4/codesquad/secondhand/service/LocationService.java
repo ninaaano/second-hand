@@ -27,7 +27,7 @@ public class LocationService {
     }
 
     public Location findLocation(String district, String city, String town) {
-        return locationRepository.findByDistrictAndCityAndTown(district, city, town).orElseThrow(IllegalArgumentException::new);
+        return locationRepository.findByDistrictAndCityAndTown(district, city, town).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역 정보 입력"));
     }
 
 }
