@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
     private String avatar;
@@ -20,4 +20,10 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "primary_location_id")
     private Location primaryLocation;
+
+    public User(String avatar, String username, Location location) {
+        this.avatar = avatar;
+        this.username = username;
+        this.primaryLocation = location;
+    }
 }
