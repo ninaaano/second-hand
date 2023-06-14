@@ -6,6 +6,9 @@
       "@Assets/*": ["./assets/*"],
       "@Styles/*": ["./styles/*"],
       "@Utils/*": ["./utils/*"],
+      "@Types/*": ["./types/*"],
+      "@Hooks/*": ["./hooks/*"],
+      "@Common/*": ["./common/*"],
       "@Components/*": ["./components/*"]
     }
   }

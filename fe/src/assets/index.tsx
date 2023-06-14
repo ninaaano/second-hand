@@ -8,6 +8,7 @@ import { ReactComponent as circleFill } from './circleFill.svg';
 import { ReactComponent as ellipsis } from './ellipsis.svg';
 import { ReactComponent as heart } from './heart.svg';
 import { ReactComponent as home } from './home.svg';
+import { ReactComponent as innerHeart } from './innerHeart.svg';
 import { ReactComponent as keyboard } from './keyboard.svg';
 import { ReactComponent as line } from './line.svg';
 import { ReactComponent as multiply } from './multiply.svg';
@@ -33,4 +34,5 @@ export default {
   search,
   slider,
   chat,
+  innerHeart,
 };

@@ -1,5 +1,3 @@
-import { DefaultTheme } from 'styled-components';
-
 import * as font from '@Styles/font';
 
 import * as color from './color';
