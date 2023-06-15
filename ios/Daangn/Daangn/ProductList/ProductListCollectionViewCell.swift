@@ -177,7 +177,7 @@ extension ProductListCollectionViewCell {
     // MARK: Cell Configure
     
     func configure() {
-        productImage.image = UIImage(named: "")
+//        productImage.image = UIImage(named: "")
         titleLabel.text = "글 제목"
         locationLabel.text = "역삼동"
         timeStampLabel.text = "2시간 전"

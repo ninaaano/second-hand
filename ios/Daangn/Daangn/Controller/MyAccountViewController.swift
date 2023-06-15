@@ -8,15 +8,40 @@
 import UIKit
 
 final class MyAccountViewController: UIViewController {
+    private let border = Boarder()
+    
+    private let profileImageButton = ProfileImageButton()
+    
     override func viewDidLoad() {
-        let label = UILabel(frame: CGRect(x: 100, y: 200, width: 200, height: 100))
-        
-        label.text = "myAccount"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.sizeToFit()
-        label.center.x = self.view.frame.width / 2
-        
-        self.view.addSubview(label)
         super.viewDidLoad()
+        title = "내 계정"
+        view.backgroundColor = ColorStyle.white
+        setLayout()
+    }
+    
+    private func setLayout() {
+        view.addSubview(border)
+        NSLayoutConstraint.activate([
+            border.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            border.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            border.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+        
+        view.addSubview(profileImageButton)
+        NSLayoutConstraint.activate([
+            profileImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            profileImageButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+    }
+    
+    private func setPhotoButton() {
+        profileImageButton.setAction(target: nil, #selector(selectPhoto))
+    }
+    
+    @objc func selectPhoto() {
+        let vc = UIViewController()
+        let navi = UINavigationController(rootViewController: vc)
+        navi.view.backgroundColor = .systemBackground
+        self.present(navi, animated: true)
     }
 }
