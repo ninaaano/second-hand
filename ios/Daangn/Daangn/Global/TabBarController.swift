@@ -14,25 +14,36 @@ final class TabBarController: UITabBarController {
         view.backgroundColor = ColorStyle.gray50
     }
     
-    func setViewControllers() {
-        let navigationController = UINavigationController(rootViewController: HomeViewController())
-        let sellHistory = SellHistoryViewController()
-        let watchlist = WatchlistViewController()
-        let chat = ChatViewController()
-        let myAccount = MyAccountViewController()
-        // navbar를 비활성화하면 <back 버튼도 안생김
+    private func setViewControllers() {
+        let homeNavigationController = createNavigationController(with: HomeViewController(), title: "홈화면", tabBarIconName: "house")
+        let salesNavigationController = createNavigationController(with: SalesViewController(), title: "판매내역", tabBarIconName: "newspaper")
+        let watchNavigationController = createNavigationController(with: WatchlistViewController(), title: "관심목록", tabBarIconName: "heart")
+        let chatNavigationController = createNavigationController(with: ChatViewController(), title: "채팅", tabBarIconName: "message")
+        
+        let myAccountViewController = MyAccountViewController()
+        myAccountViewController.tabBarItem.title = "내 계정"
+        myAccountViewController.tabBarItem.image = generateStyledImage(systemName: "person")
+        
         let controllers: [UIViewController] = [
-            navigationController, sellHistory, watchlist, chat, myAccount
+            homeNavigationController,
+            salesNavigationController,
+            watchNavigationController,
+            chatNavigationController,
+            myAccountViewController,
         ]
-        
-        navigationController.tabBarItem = UITabBarItem(title: "홈화면", image: UIImage(systemName: "house")?.withTintColor(.black), selectedImage: nil)
-        sellHistory.tabBarItem = UITabBarItem(title: "판매내역", image: UIImage(systemName: "newspaper")?.withTintColor(.black), selectedImage: nil)
-        watchlist.tabBarItem = UITabBarItem(title: "관심목록", image: UIImage(systemName: "heart")?.withTintColor(.black), selectedImage: nil)
-        chat.tabBarItem = UITabBarItem(title: "채팅", image: UIImage(systemName: "message")?.withTintColor(.black), selectedImage: nil)
-        myAccount.tabBarItem = UITabBarItem(title: "내 계정", image: UIImage(systemName: "person")?.withTintColor(.black), selectedImage: nil)
-        
         setViewControllers(controllers, animated: false)
     }
     
-  
+    private func createNavigationController(with viewController: UIViewController, title: String, tabBarIconName: String) -> UINavigationController {
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.prefersLargeTitles = false
+        navigationController.tabBarItem.title = title
+        navigationController.tabBarItem.image = generateStyledImage(systemName: tabBarIconName)
+        return navigationController
+    }
+    
+    private func generateStyledImage(systemName name: String) -> UIImage? {
+        let tintColor = ColorStyle.black ?? .black
+        return UIImage(systemName: name)?.withTintColor(tintColor).applyingSymbolConfiguration(.init(scale: .medium))
+    }
 }

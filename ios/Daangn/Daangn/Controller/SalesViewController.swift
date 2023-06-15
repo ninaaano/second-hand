@@ -1,5 +1,5 @@
 //
-//  TempSalesViewController.swift
+//  SalesViewController.swift
 //  temp-uikit-layout
 //
 //  Created by Effie on 2023/06/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TempSalesViewController: UIViewController {
+class SalesViewController: UIViewController {
     private let collectionView = ProductListCollectionView()
     private lazy var dataSource: ProductListDataSource? = ProductListDataSource(collectionView)
     
