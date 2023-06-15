@@ -10,6 +10,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select u from User u " +
             "left join fetch u.primaryLocation " +
-            "left join fetch u.secondaryLocation")
+            "left join fetch u.secondaryLocation " +
+            "where u.username = :username")
     Optional<User> findByUsername(String username);
 }
