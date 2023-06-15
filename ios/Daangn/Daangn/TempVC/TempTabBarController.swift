@@ -15,7 +15,7 @@ class TempTabBarController: UITabBarController {
     }
     
     func setViewControllers() {
-        let homeVC = TempHomeViewController()
+        let homeVC = HomeViewController()
         let homeNavi = UINavigationController(rootViewController: homeVC)
         homeNavi.navigationBar.prefersLargeTitles = false
         homeNavi.tabBarItem.title = "판매내역"
