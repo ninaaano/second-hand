@@ -13,6 +13,7 @@ final class IDField: UIView {
         label.text = "아이디"
         label.applyStyle(font: FontStyle.body, color: ColorStyle.black)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
