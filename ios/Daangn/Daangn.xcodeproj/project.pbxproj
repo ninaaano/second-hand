@@ -12,6 +12,7 @@
 		4FE271562A31C4820002AE35 /* FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE271552A31C4820002AE35 /* FontStyle.swift */; };
 		F4029F212A3B54D200ECEABD /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F202A3B54D200ECEABD /* Radius.swift */; };
 		F4029F232A3B54F800ECEABD /* UIView+Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F222A3B54F800ECEABD /* UIView+Radius.swift */; };
+		F4029F272A3B557500ECEABD /* UILabel+style.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F262A3B557500ECEABD /* UILabel+style.swift */; };
 		F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C12A305FAF00609856 /* AppDelegate.swift */; };
 		F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C32A305FAF00609856 /* SceneDelegate.swift */; };
 		F49F98CB2A305FB000609856 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F49F98CA2A305FB000609856 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 		4FE271552A31C4820002AE35 /* FontStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontStyle.swift; sourceTree = "<group>"; };
 		F4029F202A3B54D200ECEABD /* Radius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
 		F4029F222A3B54F800ECEABD /* UIView+Radius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Radius.swift"; sourceTree = "<group>"; };
+		F4029F262A3B557500ECEABD /* UILabel+style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+style.swift"; sourceTree = "<group>"; };
 		F49F98BE2A305FAF00609856 /* Daangn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daangn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F98C12A305FAF00609856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F49F98C32A305FAF00609856 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				F4029F222A3B54F800ECEABD /* UIView+Radius.swift */,
+				F4029F262A3B557500ECEABD /* UILabel+style.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				F4029F232A3B54F800ECEABD /* UIView+Radius.swift in Sources */,
 				F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */,
 				F4AEA7F42A3617D200B00B03 /* TabBarController.swift in Sources */,
+				F4029F272A3B557500ECEABD /* UILabel+style.swift in Sources */,
 				F4029F212A3B54D200ECEABD /* Radius.swift in Sources */,
 				4FE271542A31C0F50002AE35 /* ColorStyle.swift in Sources */,
 				4FE271562A31C4820002AE35 /* FontStyle.swift in Sources */,
