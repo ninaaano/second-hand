@@ -16,11 +16,22 @@ final class MyAccountViewController: UIViewController {
     
     private let loginButton = LoginButton()
     
+    private let joinButton: UIButton = {
+        let button = UIButton(frame: .zero)
+        button.setTitle("회원가입", for: .normal)
+        button.setTitleColor(ColorStyle.black, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setContentHuggingPriority(.required, for: .horizontal)
+        button.setContentHuggingPriority(.required, for: .vertical)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "내 계정"
         view.backgroundColor = ColorStyle.white
         setLayout()
+        setButtons()
     }
     
     private func setLayout() {
@@ -45,13 +56,27 @@ final class MyAccountViewController: UIViewController {
             loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         ])
+        
+        view.addSubview(joinButton)
+        NSLayoutConstraint.activate([
+            joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            joinButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 19),
+        ])
     }
     
-    private func setPhotoButton() {
+    private func setButtons() {
         profileImageButton.setAction(target: nil, #selector(selectPhoto))
+        joinButton.addTarget(nil, action: #selector(createAccount), for: .touchUpInside)
     }
     
     @objc func selectPhoto() {
+        let vc = UIViewController()
+        let navi = UINavigationController(rootViewController: vc)
+        navi.view.backgroundColor = .systemBackground
+        self.present(navi, animated: true)
+    }
+    
+    @objc func createAccount() {
         let vc = UIViewController()
         let navi = UINavigationController(rootViewController: vc)
         navi.view.backgroundColor = .systemBackground
