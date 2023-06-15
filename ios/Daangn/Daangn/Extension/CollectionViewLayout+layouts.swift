@@ -9,13 +9,12 @@ import UIKit
 
 extension UICollectionViewLayout {
     static func createHorizontal() -> UICollectionViewCompositionalLayout {
-        let sectionProvider: UICollectionViewCompositionalLayoutSectionProvider = { _, environment in
+        let sectionProvider: UICollectionViewCompositionalLayoutSectionProvider = { _, _ in
             let layoutSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(1))
             let item = NSCollectionLayoutItem(layoutSize: layoutSize)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .absolute(32))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                           subitems: [item])
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .continuous

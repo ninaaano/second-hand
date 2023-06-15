@@ -148,9 +148,7 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
             productImage.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             productImage.heightAnchor.constraint(equalToConstant: 120),
             productImage.widthAnchor.constraint(equalTo: productImage.heightAnchor),
-            
         ])
-        
         let imageBottomConstraint = productImage.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
         imageBottomConstraint.priority = .defaultHigh
         imageBottomConstraint.isActive = true
@@ -162,7 +160,6 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
             informationStack.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 4),
         ])
         
-        // chat heart stack
         contentView.addSubview(chatHeartStack)
         NSLayoutConstraint.activate([
             chatHeartStack.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
