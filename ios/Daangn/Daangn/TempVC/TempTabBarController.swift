@@ -21,7 +21,7 @@ class TempTabBarController: UITabBarController {
         homeNavi.tabBarItem.title = "판매내역"
         homeNavi.tabBarItem.image = UIImage(systemName: "house")
         
-        let productListVC = TempSalesViewController()
+        let productListVC = SalesViewController()
         let productNavi = UINavigationController(rootViewController: productListVC)
         productNavi.navigationBar.prefersLargeTitles = false
         productNavi.tabBarItem.title = "판매내역"
