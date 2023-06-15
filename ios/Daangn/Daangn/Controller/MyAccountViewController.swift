@@ -12,6 +12,8 @@ final class MyAccountViewController: UIViewController {
     
     private let profileImageButton = ProfileImageButton()
     
+    private let idField = IDField()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "내 계정"
@@ -31,6 +33,13 @@ final class MyAccountViewController: UIViewController {
         NSLayoutConstraint.activate([
             profileImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             profileImageButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+        
+        view.addSubview(idField)
+        NSLayoutConstraint.activate([
+            idField.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            idField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            idField.topAnchor.constraint(equalTo: profileImageButton.bottomAnchor, constant: 40),
         ])
     }
     

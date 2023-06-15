@@ -35,6 +35,7 @@
 		F4029F472A3B5D9900ECEABD /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F462A3B5D9900ECEABD /* Category.swift */; };
 		F4029F4D2A3B61A400ECEABD /* SalesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F492A3B61A400ECEABD /* SalesViewController.swift */; };
 		F4029F522A3B812500ECEABD /* ProfileImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F512A3B812500ECEABD /* ProfileImageButton.swift */; };
+		F4029F542A3B904200ECEABD /* IDField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F532A3B904200ECEABD /* IDField.swift */; };
 		F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C12A305FAF00609856 /* AppDelegate.swift */; };
 		F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C32A305FAF00609856 /* SceneDelegate.swift */; };
 		F49F98CB2A305FB000609856 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F49F98CA2A305FB000609856 /* Assets.xcassets */; };
@@ -72,6 +73,7 @@
 		F4029F462A3B5D9900ECEABD /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		F4029F492A3B61A400ECEABD /* SalesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesViewController.swift; sourceTree = "<group>"; };
 		F4029F512A3B812500ECEABD /* ProfileImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageButton.swift; sourceTree = "<group>"; };
+		F4029F532A3B904200ECEABD /* IDField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDField.swift; sourceTree = "<group>"; };
 		F49F98BE2A305FAF00609856 /* Daangn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daangn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F98C12A305FAF00609856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F49F98C32A305FAF00609856 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				F4029F2D2A3B56D300ECEABD /* PaddedLabel.swift */,
 				F4029F2F2A3B56D800ECEABD /* ProductStateBadge.swift */,
 				F4029F512A3B812500ECEABD /* ProfileImageButton.swift */,
+				F4029F532A3B904200ECEABD /* IDField.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				F4029F272A3B557500ECEABD /* UILabel+style.swift in Sources */,
 				F4029F212A3B54D200ECEABD /* Radius.swift in Sources */,
 				F4029F422A3B5D6E00ECEABD /* CateogryFilterDataSource.swift in Sources */,
+				F4029F542A3B904200ECEABD /* IDField.swift in Sources */,
 				F4029F392A3B5B4500ECEABD /* LoadCollectionViewCell.swift in Sources */,
 				4F35D2632A3813DD00DE2CBA /* SellHistoryViewController.swift in Sources */,
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,

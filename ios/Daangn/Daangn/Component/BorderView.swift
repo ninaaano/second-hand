@@ -13,14 +13,14 @@ final class Boarder: UIView {
         return nil
     }
     
-    init() {
+    init(height: CGFloat = 1) {
         super.init(frame: .zero)
-        set()
+        set(heigth: height)
     }
     
-    private func set() {
+    private func set(heigth: CGFloat) {
         backgroundColor = ColorStyle.gray600
         translatesAutoresizingMaskIntoConstraints = false
-        heightAnchor.constraint(equalToConstant: 1).isActive = true
+        heightAnchor.constraint(equalToConstant: heigth).isActive = true
     }
 }
