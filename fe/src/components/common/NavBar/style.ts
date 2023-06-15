@@ -3,19 +3,21 @@ interface LayOutProps {
   navBarType: keyof typeof layoutType;
 }
 
-export const Layout = styled.div<LayOutProps>`
+export const Layout = styled.header<LayOutProps>`
+  position: fixed;
   width: 100vw;
   ${({ theme }) => theme.font.fontType.headLine}
   backdrop-filter: blur(4px);
   display: flex;
   align-items: flex-end;
   ${({ navBarType }) => layoutType[navBarType]}
+  backdrop-filter: blur(4px);
 `;
 
 export const layoutType = {
   homeLayout: css`
     height: 8vh;
-    background: ${({ theme }) => theme.color.palette.white};
+    background: ${({ theme }) => theme.color.colors.neutralBackgroundBlur};
     border: 1px solid ${({ theme }) => theme.color.palette.gray200};
   `,
   modalLayout: css`

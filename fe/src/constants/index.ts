@@ -12,3 +12,11 @@ export const ERROR_MESSAGE = {
   default:
     '서버 오류가 발생했습니다. 해당 오류가 지속적으로 발생한다면 관리자에게 문의해주세요.',
 } as const;
+
+export const HEIGHT_INFO = {
+  modalSearchLayout: 16,
+  modalLayout: 10,
+  homeLayout: 8,
+  backBtnLayout: 8,
+  segmentPickerLayout: 10,
+} as const;

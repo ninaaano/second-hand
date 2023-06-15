@@ -8,3 +8,13 @@ export const Layout = styled.div`
     border: 0;
   }
 `;
+
+export const TopBox = styled.div`
+  height: 8vh;
+  background: ${({ theme }) => theme.color.palette.white};
+`;
+
+export const BottomBox = styled.div`
+  height: 16.8vh;
+  background: ${({ theme }) => theme.color.palette.white};
+`;

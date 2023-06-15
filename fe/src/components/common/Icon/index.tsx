@@ -1,8 +1,8 @@
 import { FC, ReactElement } from 'react';
 
-import { palette } from '@Styles/color';
-
 import icons from '@Assets/index';
+
+import { palette } from '@Styles/color';
 
 interface IconProps {
   iconType: keyof typeof icons;

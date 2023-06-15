@@ -5,7 +5,7 @@ export const Box = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 0 0.5em 0.2em 0.5em;
+  padding: 0px 0.8em 0.2em;
 `;
 
 export const AddressBox = styled.div`
