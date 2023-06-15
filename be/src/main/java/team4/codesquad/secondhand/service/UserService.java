@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import team4.codesquad.secondhand.domain.User;
 import team4.codesquad.secondhand.repository.UserRepository;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -13,7 +15,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User createUser(User user) {
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public User create(User user) {
         return userRepository.save(user);
     }
 }

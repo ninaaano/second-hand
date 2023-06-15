@@ -26,8 +26,9 @@ public class LocationService {
                                         .collect(Collectors.toList()));
     }
 
-    public Location findLocation(String district, String city, String town) {
-        return locationRepository.findByDistrictAndCityAndTown(district, city, town).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역 정보 입력"));
+    public Location findLocation(Location location) {
+        return locationRepository.findByDistrictAndCityAndTown(location.getDistrict(), location.getCity(), location.getTown())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역 정보 입력"));
     }
 
 }

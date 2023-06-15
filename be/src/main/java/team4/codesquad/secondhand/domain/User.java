@@ -1,13 +1,14 @@
 package team4.codesquad.secondhand.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class User {
 
@@ -26,16 +27,16 @@ public class User {
     @JoinColumn(name = "secondary_location_id")
     private Location secondaryLocation;
 
-    public User(String avatar, String username, Location primaryLocation) {
+    public User(String avatar, String username) {
         this.avatar = avatar;
         this.username = username;
+    }
+
+    public void setPrimaryLocation(Location primaryLocation) {
         this.primaryLocation = primaryLocation;
     }
 
-    public User(String avatar, String username, Location primaryLocation, Location secondaryLocation) {
-        this.avatar = avatar;
-        this.username = username;
-        this.primaryLocation = primaryLocation;
-        this.secondaryLocation = secondaryLocation;
+    public boolean isSignUpInProgress() {
+        return (primaryLocation == null);
     }
 }
