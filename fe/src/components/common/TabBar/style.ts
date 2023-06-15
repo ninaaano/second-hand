@@ -6,6 +6,6 @@ export const Box = styled.footer`
   left: 0;
   padding-top: 0.5vh;
   width: 100vw;
-  height: 16.8vw;
-  background: ${({ theme }) => theme.color.colors.neutralBackgroundBlur};
+  height: 16.8vh;
+  background: ${({ theme }) => theme.color.palette.gray50};
 `;
