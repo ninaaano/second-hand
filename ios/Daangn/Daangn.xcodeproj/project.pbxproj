@@ -34,8 +34,6 @@
 		F4029F442A3B5D6E00ECEABD /* CategoryFilterCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F412A3B5D6E00ECEABD /* CategoryFilterCollectionView.swift */; };
 		F4029F472A3B5D9900ECEABD /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F462A3B5D9900ECEABD /* Category.swift */; };
 		F4029F4D2A3B61A400ECEABD /* SalesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F492A3B61A400ECEABD /* SalesViewController.swift */; };
-		F4029F4E2A3B61A400ECEABD /* TempWishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F4A2A3B61A400ECEABD /* TempWishListViewController.swift */; };
-		F4029F4F2A3B61A400ECEABD /* TempTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F4B2A3B61A400ECEABD /* TempTabBarController.swift */; };
 		F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C12A305FAF00609856 /* AppDelegate.swift */; };
 		F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C32A305FAF00609856 /* SceneDelegate.swift */; };
 		F49F98CB2A305FB000609856 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F49F98CA2A305FB000609856 /* Assets.xcassets */; };
@@ -72,8 +70,6 @@
 		F4029F412A3B5D6E00ECEABD /* CategoryFilterCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryFilterCollectionView.swift; sourceTree = "<group>"; };
 		F4029F462A3B5D9900ECEABD /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		F4029F492A3B61A400ECEABD /* SalesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesViewController.swift; sourceTree = "<group>"; };
-		F4029F4A2A3B61A400ECEABD /* TempWishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempWishListViewController.swift; sourceTree = "<group>"; };
-		F4029F4B2A3B61A400ECEABD /* TempTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempTabBarController.swift; sourceTree = "<group>"; };
 		F49F98BE2A305FAF00609856 /* Daangn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daangn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F98C12A305FAF00609856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F49F98C32A305FAF00609856 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -187,15 +183,6 @@
 			path = CategoryFilter;
 			sourceTree = "<group>";
 		};
-		F4029F502A3B61AB00ECEABD /* TempVC */ = {
-			isa = PBXGroup;
-			children = (
-				F4029F4B2A3B61A400ECEABD /* TempTabBarController.swift */,
-				F4029F4A2A3B61A400ECEABD /* TempWishListViewController.swift */,
-			);
-			path = TempVC;
-			sourceTree = "<group>";
-		};
 		F49F98B52A305FAF00609856 = {
 			isa = PBXGroup;
 			children = (
@@ -224,7 +211,6 @@
 				F4029F242A3B54FB00ECEABD /* Extension */,
 				F4029F2A2A3B56AE00ECEABD /* Component */,
 				F4029F332A3B572000ECEABD /* Model */,
-				F4029F502A3B61AB00ECEABD /* TempVC */,
 				F4029F3A2A3B5B4A00ECEABD /* ProductList */,
 				F4029F452A3B5D7300ECEABD /* CategoryFilter */,
 			);
@@ -349,7 +335,6 @@
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
 				F4029F382A3B5B4500ECEABD /* ProductListCollectionViewCell.swift in Sources */,
 				F4029F292A3B569B00ECEABD /* ProductListImageView.swift in Sources */,
-				F4029F4E2A3B61A400ECEABD /* TempWishListViewController.swift in Sources */,
 				F4029F232A3B54F800ECEABD /* UIView+Radius.swift in Sources */,
 				F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */,
 				F4029F302A3B56D800ECEABD /* ProductStateBadge.swift in Sources */,
@@ -360,7 +345,6 @@
 				F4029F442A3B5D6E00ECEABD /* CategoryFilterCollectionView.swift in Sources */,
 				F4029F2C2A3B56CB00ECEABD /* BorderView.swift in Sources */,
 				F4029F472A3B5D9900ECEABD /* Category.swift in Sources */,
-				F4029F4F2A3B61A400ECEABD /* TempTabBarController.swift in Sources */,
 				F4029F322A3B571300ECEABD /* ProductState.swift in Sources */,
 				F4029F3D2A3B5CE700ECEABD /* ProductListCollectionView.swift in Sources */,
 				F4029F272A3B557500ECEABD /* UILabel+style.swift in Sources */,
