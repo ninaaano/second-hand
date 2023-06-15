@@ -1,5 +1,6 @@
 package team4.codesquad.secondhand.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,9 +22,20 @@ public class User {
     @JoinColumn(name = "primary_location_id")
     private Location primaryLocation;
 
-    public User(String avatar, String username, Location location) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "secondary_location_id")
+    private Location secondaryLocation;
+
+    public User(String avatar, String username, Location primaryLocation) {
         this.avatar = avatar;
         this.username = username;
-        this.primaryLocation = location;
+        this.primaryLocation = primaryLocation;
+    }
+
+    public User(String avatar, String username, Location primaryLocation, Location secondaryLocation) {
+        this.avatar = avatar;
+        this.username = username;
+        this.primaryLocation = primaryLocation;
+        this.secondaryLocation = secondaryLocation;
     }
 }

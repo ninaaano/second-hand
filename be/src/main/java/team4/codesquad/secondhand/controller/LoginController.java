@@ -3,18 +3,15 @@ package team4.codesquad.secondhand.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import team4.codesquad.secondhand.constant.ResponseMessage;
 import team4.codesquad.secondhand.domain.Location;
 import team4.codesquad.secondhand.domain.User;
-import team4.codesquad.secondhand.domain.dto.LocationInputDTO;
-import team4.codesquad.secondhand.domain.dto.OAuthAccessTokenRequest;
-import team4.codesquad.secondhand.domain.dto.OAuthAccessTokenResponse;
-import team4.codesquad.secondhand.domain.dto.OAuthUserInfoResponse;
+import team4.codesquad.secondhand.domain.dto.*;
+import team4.codesquad.secondhand.service.JwtService;
 import team4.codesquad.secondhand.service.LocationService;
 import team4.codesquad.secondhand.service.UserService;
 
@@ -32,6 +29,7 @@ public class LoginController {
 
     private final LocationService locationService;
     private final UserService userService;
+    private final JwtService jwtService;
 
     @Value("${client-id}")
     private String clientId;
@@ -51,7 +49,7 @@ public class LoginController {
 
     @PostMapping("/callback")
     @ResponseBody
-    public User login(@ModelAttribute LocationInputDTO locationInputDTO, @RequestParam String code) {
+    public ResponseEntity<Message> login(@ModelAttribute LocationInputDTO locationInputDTO, @RequestParam String code) {
         RestTemplate restTemplate = new RestTemplate();
 
         String accessToken = getAccessToken(code, restTemplate);
@@ -61,7 +59,10 @@ public class LoginController {
                 locationInputDTO.getCity(),
                 locationInputDTO.getTown());
 
-        return userService.createUser(new User(githubUser.getProfileUrl(), githubUser.getUserId(), location));
+        User savedUser = userService.createUser(new User(githubUser.getProfileUrl(), githubUser.getUserId(), location));
+
+        Message message = new Message(HttpStatus.OK, ResponseMessage.ISSUE_ACCESS_TOKEN, jwtService.issueJwtToken(savedUser));
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     private String getAccessToken(String code, RestTemplate restTemplate) {
