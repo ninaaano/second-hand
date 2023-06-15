@@ -21,6 +21,8 @@
 		F4029F352A3B5A8200ECEABD /* CollectionViewLayout+layouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F342A3B5A8200ECEABD /* CollectionViewLayout+layouts.swift */; };
 		F4029F382A3B5B4500ECEABD /* ProductListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F362A3B5B4500ECEABD /* ProductListCollectionViewCell.swift */; };
 		F4029F392A3B5B4500ECEABD /* LoadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F372A3B5B4500ECEABD /* LoadCollectionViewCell.swift */; };
+		F4029F3D2A3B5CE700ECEABD /* ProductListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F3B2A3B5CE700ECEABD /* ProductListCollectionView.swift */; };
+		F4029F3E2A3B5CE700ECEABD /* ProductListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F3C2A3B5CE700ECEABD /* ProductListDataSource.swift */; };
 		F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C12A305FAF00609856 /* AppDelegate.swift */; };
 		F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C32A305FAF00609856 /* SceneDelegate.swift */; };
 		F49F98CB2A305FB000609856 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F49F98CA2A305FB000609856 /* Assets.xcassets */; };
@@ -44,6 +46,8 @@
 		F4029F342A3B5A8200ECEABD /* CollectionViewLayout+layouts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewLayout+layouts.swift"; sourceTree = "<group>"; };
 		F4029F362A3B5B4500ECEABD /* ProductListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4029F372A3B5B4500ECEABD /* LoadCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadCollectionViewCell.swift; sourceTree = "<group>"; };
+		F4029F3B2A3B5CE700ECEABD /* ProductListCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListCollectionView.swift; sourceTree = "<group>"; };
+		F4029F3C2A3B5CE700ECEABD /* ProductListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListDataSource.swift; sourceTree = "<group>"; };
 		F49F98BE2A305FAF00609856 /* Daangn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daangn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F98C12A305FAF00609856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F49F98C32A305FAF00609856 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +128,8 @@
 		F4029F3A2A3B5B4A00ECEABD /* ProductList */ = {
 			isa = PBXGroup;
 			children = (
+				F4029F3B2A3B5CE700ECEABD /* ProductListCollectionView.swift */,
+				F4029F3C2A3B5CE700ECEABD /* ProductListDataSource.swift */,
 				F4029F372A3B5B4500ECEABD /* LoadCollectionViewCell.swift */,
 				F4029F362A3B5B4500ECEABD /* ProductListCollectionViewCell.swift */,
 			);
@@ -275,6 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4029F3E2A3B5CE700ECEABD /* ProductListDataSource.swift in Sources */,
 				4FE271522A31B23A0002AE35 /* ImageMapper.swift in Sources */,
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
 				F4029F382A3B5B4500ECEABD /* ProductListCollectionViewCell.swift in Sources */,
@@ -287,6 +294,7 @@
 				F4029F2E2A3B56D300ECEABD /* PaddedLabel.swift in Sources */,
 				F4029F2C2A3B56CB00ECEABD /* BorderView.swift in Sources */,
 				F4029F322A3B571300ECEABD /* ProductState.swift in Sources */,
+				F4029F3D2A3B5CE700ECEABD /* ProductListCollectionView.swift in Sources */,
 				F4029F272A3B557500ECEABD /* UILabel+style.swift in Sources */,
 				F4029F212A3B54D200ECEABD /* Radius.swift in Sources */,
 				F4029F392A3B5B4500ECEABD /* LoadCollectionViewCell.swift in Sources */,
