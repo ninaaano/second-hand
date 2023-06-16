@@ -45,6 +45,8 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
+	// jwt
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 }
 
 //querydsl 추가 시작
@@ -64,10 +66,6 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 	querydsl.extendsFrom compileClasspath
-
-	// jwt
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
-  
 }
 
 compileQuerydsl {
