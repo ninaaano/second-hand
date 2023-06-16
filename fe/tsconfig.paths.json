@@ -8,9 +8,9 @@
       "@Hooks/*": ["./hooks/*"],
       "@Utils/*": ["./utils/*"],
       "@Types/*": ["./types/*"],
-      "@Hooks/*": ["./hooks/*"],
       "@Common/*": ["./common/*"],
-      "@Components/*": ["./components/*"]
+      "@Components/*": ["./components/*"],
+      "@Pages/*": ["./pages/*"]
     }
   }
 }
