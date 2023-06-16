@@ -19,6 +19,7 @@ final class CreateAccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationItem()
+        setProfileButton()
         setLayout()
     }
     
@@ -27,16 +28,20 @@ final class CreateAccountViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = .init(
             title: "닫기",
             style: .plain,
-            target: nil,
+            target: self,
             action: #selector(dismissViewController)
         )
         
         self.navigationItem.rightBarButtonItem = .init(
             title: "완료",
             style: .done,
-            target: nil,
+            target: self,
             action: #selector(save)
         )
+    }
+    
+    private func setProfileButton() {
+        profileImageButton.setAction(target: self, #selector(selectPhoto))
     }
     
     private func setLayout() {
@@ -69,12 +74,20 @@ final class CreateAccountViewController: UIViewController {
     }
     
     @objc func dismissViewController() {
-        dismiss(animated: true)
+        self.dismiss(animated: true)
     }
     
     @objc func save() {
-        dismiss(animated: true) {
-            // TODO: 선택 위치 저장 로직 구현
+        // TODO: 선택 위치 저장 로직 구현
+        self.dismiss(animated: true) {
+            
         }
+    }
+    
+    @objc func selectPhoto() {
+        let vc = UIViewController()
+        let navi = UINavigationController(rootViewController: vc)
+        navi.view.backgroundColor = .systemBackground
+        self.present(navi, animated: true)
     }
 }
