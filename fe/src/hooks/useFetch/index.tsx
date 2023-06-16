@@ -39,7 +39,7 @@ const useFetch = <T,>(url: string) => {
       setStatus('success');
     } catch (error) {
       setStatus('error');
-      if (error instanceof Error) setErrorMessage(error.message);
+      if (error instanceof Error) setErrorMessage(ERROR_MESSAGE.default);
     }
   };
 
