@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Chatroom {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer chatroomId;
 
     private LocalDateTime createdAt;

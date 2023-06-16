@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class ProductImage {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productImageId;
 
     private String imageUrl;

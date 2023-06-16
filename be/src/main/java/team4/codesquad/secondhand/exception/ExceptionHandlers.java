@@ -11,8 +11,8 @@ import team4.codesquad.secondhand.domain.dto.Message;
 public class ExceptionHandlers {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Message> handleNotFoundException(){
-        Message message = new Message(HttpStatus.BAD_REQUEST, ResponseMessage.NOT_FOUND_PRODUCT,null);
+    public ResponseEntity<Message> handleNotFoundException(IllegalArgumentException e){
+        Message message = new Message(HttpStatus.BAD_REQUEST, e.getMessage(),null);
         return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
     }
 
