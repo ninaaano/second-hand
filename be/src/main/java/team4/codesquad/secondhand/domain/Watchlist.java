@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Watchlist {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer watchlistId;
 
     @ManyToOne(fetch = FetchType.LAZY)

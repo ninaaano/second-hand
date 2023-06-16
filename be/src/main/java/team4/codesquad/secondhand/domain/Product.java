@@ -14,7 +14,7 @@ import java.util.List;
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productId;
 
     private String title;
@@ -62,4 +62,17 @@ public class Product {
     public int calculateWatchlistCount() {
         return watchlists.size();
     }
+
+    public String getSellerId(){
+        return user.getUsername();
+    }
+
+    public String getDetailedStatus(){
+        return status.name();
+    }
+
+    public String getDetailedCategory(){
+        return category.getName();
+    }
+
 }
