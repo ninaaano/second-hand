@@ -19,17 +19,10 @@ final class TabBarController: UITabBarController {
         let salesNavigationController = createNavigationController(with: SalesViewController(), title: "판매내역", tabBarIconName: "newspaper")
         let watchNavigationController = createNavigationController(with: WatchlistViewController(), title: "관심목록", tabBarIconName: "heart")
         let chatNavigationController = createNavigationController(with: ChatViewController(), title: "채팅", tabBarIconName: "message")
-        
-        let myAccountViewController = MyAccountViewController()
-        myAccountViewController.tabBarItem.title = "내 계정"
-        myAccountViewController.tabBarItem.image = generateStyledImage(systemName: "person")
+        let accountNavigationController = createNavigationController(with: MyAccountViewController(), title: "내 계정", tabBarIconName: "person")
         
         let controllers: [UIViewController] = [
-            homeNavigationController,
-            salesNavigationController,
-            watchNavigationController,
-            chatNavigationController,
-            myAccountViewController,
+            homeNavigationController, salesNavigationController, watchNavigationController, chatNavigationController, accountNavigationController,
         ]
         setViewControllers(controllers, animated: false)
     }
