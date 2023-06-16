@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import team4.codesquad.secondhand.annotation.Login;
 import team4.codesquad.secondhand.constant.ResponseMessage;
 import team4.codesquad.secondhand.domain.Location;
 import team4.codesquad.secondhand.domain.User;
@@ -52,7 +53,7 @@ public class LoginController {
                 .orElseGet(() -> new User(githubUser.getProfileUrl(), githubUser.getUserId()));
 
         if (user.isSignUpInProgress()) {
-            Message message = new Message(HttpStatus.FOUND, ResponseMessage.SIGNUP_USER, user);
+            Message message = new Message(HttpStatus.FOUND, ResponseMessage.SIGNUP_USER, jwtService.issueJwtToken(user));
             return new ResponseEntity<>(message, HttpStatus.FOUND);
         }
 
@@ -60,9 +61,9 @@ public class LoginController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @PostMapping("/callback")           // 회원가입 진행 중: 지역 입력페이지에서 입력받은 정보를 처리하여 완벽한 User 생성
-    public ResponseEntity<Message> completeSignUp(@RequestBody User user) {
-        Location location = locationService.findLocation(user.getPrimaryLocation());
+    @PostMapping("/signup")           // 회원가입 진행 중: 지역 입력페이지에서 입력받은 정보를 처리하여 완벽한 User 생성
+    public ResponseEntity<Message> completeSignUp(@RequestBody LocationDTO locationDTO, @Login User user) {
+        Location location = locationService.findLocation(locationDTO.getDistrict(), locationDTO.getCity(), locationDTO.getTown());
         user.setPrimaryLocation(location);
         User signUpUser = userService.create(user);
 

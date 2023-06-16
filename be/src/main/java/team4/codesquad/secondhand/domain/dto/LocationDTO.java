@@ -1,14 +1,20 @@
 package team4.codesquad.secondhand.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import team4.codesquad.secondhand.domain.Location;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class LocationDTO {
 
-    private final String district;
-    private final String city;
-    private final String town;
+    private String district;
+    private String city;
+    private String town;
 
     public LocationDTO(Location location) {
         this.district = location.getDistrict();
