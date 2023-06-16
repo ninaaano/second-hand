@@ -18,3 +18,11 @@ export type Product = {
     imageUrl: string;
   };
 };
+
+export type ProductResponseData = {
+  statusCode: number;
+  message: string;
+  data: {
+    products: Product[];
+  };
+};

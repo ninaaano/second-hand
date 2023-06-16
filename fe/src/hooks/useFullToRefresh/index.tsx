@@ -15,27 +15,27 @@ const usePullToRefresh = <T,>(URL: string) => {
   };
 
   const onRefresh = async () => {
-    setDistance(110);
+    setDistance(40);
     setRefreshing(true);
 
+    // TODO: ref를 써볼까?
     setTimeout(async () => {
-      await fetchData({ url: URL, isGetData: true });
+      await fetchData({
+        url: 'ErrorTest',
+        isGetData: true,
+      });
       if (data !== undefined) {
         setRefreshedData(data);
       }
       resetState();
-    }, 2000);
-  };
-
-  const handleTouchStart = () => {
-    setDistance(50);
+    }, 1000);
   };
 
   const handleTouchMove = (e: TouchEvent) => {
     const touchY = e.touches[0].clientY;
     const windowHeight = window.innerHeight;
 
-    const spinnerY = (100 / windowHeight) * touchY + 45;
+    const spinnerY = (100 / windowHeight) * touchY - 20;
 
     setRefreshing(true);
     setDistance(spinnerY);
@@ -43,20 +43,19 @@ const usePullToRefresh = <T,>(URL: string) => {
 
   useEffect(() => {
     const handleTouchEnd = () => {
-      if (distance >= 120) {
+      if (refreshing && distance >= 60) {
         onRefresh();
       } else {
         resetState();
       }
     };
 
+    // TODO: 시작 조건 추가하기.
     const container = document.documentElement;
-    container.addEventListener('touchstart', handleTouchStart);
     container.addEventListener('touchmove', handleTouchMove);
     container.addEventListener('touchend', handleTouchEnd);
 
     return () => {
-      container.removeEventListener('touchstart', handleTouchStart);
       container.removeEventListener('touchmove', handleTouchMove);
       container.removeEventListener('touchend', handleTouchEnd);
     };
