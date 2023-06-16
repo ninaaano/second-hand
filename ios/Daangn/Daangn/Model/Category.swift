@@ -52,6 +52,30 @@ enum Category: Int, CaseIterable {
         }
     }
     
+    var symbolName: String {
+        switch self {
+        case .all: return "questionmark.circle"
+        case .digitalDevice: return "airpodsmax"
+        case .lifeDevice: return "washer"
+        case .furniture: return "sofa"
+        case .kitchen: return "frying.pan"
+        case .baby: return "stroller"
+        case .childrenBook: return "book"
+        case .womenCloth: return "w.circle"
+        case .womenAccessories: return "key.horizontal"
+        case .menFashion: return "m.circle"
+        case .cosmetic: return "mouth"
+        case .sports: return "baseball"
+        case .gameAndAlbum: return "gamecontroller"
+        case .car: return "car"
+        case .ticket: return "swatchpalette"
+        case .food: return "face.dashed"
+        case .pet: return "pawprint"
+        case .plant: return "leaf"
+        case .etc: return "shippingbox"
+        }
+    }
+    
     var onlyCategories: [Category] {
         return Category.allCases.filter { $0 != .all }
     }
