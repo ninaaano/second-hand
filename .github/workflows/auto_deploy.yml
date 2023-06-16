@@ -41,7 +41,6 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - uses: actions/checkout@v3
-      - run: mkdir ./be/src/main/resources
       - run: touch ./be/src/main/resources/application.properties
       - run: echo "${{ secrets.APPLICATION }}" > ./be/src/main/resources/application.properties
       - run: cat ./be/src/main/resources/application.properties
