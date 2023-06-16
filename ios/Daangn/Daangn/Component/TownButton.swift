@@ -14,7 +14,7 @@ final class TownButton: UIButton {
     
     private let plusLabel: UILabel = {
         let label = UILabel()
-        label.text = "􀅼"
+        label.text = "+"
         label.applyStyle(font: FontStyle.subhead, color: ColorStyle.black)
         label.setContentHuggingPriority(.required, for: .horizontal)
         label.setContentHuggingPriority(.required, for: .vertical)
@@ -41,7 +41,7 @@ final class TownButton: UIButton {
     
     private let xLabel: UILabel = {
         let label = UILabel()
-        label.text = "􀆄"
+        label.text = "X"
         label.setContentHuggingPriority(.required, for: .horizontal)
         label.setContentHuggingPriority(.required, for: .vertical)
         label.applyStyle(font: FontStyle.subhead, color: ColorStyle.white)
@@ -50,13 +50,15 @@ final class TownButton: UIButton {
     
     private lazy var addStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [plusLabel, locationAddLabel])
+        stack.axis = .horizontal
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 4
         return stack
     }()
     
     private lazy var townStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [plusLabel, locationAddLabel])
+        let stack = UIStackView(arrangedSubviews: [townLabel, xLabel])
+        stack.axis = .horizontal
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 4
         return stack
@@ -80,6 +82,7 @@ final class TownButton: UIButton {
     init() {
         super.init(frame: .zero)
         setLayout()
+        setTown(Self.defaultLocation)
     }
     
     private func setLayout() {
@@ -104,6 +107,8 @@ final class TownButton: UIButton {
     }
     
     private func setTownUndefined() {
+        addStack.isHidden = false
+        townStack.isHidden = true
         townLabel.text = TownButton.locationAddText
         townLabel.textColor = ColorStyle.black
         backgroundColor = ColorStyle.white
@@ -111,6 +116,8 @@ final class TownButton: UIButton {
     }
     
     private func setTownDefined(townName: String) {
+        addStack.isHidden = true
+        townStack.isHidden = false
         townLabel.text = townName
         townLabel.textColor = ColorStyle.white
         backgroundColor = ColorStyle.orange

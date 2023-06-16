@@ -77,9 +77,9 @@ final class MyAccountViewController: UIViewController {
     }
     
     @objc func createAccount() {
-        let vc = UIViewController()
-        let navi = UINavigationController(rootViewController: vc)
-        navi.view.backgroundColor = .systemBackground
-        self.present(navi, animated: true)
+        let createViewController = CreateAccountViewController()
+        let navigationController = UINavigationController(rootViewController: createViewController)
+        navigationController.view.backgroundColor = .systemBackground
+        self.present(navigationController, animated: true)
     }
 }
