@@ -51,4 +51,8 @@ enum Category: Int, CaseIterable {
         case .etc: return "기타"
         }
     }
+    
+    var onlyCategories: [Category] {
+        return Category.allCases.filter { $0 != .all }
+    }
 }
