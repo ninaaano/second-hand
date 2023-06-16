@@ -28,7 +28,7 @@ public class ProductService {
     }
 
     public ProductDetailDTO findById(Integer productId) {
-        Product product = productRepository.findByIdWithRelatedFields(productId).orElseThrow(IllegalArgumentException::new);
+        Product product = productRepository.findByIdWithRelatedFields(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품정보 조회"));
         productRepository.updateViews(productId);
         return new ProductDetailDTO(product);
     }

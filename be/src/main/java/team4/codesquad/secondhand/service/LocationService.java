@@ -25,4 +25,10 @@ public class LocationService {
                                         .map(LocationDTO::new)
                                         .collect(Collectors.toList()));
     }
+
+    public Location findLocation(Location location) {
+        return locationRepository.findByDistrictAndCityAndTown(location.getDistrict(), location.getCity(), location.getTown())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역 정보 입력"));
+    }
+
 }
