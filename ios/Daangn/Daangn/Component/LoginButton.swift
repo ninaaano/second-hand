@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoginButton: UIButton {
+final class LoginButton: UIButton {
     static let height: CGFloat = 52
     
     private let label: UILabel = {

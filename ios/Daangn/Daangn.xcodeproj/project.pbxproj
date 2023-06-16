@@ -37,6 +37,7 @@
 		F4029F522A3B812500ECEABD /* ProfileImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F512A3B812500ECEABD /* ProfileImageButton.swift */; };
 		F4029F542A3B904200ECEABD /* IDField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F532A3B904200ECEABD /* IDField.swift */; };
 		F4029F562A3B96F100ECEABD /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F552A3B96F100ECEABD /* LoginButton.swift */; };
+		F4029F582A3BA54400ECEABD /* TownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F572A3BA54400ECEABD /* TownButton.swift */; };
 		F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C12A305FAF00609856 /* AppDelegate.swift */; };
 		F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C32A305FAF00609856 /* SceneDelegate.swift */; };
 		F49F98CB2A305FB000609856 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F49F98CA2A305FB000609856 /* Assets.xcassets */; };
@@ -76,6 +77,7 @@
 		F4029F512A3B812500ECEABD /* ProfileImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageButton.swift; sourceTree = "<group>"; };
 		F4029F532A3B904200ECEABD /* IDField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDField.swift; sourceTree = "<group>"; };
 		F4029F552A3B96F100ECEABD /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
+		F4029F572A3BA54400ECEABD /* TownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TownButton.swift; sourceTree = "<group>"; };
 		F49F98BE2A305FAF00609856 /* Daangn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daangn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F98C12A305FAF00609856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F49F98C32A305FAF00609856 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				F4029F512A3B812500ECEABD /* ProfileImageButton.swift */,
 				F4029F532A3B904200ECEABD /* IDField.swift */,
 				F4029F552A3B96F100ECEABD /* LoginButton.swift */,
+				F4029F572A3BA54400ECEABD /* TownButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				F4029F3E2A3B5CE700ECEABD /* ProductListDataSource.swift in Sources */,
 				F4029F562A3B96F100ECEABD /* LoginButton.swift in Sources */,
 				F4029F432A3B5D6E00ECEABD /* CategoryFilterCollectionViewCell.swift in Sources */,
+				F4029F582A3BA54400ECEABD /* TownButton.swift in Sources */,
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
 				F4029F382A3B5B4500ECEABD /* ProductListCollectionViewCell.swift in Sources */,
 				F4029F292A3B569B00ECEABD /* ProductListImageView.swift in Sources */,
