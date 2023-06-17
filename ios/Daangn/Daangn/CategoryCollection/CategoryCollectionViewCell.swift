@@ -21,6 +21,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
     private let categoryNameLabel: UILabel = {
         let label = UILabel()
         label.applyStyle(font: FontStyle.subhead, color: ColorStyle.gray900)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
         return label
