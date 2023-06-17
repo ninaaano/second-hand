@@ -30,13 +30,8 @@ final class LoginButton: UIButton {
         }
     }
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        return nil
-    }
-    
-    init() {
-        super.init(frame: .zero)
+    convenience init() {
+        self.init(frame: .zero)
         setLayout()
         setLoggedOut()
     }

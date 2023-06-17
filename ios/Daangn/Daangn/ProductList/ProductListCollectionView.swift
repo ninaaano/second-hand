@@ -11,13 +11,8 @@ final class ProductListCollectionView: UICollectionView {
     typealias ProductCell = ProductListCollectionViewCell
     typealias LoadCell = LoadCollectionViewCell
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        return nil
-    }
-    
-    init() {
-        super.init(frame: .zero, collectionViewLayout: .createList())
+    convenience init() {
+        self.init(frame: .zero, collectionViewLayout: .createList())
         set()
     }
     

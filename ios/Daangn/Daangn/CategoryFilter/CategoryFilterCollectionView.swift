@@ -10,13 +10,8 @@ import UIKit
 final class CategoryFilterCollectionView: UICollectionView {
     typealias Cell = CategoryFilterCollectionViewCell
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        return nil
-    }
-    
-    init() {
-        super.init(frame: .zero, collectionViewLayout: .createList())
+    convenience init() {
+        self.init(frame: .zero, collectionViewLayout: .createList())
         set()
     }
     

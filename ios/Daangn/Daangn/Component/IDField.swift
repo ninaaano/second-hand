@@ -28,13 +28,8 @@ final class IDField: UIView {
     
     private let border: Boarder = Boarder(height: 0.5)
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        return nil
-    }
-    
-    init() {
-        super.init(frame: .zero)
+    convenience init() {
+        self.init(frame: .zero)
         setLayout()
     }
     

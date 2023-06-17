@@ -8,13 +8,8 @@
 import UIKit
 
 final class Boarder: UIView {
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        return nil
-    }
-    
-    init(height: CGFloat = 1) {
-        super.init(frame: .zero)
+    convenience init(height: CGFloat = 1) {
+        self.init(frame: .zero)
         set(heigth: height)
     }
     
