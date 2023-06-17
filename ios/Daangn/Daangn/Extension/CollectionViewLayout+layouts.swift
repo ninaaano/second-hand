@@ -33,4 +33,22 @@ extension UICollectionViewLayout {
         }
         return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
+    
+    static func createInsetGrid() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25),
+                                             heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(68))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 3)
+        group.interItemSpacing = .fixed(36.5)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 32
+        section.contentInsets = .init(top: 40, leading: 40, bottom: 40, trailing: 40)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
 }

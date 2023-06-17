@@ -14,7 +14,6 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
         imageView.backgroundColor = ColorStyle.gray50
         imageView.tintColor = ColorStyle.orange
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1).isActive = true
         return imageView
     }()
@@ -23,7 +22,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.applyStyle(font: FontStyle.subhead, color: ColorStyle.gray900)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
         return label
     }()
     
@@ -43,17 +42,20 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(symbolView)
         NSLayoutConstraint.activate([
             symbolView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            symbolView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 18),
-            symbolView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -18),
+            symbolView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            symbolView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.65),
         ])
         
         contentView.addSubview(categoryNameLabel)
         NSLayoutConstraint.activate([
-            categoryNameLabel.topAnchor.constraint(equalTo: symbolView.bottomAnchor, constant: 4),
+            categoryNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             categoryNameLabel.leadingAnchor.constraint(equalTo: symbolView.leadingAnchor),
             categoryNameLabel.trailingAnchor.constraint(equalTo: symbolView.trailingAnchor),
-            categoryNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+        
+        let labelTopConstraint = categoryNameLabel.topAnchor.constraint(equalTo: symbolView.bottomAnchor, constant: 4)
+        labelTopConstraint.priority = .defaultHigh
+        labelTopConstraint.isActive = true
     }
     
     func configure(name: String, symbolName: String) {
