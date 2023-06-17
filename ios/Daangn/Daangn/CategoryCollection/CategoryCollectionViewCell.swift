@@ -8,28 +8,41 @@
 import UIKit
 
 final class CategoryCollectionViewCell: UICollectionViewCell {
-    private let symbolView: UIImageView = {
+    private let symbol: UIImageView = {
         let imageView = UIImageView()
-        imageView.setRadius(constant: 8)
-        imageView.backgroundColor = ColorStyle.gray50
-        imageView.tintColor = ColorStyle.orange
+        imageView.tintColor = ColorStyle.gray600
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1).isActive = true
         return imageView
+    }()
+    
+    private lazy var symbolContainer: UIView = {
+        let container = UIView()
+        container.setRadius(constant: 8)
+        container.backgroundColor = ColorStyle.gray200
+        container.layoutMargins = .init(top: 8, left: 8, bottom: 8, right: 8)
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.widthAnchor.constraint(equalTo: container.heightAnchor, multiplier: 1).isActive = true
+        return container
     }()
     
     private let categoryNameLabel: UILabel = {
         let label = UILabel()
-        label.applyStyle(font: FontStyle.subhead, color: ColorStyle.gray900)
+        label.applyStyle(font: FontStyle.caption1, color: ColorStyle.gray900)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        label.backgroundColor = .white
         return label
     }()
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         return nil
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setLayout()
     }
     
     init() {
@@ -39,28 +52,35 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
     
     private func setLayout() {
         contentView.preservesSuperviewLayoutMargins = false
-        
-        contentView.addSubview(symbolView)
+
+        contentView.addSubview(symbolContainer)
         NSLayoutConstraint.activate([
-            symbolView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            symbolView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            symbolView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.65),
+            symbolContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
+            symbolContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            symbolContainer.heightAnchor.constraint(equalToConstant: 38),
         ])
         
         contentView.addSubview(categoryNameLabel)
         NSLayoutConstraint.activate([
-            categoryNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            categoryNameLabel.leadingAnchor.constraint(equalTo: symbolView.leadingAnchor),
-            categoryNameLabel.trailingAnchor.constraint(equalTo: symbolView.trailingAnchor),
+            categoryNameLabel.topAnchor.constraint(equalTo: symbolContainer.bottomAnchor, constant: 4),
+            categoryNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            categoryNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
+        let bottom = categoryNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        bottom.priority = .defaultLow
+        bottom.isActive = true
         
-        let labelTopConstraint = categoryNameLabel.topAnchor.constraint(equalTo: symbolView.bottomAnchor, constant: 4)
-        labelTopConstraint.priority = .defaultHigh
-        labelTopConstraint.isActive = true
+        symbolContainer.addSubview(symbol)
+        NSLayoutConstraint.activate([
+            symbol.centerXAnchor.constraint(equalTo: symbolContainer.centerXAnchor),
+            symbol.centerYAnchor.constraint(equalTo: symbolContainer.centerYAnchor),
+            symbol.widthAnchor.constraint(equalTo: symbolContainer.widthAnchor, multiplier: 0.6),
+            symbol.heightAnchor.constraint(equalTo: symbolContainer.heightAnchor, multiplier: 0.6),
+        ])
     }
     
     func configure(name: String, symbolName: String) {
         categoryNameLabel.text = name
-        symbolView.image = UIImage(systemName: symbolName)
+        symbol.image = UIImage(systemName: symbolName)
     }
 }

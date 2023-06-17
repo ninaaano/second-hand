@@ -41,14 +41,14 @@ enum Category: Int, CaseIterable {
         case .womenAccessories: return "여성잡화"
         case .menFashion: return "남성패션/잡화"
         case .cosmetic: return "뷰티/미용"
-        case .sports: return "스포츠"
-        case .gameAndAlbum: return "게임"
+        case .sports: return "스포츠/레저"
+        case .gameAndAlbum: return "취미/게임/음반"
         case .car: return "중고차"
-        case .ticket: return "티켓"
+        case .ticket: return "티켓/교환권"
         case .food: return "가공식품"
-        case .pet: return "반려동물"
+        case .pet: return "반려동물용품"
         case .plant: return "식물"
-        case .etc: return "기타"
+        case .etc: return "기타 중고물품"
         }
     }
     
@@ -76,7 +76,7 @@ enum Category: Int, CaseIterable {
         }
     }
     
-    var onlyCategories: [Category] {
+    static var onlyCategories: [Category] {
         return Category.allCases.filter { $0 != .all }
     }
 }

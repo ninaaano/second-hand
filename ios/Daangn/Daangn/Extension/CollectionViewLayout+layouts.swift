@@ -35,13 +35,19 @@ extension UICollectionViewLayout {
     }
     
     static func createInsetGrid() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25),
+        let itemPerLine = 3
+        let itemWidthProportion: CGFloat = 1 / CGFloat(itemPerLine)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(itemWidthProportion),
                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .absolute(68))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 3)
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            repeatingSubitem: item,
+            count: itemPerLine
+        )
         group.interItemSpacing = .fixed(36.5)
 
         let section = NSCollectionLayoutSection(group: group)

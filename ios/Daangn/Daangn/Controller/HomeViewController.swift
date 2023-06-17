@@ -18,6 +18,11 @@ final class HomeViewController: UIViewController {
         applyUpdatedSnapshot()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     private func setLayout() {
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
