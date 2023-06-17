@@ -26,7 +26,7 @@ final class IDField: UIView {
         return field
     }()
     
-    private let border: Boarder = Boarder(height: 0.5)
+    private let border: BorderLine = BorderLine(height: 0.5)
     
     convenience init() {
         self.init(frame: .zero)

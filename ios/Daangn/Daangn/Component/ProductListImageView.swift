@@ -10,15 +10,15 @@ import UIKit
 final class ProductListImageView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        set()
+        setProperties()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        set()
+        setProperties()
     }
     
-    private func set() {
+    private func setProperties() {
         layer.borderColor = ColorStyle.gray600?.cgColor
         layer.borderWidth = 1
         setRadius(radius: .roundedRectangle)

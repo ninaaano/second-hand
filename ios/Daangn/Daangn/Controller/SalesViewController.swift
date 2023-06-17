@@ -33,7 +33,7 @@ class SalesViewController: UIViewController {
     private lazy var stack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
             segementedControlContainer,
-            Boarder(),
+            BorderLine(height: 1),
             collectionView,
         ])
         stack.axis = .vertical

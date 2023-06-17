@@ -12,11 +12,11 @@ final class ProductListCollectionView: UICollectionView {
     typealias LoadCell = LoadCollectionViewCell
     
     convenience init() {
-        self.init(frame: .zero, collectionViewLayout: .createList())
-        set()
+        self.init(frame: .zero, collectionViewLayout: .createListLayout())
+        setCollection()
     }
     
-    private func set() {
+    private func setCollection() {
         translatesAutoresizingMaskIntoConstraints = false
         register(ProductCell.self, forCellWithReuseIdentifier: "\(ProductCell.self)")
         register(LoadCell.self, forCellWithReuseIdentifier: "\(LoadCell.self)")

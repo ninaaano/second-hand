@@ -17,7 +17,7 @@ final class WatchlistViewController: UIViewController {
     
     private lazy var collectionViewStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
-            Boarder(),
+            BorderLine(height: 1),
             filterCollectionView,
             productCollectionView
         ])

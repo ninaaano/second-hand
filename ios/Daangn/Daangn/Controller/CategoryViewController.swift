@@ -14,7 +14,7 @@ final class CategoryViewController: UIViewController {
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createInsetGrid())
     private var dataSource: DataSource?
     
-    private let border = Boarder()
+    private let border = BorderLine(height: 1)
     
     override func viewDidLoad() {
         super.viewDidLoad()

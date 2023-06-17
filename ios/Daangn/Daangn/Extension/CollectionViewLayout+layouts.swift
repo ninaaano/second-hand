@@ -8,7 +8,7 @@
 import UIKit
 
 extension UICollectionViewLayout {
-    static func createHorizontal() -> UICollectionViewCompositionalLayout {
+    static func createHorizontalLayout() -> UICollectionViewCompositionalLayout {
         let sectionProvider: UICollectionViewCompositionalLayoutSectionProvider = { _, _ in
             let layoutSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(1))
             let item = NSCollectionLayoutItem(layoutSize: layoutSize)
@@ -25,7 +25,7 @@ extension UICollectionViewLayout {
         return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
     
-    static func createList() -> UICollectionViewCompositionalLayout {
+    static func createListLayout() -> UICollectionViewCompositionalLayout {
         let sectionProvider: UICollectionViewCompositionalLayoutSectionProvider = { _, environment in
             var config = UICollectionLayoutListConfiguration(appearance: .plain)
             config.showsSeparators = true

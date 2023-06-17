@@ -8,7 +8,7 @@
 import UIKit
 
 final class CreateAccountViewController: UIViewController {
-    private let border = Boarder()
+    private let border = BorderLine(height: 1)
     
     private let profileImageButton = ProfileImageButton()
     

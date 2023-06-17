@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class Boarder: UIView {
-    convenience init(height: CGFloat = 1) {
+final class BorderLine: UIView {
+    convenience init(height: CGFloat) {
         self.init(frame: .zero)
         set(heigth: height)
     }
