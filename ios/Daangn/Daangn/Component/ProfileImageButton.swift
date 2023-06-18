@@ -28,11 +28,7 @@ final class ProfileImageButton: UIView {
     
     var isPhotoSet: Bool = false {
         didSet {
-            if isPhotoSet {
-                setPhotoSetState()
-            } else {
-                setEmptyState()
-            }
+            isPhotoSet ? setPhotoSetState() : setEmptyState()
         }
     }
     

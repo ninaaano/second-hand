@@ -17,11 +17,7 @@ final class CategoryFilterCollectionViewCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            if isSelected {
-                setSelected()
-            } else {
-                setDeselected()
-            }
+            isSelected ? setSelected() : setDeselected()
         }
     }
     

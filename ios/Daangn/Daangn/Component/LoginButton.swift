@@ -22,11 +22,7 @@ final class LoginButton: UIButton {
     
     var isLogined: Bool = false {
         didSet {
-            if isLogined == false {
-                setLoggedIn()
-            } else {
-                setLoggedOut()
-            }
+            isLogined ? setLoggedOut() : setLoggedIn()
         }
     }
     
