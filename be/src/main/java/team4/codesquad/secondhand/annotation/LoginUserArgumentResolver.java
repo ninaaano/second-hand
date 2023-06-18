@@ -33,36 +33,50 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
-        User user = new User(
+        User user = assembleUser(request);
+        addPrimaryLocationToUser(request, user);
+        addSecondaryLocationToUser(request, user);
+
+        return user;
+    }
+
+    private User assembleUser(HttpServletRequest request) {
+        return new User(
                 (Integer) request.getAttribute(USER_ID),
                 (String) request.getAttribute(AVATAR),
                 (String) request.getAttribute(USERNAME)
         );
+    }
 
-        if (request.getAttribute(UserProperty.SECONDARY_LOCATION) != null) {
-            LinkedHashMap<String, Object> secondaryLocationAttributes = (LinkedHashMap<String, Object>) request.getAttribute(UserProperty.SECONDARY_LOCATION);
-            Location secondaryLocation = new Location(
-                    (Integer) secondaryLocationAttributes.get(LOCATION_ID),
-                    (String) secondaryLocationAttributes.get(DISTRICT),
-                    (String) secondaryLocationAttributes.get(CITY),
-                    (String) secondaryLocationAttributes.get(TOWN)
-            );
-
-            user.setSecondaryLocation(secondaryLocation);
+    private void addPrimaryLocationToUser(HttpServletRequest request, User user) {
+        if (request.getAttribute(UserProperty.PRIMARY_LOCATION) == null) {
+            return;
         }
 
-        if (request.getAttribute(UserProperty.PRIMARY_LOCATION) != null) {
-            LinkedHashMap<String, Object> primaryLocationAttributes = (LinkedHashMap<String, Object>) request.getAttribute(UserProperty.PRIMARY_LOCATION);
-            Location primaryLocation = new Location(
-                    (Integer) primaryLocationAttributes.get(LOCATION_ID),
-                    (String) primaryLocationAttributes.get(DISTRICT),
-                    (String) primaryLocationAttributes.get(CITY),
-                    (String) primaryLocationAttributes.get(TOWN)
-            );
+        LinkedHashMap<String, Object> primaryLocationAttributes = (LinkedHashMap<String, Object>) request.getAttribute(UserProperty.PRIMARY_LOCATION);
+        Location primaryLocation = new Location(
+                (Integer) primaryLocationAttributes.get(LOCATION_ID),
+                (String) primaryLocationAttributes.get(DISTRICT),
+                (String) primaryLocationAttributes.get(CITY),
+                (String) primaryLocationAttributes.get(TOWN)
+        );
 
-            user.setPrimaryLocation(primaryLocation);
+        user.setPrimaryLocation(primaryLocation);
+    }
+
+    private void addSecondaryLocationToUser(HttpServletRequest request, User user) {
+        if (request.getAttribute(UserProperty.SECONDARY_LOCATION) == null) {
+            return;
         }
 
-        return user;
+        LinkedHashMap<String, Object> secondaryLocationAttributes = (LinkedHashMap<String, Object>) request.getAttribute(UserProperty.SECONDARY_LOCATION);
+        Location secondaryLocation = new Location(
+                (Integer) secondaryLocationAttributes.get(LOCATION_ID),
+                (String) secondaryLocationAttributes.get(DISTRICT),
+                (String) secondaryLocationAttributes.get(CITY),
+                (String) secondaryLocationAttributes.get(TOWN)
+        );
+
+        user.setSecondaryLocation(secondaryLocation);
     }
 }

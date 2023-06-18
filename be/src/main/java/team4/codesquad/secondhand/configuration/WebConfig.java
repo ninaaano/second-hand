@@ -1,6 +1,7 @@
 package team4.codesquad.secondhand.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.criterion.Order;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import team4.codesquad.secondhand.annotation.LoginUserArgumentResolver;
 import team4.codesquad.secondhand.interceptor.LoginInterceptor;
+import team4.codesquad.secondhand.interceptor.SignUpInterceptor;
 import team4.codesquad.secondhand.service.JwtService;
 
 import java.util.List;
@@ -37,11 +39,19 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(loginInterceptor())
                 .order(Ordered.HIGHEST_PRECEDENCE)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login", "/callback");
+                .excludePathPatterns("/callback", "/login", "/signup");
+
+        registry.addInterceptor(signUpInterceptor())
+                .addPathPatterns("/signup");
     }
 
     @Bean
     public LoginInterceptor loginInterceptor() {
         return new LoginInterceptor(jwtService);
+    }
+
+    @Bean
+    public SignUpInterceptor signUpInterceptor() {
+        return new SignUpInterceptor(jwtService);
     }
 }

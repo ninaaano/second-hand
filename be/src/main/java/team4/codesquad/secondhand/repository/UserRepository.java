@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "left join fetch u.secondaryLocation " +
             "where u.username = :username")
     Optional<User> findByUsername(@Param("username") String username);
+
+    Boolean existsByUsername(String username);
 }

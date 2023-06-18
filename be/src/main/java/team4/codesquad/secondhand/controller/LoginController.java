@@ -63,6 +63,10 @@ public class LoginController {
 
     @PostMapping("/signup")           // 회원가입 진행 중: 지역 입력페이지에서 입력받은 정보를 처리하여 완벽한 User 생성
     public ResponseEntity<Message> completeSignUp(@RequestBody LocationDTO locationDTO, @Login User user) {
+        if (userService.checkuUserExists(user)) {
+            throw new IllegalArgumentException("이미 존재하는 회원이므로 중복 회원가입 불가");
+        }
+
         Location location = locationService.findLocation(locationDTO.getDistrict(), locationDTO.getCity(), locationDTO.getTown());
         user.setPrimaryLocation(location);
         User signUpUser = userService.create(user);
