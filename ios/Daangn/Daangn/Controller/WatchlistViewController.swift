@@ -11,7 +11,7 @@ final class WatchlistViewController: UIViewController {
     typealias FilterCell = CategoryFilterCollectionViewCell
     
     private let filterCollectionView = CategoryFilterCollectionView()
-    private lazy var filterDataSource: CateogryFilterDataSource? = CateogryFilterDataSource(filterCollectionView)
+    private lazy var filterDataSource: CateogryFilterDataSource = CateogryFilterDataSource(filterCollectionView)
     private let productCollectionView = ProductListCollectionView()
     private lazy var productListDataSource: ProductListDataSource? = ProductListDataSource(productCollectionView)
     
@@ -55,7 +55,7 @@ final class WatchlistViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<FilterSection, Category>()
         snapshot.appendSections([.category])
         snapshot.appendItems(Category.allCases, toSection: .category)
-        filterDataSource?.apply(snapshot, animatingDifferences: true)
+        filterDataSource.apply(snapshot, animatingDifferences: true)
         
         filterCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
     }
