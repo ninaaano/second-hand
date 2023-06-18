@@ -22,21 +22,12 @@ final class LoginButton: UIButton {
     
     var isLogined: Bool = false {
         didSet {
-            if isLogined == false {
-                setLoggedIn()
-            } else {
-                setLoggedOut()
-            }
+            isLogined ? setLoggedOut() : setLoggedIn()
         }
     }
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        return nil
-    }
-    
-    init() {
-        super.init(frame: .zero)
+    convenience init() {
+        self.init(frame: .zero)
         setLayout()
         setLoggedOut()
     }

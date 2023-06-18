@@ -19,15 +19,15 @@ final class LoadCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        set()
+        setLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        set()
+        setLayout()
     }
     
-    private func set() {
+    private func setLayout() {
         contentView.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),

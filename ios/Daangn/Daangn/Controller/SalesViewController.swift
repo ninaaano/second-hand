@@ -9,7 +9,7 @@ import UIKit
 
 class SalesViewController: UIViewController {
     private let collectionView = ProductListCollectionView()
-    private lazy var dataSource: ProductListDataSource? = ProductListDataSource(collectionView)
+    private lazy var dataSource: ProductListDataSource = ProductListDataSource(collectionView)
     
     private let segementedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["판매중", "판매완료"])
@@ -33,7 +33,7 @@ class SalesViewController: UIViewController {
     private lazy var stack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
             segementedControlContainer,
-            Boarder(),
+            BorderLine(height: 1),
             collectionView,
         ])
         stack.axis = .vertical
@@ -72,6 +72,6 @@ class SalesViewController: UIViewController {
         let products = (1...100).map { ProductListItem.product($0) }
         snapshot.appendItems(products, toSection: .product)
         if true { snapshot.appendItems([.load], toSection: .load) }
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }

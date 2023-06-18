@@ -26,15 +26,10 @@ final class IDField: UIView {
         return field
     }()
     
-    private let border: Boarder = Boarder(height: 0.5)
+    private let border: BorderLine = BorderLine(height: 0.5)
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        return nil
-    }
-    
-    init() {
-        super.init(frame: .zero)
+    convenience init() {
+        self.init(frame: .zero)
         setLayout()
     }
     

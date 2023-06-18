@@ -28,21 +28,12 @@ final class ProfileImageButton: UIView {
     
     var isPhotoSet: Bool = false {
         didSet {
-            if isPhotoSet {
-                setPhotoSetState()
-            } else {
-                setEmptyState()
-            }
+            isPhotoSet ? setPhotoSetState() : setEmptyState()
         }
     }
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        return nil
-    }
-    
-    init() {
-        super.init(frame: .zero)
+    convenience init() {
+        self.init(frame: .zero)
         setLayout()
         setUI()
     }

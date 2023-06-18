@@ -7,14 +7,9 @@
 
 import UIKit
 
-final class Boarder: UIView {
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        return nil
-    }
-    
-    init(height: CGFloat = 1) {
-        super.init(frame: .zero)
+final class BorderLine: UIView {
+    convenience init(height: CGFloat) {
+        self.init(frame: .zero)
         set(heigth: height)
     }
     

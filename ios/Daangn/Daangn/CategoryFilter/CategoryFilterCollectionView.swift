@@ -10,21 +10,14 @@ import UIKit
 final class CategoryFilterCollectionView: UICollectionView {
     typealias Cell = CategoryFilterCollectionViewCell
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        return nil
+    convenience init() {
+        self.init(frame: .zero, collectionViewLayout: CollectionViewLayoutGenerator.createHorizontalLayout())
+        setCollection()
     }
     
-    init() {
-        super.init(frame: .zero, collectionViewLayout: .createList())
-        set()
-    }
-    
-    private func set() {
+    private func setCollection() {
         translatesAutoresizingMaskIntoConstraints = false
-        collectionViewLayout = UICollectionViewLayout.createHorizontal()
         register(Cell.self, forCellWithReuseIdentifier: "\(Cell.self)")
-        
         alwaysBounceVertical = false
     }
 }

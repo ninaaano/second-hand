@@ -12,10 +12,10 @@ final class ProductStateBadge: RoundedPaddedLabel {
     
     override init(radius: Radius, inset: UIEdgeInsets) {
         super.init(radius: radius, inset: Self.edgeInset)
-        set()
+        setProperties()
     }
     
-    private func set() {
+    private func setProperties() {
         applyStyle(font: FontStyle.caption1, color: ColorStyle.white)
     }
     
