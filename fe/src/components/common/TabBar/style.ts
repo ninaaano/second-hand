@@ -6,6 +6,6 @@ export const Box = styled.footer`
   left: 0;
   padding-top: 0.5vh;
   width: 100vw;
-  height: 16.8vh;
+  height: 8vh;
   background: ${({ theme }) => theme.color.palette.gray50};
 `;

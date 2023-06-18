@@ -15,6 +15,6 @@ export const TopBox = styled.div`
 `;
 
 export const BottomBox = styled.div`
-  height: 16.8vh;
+  height: 8vh;
   background: ${({ theme }) => theme.color.palette.white};
 `;

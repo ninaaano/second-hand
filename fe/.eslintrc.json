@@ -79,6 +79,11 @@
             "pattern": "@Types/*",
             "group": "internal",
             "position": "after"
+          },
+          {
+            "pattern": "@Pages/*",
+            "group": "internal",
+            "position": "after"
           }
         ],
         "pathGroupsExcludedImportTypes": [],
