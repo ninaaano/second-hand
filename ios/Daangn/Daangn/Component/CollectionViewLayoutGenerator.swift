@@ -1,5 +1,5 @@
 //
-//  CollectionViewLayout+layouts.swift
+//  CollectionViewLayoutGenerator.swift
 //  temp-uikit-layout
 //
 //  Created by Effie on 2023/06/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UICollectionViewLayout {
+struct CollectionViewLayoutGenerator {
     static func createHorizontalLayout() -> UICollectionViewCompositionalLayout {
         let sectionProvider: UICollectionViewCompositionalLayoutSectionProvider = { _, _ in
             let layoutSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(1))

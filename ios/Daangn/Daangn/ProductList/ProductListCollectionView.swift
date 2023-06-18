@@ -12,7 +12,7 @@ final class ProductListCollectionView: UICollectionView {
     typealias LoadCell = LoadCollectionViewCell
     
     convenience init() {
-        self.init(frame: .zero, collectionViewLayout: .createListLayout())
+        self.init(frame: .zero, collectionViewLayout: CollectionViewLayoutGenerator.createListLayout())
         setCollection()
     }
     

@@ -11,15 +11,13 @@ final class CategoryFilterCollectionView: UICollectionView {
     typealias Cell = CategoryFilterCollectionViewCell
     
     convenience init() {
-        self.init(frame: .zero, collectionViewLayout: .createListLayout())
+        self.init(frame: .zero, collectionViewLayout: CollectionViewLayoutGenerator.createHorizontalLayout())
         setCollection()
     }
     
     private func setCollection() {
         translatesAutoresizingMaskIntoConstraints = false
-        collectionViewLayout = UICollectionViewLayout.createHorizontalLayout()
         register(Cell.self, forCellWithReuseIdentifier: "\(Cell.self)")
-        
         alwaysBounceVertical = false
     }
 }

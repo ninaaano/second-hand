@@ -11,7 +11,7 @@ final class CategoryViewController: UIViewController {
     typealias Cell = CategoryCollectionViewCell
     typealias DataSource = UICollectionViewDiffableDataSource<FilterSection, Category>
     
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createInsetGrid())
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayoutGenerator.createInsetGrid())
     private var dataSource: DataSource?
     
     private let border = BorderLine(height: 1)
