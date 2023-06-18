@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface SpinnerBoxProps {
+  distanceY: number;
+}
+
 export const Layout = styled.div`
   & hr {
     width: 95vw;
@@ -7,6 +11,20 @@ export const Layout = styled.div`
     height: 1px;
     border: 0;
   }
+`;
+
+export const SpinnerBox = styled.div.attrs<SpinnerBoxProps>((props) => ({
+  style: {
+    transform: `translateY(${props.distanceY}px)`,
+  },
+}))<SpinnerBoxProps>`
+  position: absolute;
+  left: 45%;
+  z-index: 1;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.color.palette.white};
 `;
 
 export const TopBox = styled.div`

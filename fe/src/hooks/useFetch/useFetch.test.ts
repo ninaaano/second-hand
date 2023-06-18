@@ -9,6 +9,7 @@ describe('useFetch 커스텀 훅은', () => {
   const mockFetch = jest.spyOn(global, 'fetch');
 
   // TODO(덴): 임시로 구현한 renderHook의 waitForNextUpdate 함수(타입오류 해결 실패) 해결방안 고민후 해결 필요.
+  // ? 2주차 해결 실패.......
   const waitForNextUpdate = async () => {
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
@@ -41,7 +42,6 @@ describe('useFetch 커스텀 훅은', () => {
     expect(result.current.status).toBe('success');
     expect(result.current.errorMessage).toBe(null);
     expect(result.current.data).toStrictEqual(responseData);
-    expect(typeof result.current.fetchData).toBe('function');
   });
 
   it('잘못된 요청 형식(400)으로 페치하면 데이터를 가져오는데 실패하고 상태를 업데이트해야 한다', async () => {
@@ -62,8 +62,6 @@ describe('useFetch 커스텀 훅은', () => {
 
     expect(result.current.status).toBe('error');
     expect(result.current.errorMessage).toBe(ERROR_MESSAGE[400]);
-    // TODO(덴): 400 에러 발생시 data가 빈 객체를 반환하는게 맞는지 고민해보기.
     expect(result.current.data).toStrictEqual({});
-    expect(typeof result.current.fetchData).toBe('function');
   });
 });

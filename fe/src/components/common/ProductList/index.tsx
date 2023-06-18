@@ -1,9 +1,14 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 
-import { Product } from '@Types/index';
+import usePullToRefresh from '@Hooks/useFullToRefresh';
+
+import { Product, ProductResponseData } from '@Types/index';
 
 import { ProductItem } from './ProductItem';
 import * as S from './style';
+import NotFound from '../NotFound';
+import { Spinner } from '../Spinner/style';
+
 interface ProductListProps {
   itemData: Product[];
 }
@@ -21,6 +26,18 @@ export const ProductList = ({ itemData }: ProductListProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [Products, setProducts] = useState<Product[]>(itemData);
+  
+  const { refreshing, distance, status, errorMessage, refreshedData } =
+    usePullToRefresh<ProductResponseData>(
+      'http://3.38.73.117:8080/api/products?page=0&size=20',
+    );
+  
+  useEffect(() => {
+    if (refreshedData !== undefined) {
+      setProducts(refreshedData?.data.products);
+    }
+  }, [refreshedData]);
+
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -78,7 +95,13 @@ export const ProductList = ({ itemData }: ProductListProps) => {
   return (
     <S.Layout ref={productListRef}>
       <S.TopBox />
-      {Products &&
+      {refreshing && (
+        <S.SpinnerBox distanceY={distance}>
+          <Spinner />
+        </S.SpinnerBox>
+      )}
+      {status === 'error' && <NotFound errorMessage={errorMessage} />}
+      {status !== 'error' && Products &&
         Products.map((product) => (
           <Fragment key={product.productId}>
             <ProductItem
