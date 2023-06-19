@@ -37,12 +37,7 @@ public class LoginController {
     @Value("${client-secret}")
     private String clientSecret;
 
-    @GetMapping("/login")
-    public void getAccessCode(HttpServletResponse response) throws IOException {
-        response.sendRedirect(ACCESS_CODE_URL);
-    }
-
-    @GetMapping("/callback")  // 투명 페이지
+    @GetMapping("/login")  // 투명 페이지가 건네주는 code를 처리하는 컨트롤러
     public ResponseEntity<Message> login(@RequestParam String code) {
         RestTemplate restTemplate = new RestTemplate();
 
