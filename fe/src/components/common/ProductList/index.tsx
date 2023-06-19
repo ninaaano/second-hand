@@ -25,19 +25,20 @@ export const ProductList = ({ itemData }: ProductListProps) => {
   const productListRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [Products, setProducts] = useState<Product[]>(itemData);
-  
+  const [Products, setProducts] = useState<Product[] | undefined | null>(
+    itemData,
+  );
+
   const { refreshing, distance, status, errorMessage, refreshedData } =
     usePullToRefresh<ProductResponseData>(
       'http://3.38.73.117:8080/api/products?page=0&size=20',
     );
-  
+
   useEffect(() => {
     if (refreshedData !== undefined) {
       setProducts(refreshedData?.data.products);
     }
   }, [refreshedData]);
-
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -77,8 +78,10 @@ export const ProductList = ({ itemData }: ProductListProps) => {
           const newData = productsData?.data.products;
 
           setProducts((prevData) => {
-            const updatedData = [...prevData, ...newData];
-            return updatedData;
+            if (prevData) {
+              const updatedData = [...prevData, ...newData];
+              return updatedData;
+            }
           });
           setPage((prevData) => prevData + 1);
         }
@@ -101,7 +104,8 @@ export const ProductList = ({ itemData }: ProductListProps) => {
         </S.SpinnerBox>
       )}
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
-      {status !== 'error' && Products &&
+      {status !== 'error' &&
+        Products &&
         Products.map((product) => (
           <Fragment key={product.productId}>
             <ProductItem
