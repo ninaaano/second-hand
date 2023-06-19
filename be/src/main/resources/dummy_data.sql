@@ -48,7 +48,7 @@ create procedure make_product()
 begin
     declare i int default 1;
     declare stat varchar(10) default 'SALE';
-    while i < 1000
+    while i < 100
         do
             if i % 3 = 1 then
                 set stat = 'SALE';
@@ -75,7 +75,7 @@ begin
     declare chatroom_idx int default 1;
     declare chatroom_cnt int default 0;
     declare chatroom_max int default floor(rand() * 30);
-    while product_idx < 1000
+    while product_idx < 100
         do
             while chatroom_cnt < chatroom_max
                 do
@@ -97,7 +97,7 @@ begin
     declare image_idx int default 1;
     declare image_cnt int default 0;
     declare image_max int default floor(rand() * 9) + 1;
-    while product_idx < 1000
+    while product_idx < 100
         do
             while image_cnt < image_max
                 do
@@ -121,7 +121,7 @@ begin
     declare watch_idx int default 1;
     declare watch_cnt int default 0;
     declare watch_max int default floor(rand() * 30);
-    while product_idx < 1000
+    while product_idx < 100
         do
             while watch_cnt < watch_max
                 do

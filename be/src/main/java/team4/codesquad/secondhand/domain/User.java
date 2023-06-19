@@ -32,6 +32,12 @@ public class User {
         this.username = username;
     }
 
+    public User(Integer userId, String avatar, String username) {
+        this.userId = userId;
+        this.avatar = avatar;
+        this.username = username;
+    }
+
     public void setPrimaryLocation(Location primaryLocation) {
         this.primaryLocation = primaryLocation;
     }
