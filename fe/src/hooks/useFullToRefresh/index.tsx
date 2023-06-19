@@ -21,7 +21,7 @@ const usePullToRefresh = <T,>(URL: string) => {
     // TODO: ref를 써볼까?
     setTimeout(async () => {
       await fetchData({
-        url: 'ErrorTest',
+        url: URL,
         isGetData: true,
       });
       if (data !== undefined) {
