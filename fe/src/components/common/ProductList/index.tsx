@@ -13,18 +13,10 @@ interface ProductListProps {
   itemData: Product[];
 }
 
-interface ListProps {
-  statusCode: number;
-  message: string;
-  data: {
-    products: Product[];
-  };
-}
-
 export const ProductList = ({ itemData }: ProductListProps) => {
   const productListRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
   const [Products, setProducts] = useState<Product[] | undefined | null>(
     itemData,
   );
@@ -57,7 +49,7 @@ export const ProductList = ({ itemData }: ProductListProps) => {
     };
   }, [isLoading]);
 
-  const debounce = <T extends any[]>(
+  const debounce = <T extends unknown[]>(
     func: (...args: T) => void,
     delay: number,
   ) => {
@@ -73,15 +65,16 @@ export const ProductList = ({ itemData }: ProductListProps) => {
 
     await fetch(`http://3.38.73.117:8080/api/products?page=${page}&size=10`)
       .then((response) => response.json())
-      .then((productsData) => {
+      .then((productsData: ProductResponseData | undefined) => {
         if (productsData !== undefined) {
-          const newData = productsData?.data.products;
+          const newData = productsData.data?.products;
 
           setProducts((prevData) => {
             if (prevData) {
-              const updatedData = [...prevData, ...newData];
+              const updatedData = [...prevData, ...(newData || [])];
               return updatedData;
             }
+            return prevData;
           });
           setPage((prevData) => prevData + 1);
         }
