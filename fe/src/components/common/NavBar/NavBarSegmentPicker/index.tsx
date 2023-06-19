@@ -1,7 +1,7 @@
 import * as S from './style';
 import { NavBarPicker } from '../NavBarPicker';
 interface PickerProps {
-  title: string;
+  title?: string;
 }
 export const NavBarSegmentPicker = ({ title }: PickerProps) => (
   <S.Layout>

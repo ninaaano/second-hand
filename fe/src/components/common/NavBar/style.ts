@@ -15,6 +15,11 @@ export const Layout = styled.header<LayOutProps>`
 `;
 
 export const layoutType = {
+  defaultLayout: css`
+    height: 8vh;
+    background: ${({ theme }) => theme.color.colors.neutralBackgroundBlur};
+    border: 1px solid ${({ theme }) => theme.color.palette.gray200};
+  `,
   homeLayout: css`
     height: 8vh;
     background: ${({ theme }) => theme.color.colors.neutralBackgroundBlur};

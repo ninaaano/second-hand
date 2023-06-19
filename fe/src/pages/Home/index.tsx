@@ -2,7 +2,9 @@ import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
+
 import { TabBarHome } from '@Components/common/TabBar';
+
 
 import useFetch from '@Hooks/useFetch';
 
@@ -17,7 +19,7 @@ const Home = () => {
 
   return (
     <>
-      <NavigationBar type={'homeLayout'} />
+      <NavigationBar type={'homeLayout'} title={'title1'} />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
       {data && <ProductList itemData={data?.data.products} />}
       <S.ButtonBox>
