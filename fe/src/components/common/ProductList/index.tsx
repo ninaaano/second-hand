@@ -13,14 +13,6 @@ interface ProductListProps {
   itemData: Product[];
 }
 
-interface ListProps {
-  statusCode: number;
-  message: string;
-  data: {
-    products: Product[];
-  };
-}
-
 export const ProductList = ({ itemData }: ProductListProps) => {
   const productListRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
