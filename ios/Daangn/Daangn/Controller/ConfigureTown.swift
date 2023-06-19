@@ -124,6 +124,7 @@ final class ConfigureTown: UIViewController {
             
             addTownButton.centerYAnchor.constraint(equalTo: addTownStack.centerYAnchor),
             addTownButton.leadingAnchor.constraint(equalTo: addTownStack.leadingAnchor, constant: 60),
+
             
             entireStackView.topAnchor.constraint(equalTo: guideLabel.bottomAnchor, constant: 48),
             entireStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
