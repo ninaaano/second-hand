@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment, useEffect, useRef, useState } from 'react';
 
 import usePullToRefresh from '@Hooks/useFullToRefresh';
@@ -16,7 +17,7 @@ interface ProductListProps {
 export const ProductList = ({ itemData }: ProductListProps) => {
   const productListRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
   const [Products, setProducts] = useState<Product[] | undefined | null>(
     itemData,
   );
@@ -74,6 +75,7 @@ export const ProductList = ({ itemData }: ProductListProps) => {
               const updatedData = [...prevData, ...newData];
               return updatedData;
             }
+            return prevData;
           });
           setPage((prevData: number) => prevData + 1);
         }
