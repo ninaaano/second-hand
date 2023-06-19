@@ -9,7 +9,6 @@ import org.springframework.web.client.RestTemplate;
 import team4.codesquad.secondhand.constant.ResponseMessage;
 import team4.codesquad.secondhand.domain.Location;
 import team4.codesquad.secondhand.domain.User;
-import team4.codesquad.secondhand.domain.dto.*;
 import team4.codesquad.secondhand.service.JwtService;
 import team4.codesquad.secondhand.service.LocationService;
 import team4.codesquad.secondhand.service.UserService;

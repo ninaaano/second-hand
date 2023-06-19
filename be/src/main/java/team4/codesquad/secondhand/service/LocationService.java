@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class LocationService {
 
     private final LocationRepository locationRepository;
