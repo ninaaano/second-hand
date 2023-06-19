@@ -1,80 +1,70 @@
-name: Java CI with Gradle & Deploy to EC2
-
-# main 브런치에 push가 되면 아래의 flow가 실행됩니다.
+name: Deploy
 on:
   push:
-    branches: [ "release-fe" ]
+    branches: [release-fe] # main 브랜치에 push 발생하면 트리거
 
-# flow에서 사용할 변수 같은 느낌입니다.
 env:
-  AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: codesquad-second-hand
-  CODE_DEPLOY_APPLICATION_NAME: second-hand
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: codedeploy-deployment-group
-  working-directory: ./fe # 이 코드는 제 프로젝트 경로를 맞춰주기 위해 적어주었습니다. 필요하시면 적으세요 !
-
-permissions:
-  contents: read
+  working-directory: ./fe
+  docker-container-name: second-hand-fe-nino
+  docker-image-name: ${{ secrets.DOCKERHUB_USERNAME }}/second-hand-fe-nino
 
 jobs:
   deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-latest # ubuntu 최신 버전 환경에서 실행
 
     steps:
-      # 1) 기본 체크아웃
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.2
 
-      # 2) node 셋팅
-      - name: Set node@v1
-        uses: actions/setup-node@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.2
+        with:
+          node-version: lts/Hydrogen
 
-      - name: check Node v
-        run: node -v
+      - name: Cache node modules
+        uses: actions/cache@v2.1.8
+        # 해당 step을 대표하는 id를 설정할 수도 있다. 해당 값은 뒤의 step에서 사용한다.
+        id: cache
+        with:
+          # node_modules라는 폴더를 검사하여
+          path: node_modules
+          # 아래 키값으로 cache가 돼있는지 확인한다.
+          key: npm-packages-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Install npm
-        run: sudo apt install npm
-
-      - name: check npm
-        run: npm -v
-
-      - name: install dependency
+      - name: Install Dependencies
+        # if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
         working-directory: ${{ env.working-directory }}
 
-      - name: install CI
-        run: npm ci
-        working-directory: ${{ env.working-directory }}
-
-      - name: Generate build
+      - name: Build
         run: npm run build
         working-directory: ${{ env.working-directory }}
 
-
-      # AWS 인증
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_FOR_FE }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_FOR_FE }}
-          aws-region: ${{ env.AWS_REGION }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # AWS S3에 업로드
-      - name: Upload to AWS S3
-        run: |
-          aws deploy push \
-            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
-            --ignore-hidden-files \
-            --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
-            --source .
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      # AWS EC2에 Deploy
-      - name: Deploy to AWS EC2 from S3
-        run: |
-          aws deploy create-deployment \
-            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
-            --deployment-config-name CodeDeployDefault.AllAtOnce \
-            --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-            --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ env.docker-image-name }}
+
+      - name: Pull and restart Docker Container
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          script: |
+            sudo docker stop ${{ env.docker-container-name }}
+            sudo docker rmi ${{ env.docker-image-name }}
+            sudo docker pull ${{ env.docker-image-name }}
+            sudo docker run -d --rm --name ${{ env.docker-container-name }} -p 80:80 ${{ env.docker-image-name }}
