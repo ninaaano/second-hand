@@ -13,31 +13,24 @@ interface ProductListProps {
   itemData: Product[];
 }
 
-interface ListProps {
-  statusCode: number;
-  message: string;
-  data: {
-    products: Product[];
-  };
-}
-
 export const ProductList = ({ itemData }: ProductListProps) => {
   const productListRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [Products, setProducts] = useState<Product[]>(itemData);
-  
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [Products, setProducts] = useState<Product[] | undefined | null>(
+    itemData,
+  );
+
   const { refreshing, distance, status, errorMessage, refreshedData } =
     usePullToRefresh<ProductResponseData | undefined | null>(
       'http://3.38.73.117:8080/api/products?page=0&size=20',
     );
-  
+
   useEffect(() => {
     if (refreshedData) {
       setProducts(refreshedData?.data.products);
     }
   }, [refreshedData]);
-
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -56,7 +49,7 @@ export const ProductList = ({ itemData }: ProductListProps) => {
     };
   }, [isLoading]);
 
-  const debounce = <T extends any[]>(
+  const debounce = <T extends unknown[]>(
     func: (...args: T) => void,
     delay: number,
   ) => {
@@ -72,13 +65,16 @@ export const ProductList = ({ itemData }: ProductListProps) => {
 
     await fetch(`http://3.38.73.117:8080/api/products?page=${page}&size=10`)
       .then((response) => response.json())
-      .then((productsData) => {
+      .then((productsData: ProductResponseData | undefined) => {
         if (productsData !== undefined) {
-          const newData = productsData?.data.products;
+          const newData = productsData.data?.products;
 
           setProducts((prevData) => {
-            const updatedData = [...prevData, ...newData];
-            return updatedData;
+            if (prevData) {
+              const updatedData = [...prevData, ...(newData || [])];
+              return updatedData;
+            }
+            return prevData;
           });
           setPage((prevData) => prevData + 1);
         }
@@ -101,7 +97,8 @@ export const ProductList = ({ itemData }: ProductListProps) => {
         </S.SpinnerBox>
       )}
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
-      {status !== 'error' && Products &&
+      {status !== 'error' &&
+        Products &&
         Products.map((product) => (
           <Fragment key={product.productId}>
             <ProductItem

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { colors, palette } from '@Styles/color';
 import { fontType } from '@Styles/font';
 
 export const Layout = styled.div`
