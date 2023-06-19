@@ -2,6 +2,7 @@ package team4.codesquad.secondhand.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team4.codesquad.secondhand.domain.Product;
@@ -21,10 +22,12 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public ProductListDTO buildProductListDTO(Pageable pageable) {
-        List<Product> products = productRepository.findAll(pageable).getContent();
+        Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable);
+        List<Product> products = productsWithSlice.getContent();
+
         return new ProductListDTO(products.stream()
                 .map(ProductDTO::new)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()), productsWithSlice.hasNext());
     }
 
     @Transactional

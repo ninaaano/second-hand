@@ -1,13 +1,15 @@
 package team4.codesquad.secondhand.service.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductListDTO {
 
-    private List<ProductDTO> products;
+    private final List<ProductDTO> products;
+
+    private final Boolean hasNext;
 }
