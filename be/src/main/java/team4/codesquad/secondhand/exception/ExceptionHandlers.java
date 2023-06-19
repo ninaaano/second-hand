@@ -4,8 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import team4.codesquad.secondhand.constant.ResponseMessage;
-import team4.codesquad.secondhand.domain.dto.Message;
+import team4.codesquad.secondhand.controller.Message;
 
 @ControllerAdvice
 public class ExceptionHandlers {

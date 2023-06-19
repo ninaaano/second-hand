@@ -5,9 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team4.codesquad.secondhand.domain.Product;
-import team4.codesquad.secondhand.domain.dto.ProductDTO;
-import team4.codesquad.secondhand.domain.dto.ProductDetailDTO;
-import team4.codesquad.secondhand.domain.dto.ProductListDTO;
+import team4.codesquad.secondhand.service.dto.ProductDTO;
+import team4.codesquad.secondhand.service.dto.ProductDetailDTO;
+import team4.codesquad.secondhand.service.dto.ProductListDTO;
 import team4.codesquad.secondhand.repository.ProductRepository;
 
 import java.util.List;

@@ -13,6 +13,9 @@ import team4.codesquad.secondhand.domain.dto.*;
 import team4.codesquad.secondhand.service.JwtService;
 import team4.codesquad.secondhand.service.LocationService;
 import team4.codesquad.secondhand.service.UserService;
+import team4.codesquad.secondhand.service.dto.OAuthAccessTokenRequest;
+import team4.codesquad.secondhand.service.dto.OAuthAccessTokenResponse;
+import team4.codesquad.secondhand.service.dto.OAuthUserInfoResponse;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

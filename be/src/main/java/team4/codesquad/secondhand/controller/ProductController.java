@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import team4.codesquad.secondhand.constant.ResponseMessage;
-import team4.codesquad.secondhand.domain.dto.Message;
 import team4.codesquad.secondhand.service.ProductService;
 
 @RestController

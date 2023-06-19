@@ -1,4 +1,4 @@
-package team4.codesquad.secondhand.domain.dto;
+package team4.codesquad.secondhand.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
