@@ -22,7 +22,7 @@ public class ProductDetailDTO {
     private final int chatroomCounts;
     private final List<ProductImage> images;
     private final String category;
-    private Integer views;
+    private final Integer views;
 
     public ProductDetailDTO(Product product){
         this.productId = product.getProductId();
