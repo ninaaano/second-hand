@@ -7,6 +7,12 @@ interface ItemNameProps {
 export const Box = styled.div`
   display: flex;
   justify-content: space-around;
+  position: fixed;
+  bottom: 0;
+  padding-top: 0.5vh;
+  width: 100vw;
+  height: 8vh;
+  background: ${({ theme }) => theme.color.palette.gray50};
 `;
 
 export const Item = styled.div`
@@ -22,6 +28,6 @@ export const ItemName = styled.div<ItemNameProps>`
   ${({ theme }) => theme.font.fontType.tab};
   color: ${({ theme, isSelected }) =>
     isSelected
-      ? theme.color.colors.neutralTextStrong
+      ? theme.color.colors.accentBackgroundPrimary
       : theme.color.colors.neutralTextWeak};
 `;
