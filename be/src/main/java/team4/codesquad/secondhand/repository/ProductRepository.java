@@ -22,9 +22,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "LEFT JOIN FETCH p.user " +
             "LEFT JOIN FETCH p.category " +
             "WHERE p.productId = :productId")
-    Optional<Product> findByIdWithRelatedFields(@Param("productId") Integer productId);
+    Optional<Product> findBy(@Param("productId") Integer productId);
 
     @Modifying
     @Query("UPDATE Product p set p.views = p.views + 1 WHERE p.productId = :productId")
-    int updateViews(@Param("productId") Integer productId);
+    int countViews(@Param("productId") Integer productId);
 }

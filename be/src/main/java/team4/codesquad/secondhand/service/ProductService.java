@@ -27,9 +27,10 @@ public class ProductService {
                 .collect(Collectors.toList()));
     }
 
-    public ProductDetailDTO findById(Integer productId) {
-        Product product = productRepository.findByIdWithRelatedFields(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품정보 조회"));
-        productRepository.updateViews(productId);
+    @Transactional
+    public ProductDetailDTO increaseViewsAndRetrieveProduct(Integer productId) {
+        Product product = productRepository.findBy(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품정보 조회"));
+        productRepository.countViews(productId);
         return new ProductDetailDTO(product);
     }
 
