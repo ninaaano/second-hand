@@ -4,6 +4,9 @@ import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
 import { TabBarHome } from '@Components/common/TabBar';
 
+import { useEffect, useState } from 'react';
+
+import { Scroll } from '@Hooks/Scroll';
 import useFetch from '@Hooks/useFetch';
 
 import { ProductResponseData } from '@Types/index';
