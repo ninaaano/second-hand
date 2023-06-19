@@ -4,16 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team4.codesquad.secondhand.domain.Location;
-import team4.codesquad.secondhand.domain.dto.LocationDTO;
-import team4.codesquad.secondhand.domain.dto.LocationListDTO;
+import team4.codesquad.secondhand.service.dto.LocationDTO;
+import team4.codesquad.secondhand.service.dto.LocationListDTO;
 import team4.codesquad.secondhand.repository.LocationRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class LocationService {
 
     private final LocationRepository locationRepository;

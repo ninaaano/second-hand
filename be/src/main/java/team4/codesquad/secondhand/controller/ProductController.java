@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import team4.codesquad.secondhand.constant.ResponseMessage;
-import team4.codesquad.secondhand.domain.dto.Message;
+import team4.codesquad.secondhand.controller.dto.Message;
 import team4.codesquad.secondhand.service.ProductService;
 
 @RestController
@@ -24,8 +24,8 @@ public class ProductController {
     }
 
     @GetMapping("api/products/{productId}")
-    public ResponseEntity<Message> getProduct(@PathVariable Integer productId) {
-        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT_DETAIL, productService.findById(productId));
+    public ResponseEntity<Message> product(@PathVariable Integer productId) {
+        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT_DETAIL, productService.increaseViewsAndRetrieveProduct(productId));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

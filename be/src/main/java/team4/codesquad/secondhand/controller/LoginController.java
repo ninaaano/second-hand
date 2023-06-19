@@ -7,12 +7,15 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import team4.codesquad.secondhand.constant.ResponseMessage;
+import team4.codesquad.secondhand.controller.dto.Message;
 import team4.codesquad.secondhand.domain.Location;
 import team4.codesquad.secondhand.domain.User;
-import team4.codesquad.secondhand.domain.dto.*;
 import team4.codesquad.secondhand.service.JwtService;
 import team4.codesquad.secondhand.service.LocationService;
 import team4.codesquad.secondhand.service.UserService;
+import team4.codesquad.secondhand.service.dto.OAuthAccessTokenRequest;
+import team4.codesquad.secondhand.service.dto.OAuthAccessTokenResponse;
+import team4.codesquad.secondhand.service.dto.OAuthUserInfoResponse;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,8 +26,6 @@ import java.io.IOException;
 public class LoginController {
 
     private static final String ACCESS_CODE_URL = "https://github.com/login/oauth/authorize?client_id=Iv1.b2c72e9d29d91862";
-    private static final String ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
-    private static final String USER_INFO_URL = "https://api.github.com/user";
 
     private final UserService userService;
     private final JwtService jwtService;
@@ -35,6 +36,14 @@ public class LoginController {
 
     @Value("${client-secret}")
     private String clientSecret;
+
+    @Value("${access-token-url}")
+    private String accessTokenUrl;
+
+    @Value("${user-info-url}")
+    private String userInfoUrl;
+
+
 
     @GetMapping("/login")
     public void getAccessCode(HttpServletResponse response) throws IOException {
@@ -71,7 +80,7 @@ public class LoginController {
     }
 
     private String getAccessToken(String code, RestTemplate restTemplate) {
-        return restTemplate.postForObject(ACCESS_TOKEN_URL,
+        return restTemplate.postForObject(accessTokenUrl,
                 new OAuthAccessTokenRequest(clientId, clientSecret, code),
                 OAuthAccessTokenResponse.class).getAccessToken();
     }
@@ -81,7 +90,7 @@ public class LoginController {
         headers.setBearerAuth(accessToken);
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
-        return restTemplate.exchange(USER_INFO_URL,
+        return restTemplate.exchange(userInfoUrl,
                 HttpMethod.GET,
                 request,
                 OAuthUserInfoResponse.class).getBody();
