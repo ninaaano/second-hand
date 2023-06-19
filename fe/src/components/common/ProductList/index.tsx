@@ -69,13 +69,13 @@ export const ProductList = ({ itemData }: ProductListProps) => {
         if (productsData !== undefined) {
           const newData = productsData?.data.products;
 
-          setProducts((prevData) => {
+          setProducts((prevData: Product[] | undefined | null) => {
             if (prevData) {
               const updatedData = [...prevData, ...newData];
               return updatedData;
             }
           });
-          setPage((prevData) => prevData + 1);
+          setPage((prevData: number) => prevData + 1);
         }
         setIsLoading(false);
       })
