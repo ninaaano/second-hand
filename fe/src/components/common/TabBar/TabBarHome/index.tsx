@@ -1,4 +1,5 @@
 import { Icon } from '@Components/common/Icon';
+import { useNavigate } from 'react-router-dom';
 import { tabBarList } from 'types';
 
 import { TAB_LIST } from '@Constants/index';
@@ -11,7 +12,8 @@ interface TabBarHomeProps {
   currentPage: tabBarList;
 }
 
-const TabBarHome = ({ currentPage }: TabBarHomeProps) => {
+export const TabBarHome = ({ currentPage }: TabBarHomeProps) => {
+  const navigate = useNavigate();
   const scrollToTop = () => {
     window.scroll({
       top: 0,
@@ -23,7 +25,8 @@ const TabBarHome = ({ currentPage }: TabBarHomeProps) => {
     if (tabId === currentPage) {
       scrollToTop();
     } else {
-      // TODO: navigate 적용
+      const targetPage = tabId === 'home' ? '/' : `/${tabId}`;
+      navigate(targetPage);
     }
   };
 
@@ -38,7 +41,7 @@ const TabBarHome = ({ currentPage }: TabBarHomeProps) => {
             iconType={tabId as tabBarList}
             width={48}
             height={21}
-            fill={tabId === currentPage ? palette.black : palette.gray800}
+            fill={tabId === currentPage ? palette.orange : palette.gray800}
           />
           <S.ItemName isSelected={tabId === currentPage}>{tabName}</S.ItemName>
         </S.Item>

@@ -6,7 +6,7 @@ import { palette } from '@Styles/color';
 import * as S from './style';
 
 interface TabBarProductDetailProps {
-  price: string;
+  price: number;
 }
 
 const TabBarProductDetail = ({ price }: TabBarProductDetailProps) => (
