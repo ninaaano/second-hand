@@ -1,9 +1,9 @@
 import * as S from './style';
 
 interface ModalProps {
-  prev: string;
-  center: string;
-  right: string;
+  prev?: string;
+  center?: string;
+  right?: string;
 }
 export const NavBarModal = ({ prev, center, right }: ModalProps) => (
   <S.Box>

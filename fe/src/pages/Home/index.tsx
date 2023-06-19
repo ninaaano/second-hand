@@ -2,9 +2,7 @@ import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
 import TabBar from '@Components/common/TabBar';
-import { useEffect, useState } from 'react';
 
-import { Scroll } from '@Hooks/Scroll';
 import useFetch from '@Hooks/useFetch';
 
 import { ProductResponseData } from '@Types/index';
@@ -16,7 +14,7 @@ export const Home = () => {
 
   return (
     <>
-      <NavigationBar type={'homeLayout'} />
+      <NavigationBar type={'homeLayout'} title={'title1'} />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
       {data && <ProductList itemData={data?.data.products} />}
       <TabBar page={'main'} />

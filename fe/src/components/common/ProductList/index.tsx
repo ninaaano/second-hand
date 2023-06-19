@@ -28,12 +28,12 @@ export const ProductList = ({ itemData }: ProductListProps) => {
   const [Products, setProducts] = useState<Product[]>(itemData);
   
   const { refreshing, distance, status, errorMessage, refreshedData } =
-    usePullToRefresh<ProductResponseData>(
+    usePullToRefresh<ProductResponseData | undefined | null>(
       'http://3.38.73.117:8080/api/products?page=0&size=20',
     );
   
   useEffect(() => {
-    if (refreshedData !== undefined) {
+    if (refreshedData) {
       setProducts(refreshedData?.data.products);
     }
   }, [refreshedData]);

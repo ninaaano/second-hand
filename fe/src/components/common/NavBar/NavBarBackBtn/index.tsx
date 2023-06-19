@@ -3,9 +3,9 @@ import { Icon } from '@Components/common/Icon';
 import * as S from './style';
 
 interface BackBtnProps {
-  prev: string;
-  center: string;
-  right: string;
+  prev?: string;
+  center?: string;
+  right?: string;
 }
 
 export const NavBarBackBtn = ({ prev, center, right }: BackBtnProps) => (
