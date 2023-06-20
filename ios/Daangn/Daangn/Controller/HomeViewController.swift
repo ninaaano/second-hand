@@ -11,11 +11,15 @@ final class HomeViewController: UIViewController {
     private let collectionView = ProductListCollectionView()
     private lazy var dataSource: ProductListDataSource = ProductListDataSource(collectionView)
     
+    let manager = NetworkManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBar()
         setLayout()
         applyUpdatedSnapshot()
+        
+        get()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,5 +79,9 @@ final class HomeViewController: UIViewController {
     @objc func moveToCategory() {
         let nextViewController = CategoryViewController()
         self.navigationController?.pushViewController(nextViewController, animated: true)
+    }
+    
+    private func get() {
+        manager.getProducts()
     }
 }

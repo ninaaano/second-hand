@@ -45,6 +45,8 @@
 		F49F98CE2A305FB000609856 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F49F98CC2A305FB000609856 /* LaunchScreen.storyboard */; };
 		F49F99022A309A6800609856 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F49F99012A309A6800609856 /* .swiftlint.yml */; };
 		F4AEA7F42A3617D200B00B03 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AEA7F32A3617D200B00B03 /* TabBarController.swift */; };
+		F4D525792A41C5DE00413119 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525782A41C5DE00413119 /* Network.swift */; };
+		F4D5257B2A41C94100413119 /* DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5257A2A41C94100413119 /* DTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,8 @@
 		F49F98CF2A305FB000609856 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F49F99012A309A6800609856 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		F4AEA7F32A3617D200B00B03 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		F4D525782A41C5DE00413119 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		F4D5257A2A41C94100413119 /* DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,8 @@
 			isa = PBXGroup;
 			children = (
 				F4029F202A3B54D200ECEABD /* Radius.swift */,
+				F4D525782A41C5DE00413119 /* Network.swift */,
+				F4D5257A2A41C94100413119 /* DTO.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -372,6 +378,7 @@
 				F4029F472A3B5D9900ECEABD /* Category.swift in Sources */,
 				F4029F322A3B571300ECEABD /* ProductState.swift in Sources */,
 				F4029F3D2A3B5CE700ECEABD /* ProductListCollectionView.swift in Sources */,
+				F4D5257B2A41C94100413119 /* DTO.swift in Sources */,
 				F47AFF652A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift in Sources */,
 				F4029F272A3B557500ECEABD /* UILabel+style.swift in Sources */,
 				F4029F212A3B54D200ECEABD /* Radius.swift in Sources */,
@@ -379,6 +386,7 @@
 				F4029F542A3B904200ECEABD /* IDField.swift in Sources */,
 				F4029F392A3B5B4500ECEABD /* LoadCollectionViewCell.swift in Sources */,
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
+				F4D525792A41C5DE00413119 /* Network.swift in Sources */,
 				4F35D2672A3813FE00DE2CBA /* MyAccountViewController.swift in Sources */,
 				F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */,
 				4F35D26B2A39823200DE2CBA /* ConfigureTown.swift in Sources */,
