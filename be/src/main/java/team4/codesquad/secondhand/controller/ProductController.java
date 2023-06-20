@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import team4.codesquad.secondhand.constant.ResponseMessage;
 import team4.codesquad.secondhand.controller.dto.Message;
+import team4.codesquad.secondhand.service.CategoryService;
 import team4.codesquad.secondhand.service.ProductService;
 
 @RestController
