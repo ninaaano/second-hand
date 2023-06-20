@@ -86,18 +86,35 @@ final class MyAccountViewController: UIViewController {
     }
     
     @objc func loginWithGithub() {
-        let githubAuthURLString = "https://github.com/login/oauth/authorize?client_id=d3c9483c73b93a1a9267"
-        guard let githubAuthURL = URL(string: githubAuthURLString) else { return }
+        let clientID = "d3c9483c73b93a1a9267"
         let scheme = "daangn-ios"
+        
+        let githubAuthURLString = "https://github.com/login/oauth/authorize?client_id=\(clientID)"
+        guard let githubAuthURL = URL(string: githubAuthURLString) else { return }
         let session = ASWebAuthenticationSession(
             url: githubAuthURL,
             callbackURLScheme: scheme
         ) { callbackURL, error in
-            guard error == nil, let callbackURL = callbackURL else { return }
+            if let error {
+                print(error)
+                return
+            }
+            guard let callbackURL else {
+                print("no callback URL")
+                return
+            }
+            
             let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
             let authCode = queryItems?.first { $0.name == "code" }?.value
-            print(authCode)
+            
+            guard let authCode else {
+                print("no auth code")
+                return
+            }
+            
+            NetworkManager().getTempJWT(with: authCode) { token in print(token) }
         }
+        
         session.presentationContextProvider = self
         session.start()
     }
@@ -106,11 +123,133 @@ final class MyAccountViewController: UIViewController {
 extension MyAccountViewController: ASWebAuthenticationPresentationContextProviding {
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         guard let window = view.window else {
-            print("cannot")
             fatalError("No window found in view")
         }
         return window
     }
 }
 
+// MARK: NetworkManager
 
+enum NetworkError: Error {
+    case noResponse
+    case invalidData
+    case failToPost
+    case failToDelete
+    case someError
+}
+
+
+typealias RequestParameters = [String: String]
+
+final class NetworkManager {
+    static let dummyURLString = "https://example.com"
+    static let defaultPagingOffSet = 10
+    
+    private let baseURL = "http://3.38.73.117:8080"
+    
+    private let session: URLSession
+    
+    init(session: URLSession = URLSession.shared) {
+        self.session = session
+    }
+    
+    private func decodeJson<T: Decodable>(type: T.Type, fromJson data: Data) -> T? {
+        var result: T? = nil
+        do {
+            result = try JSONDecoder().decode(type, from: data)
+        } catch {
+            // TODO: failToParse 에러 핸들링
+            print("fail to parse \(String(describing: type.self))")
+            print(error)
+        }
+        return result
+    }
+    
+    private func encodeJson<T: Encodable>(data: T) -> Data? {
+        var json: Data? = nil
+        do {
+            json = try JSONEncoder().encode(data)
+        } catch {
+            // TODO: failToEncode 에러 핸들링
+            print("fail to encode \(String(describing: data))")
+            print(error)
+        }
+        return json
+    }
+    
+    private func getData<T: Decodable>(
+        for urlString: String,
+        with query: [String: String]? = nil,
+        dataType: T.Type,
+        completion: @escaping (Result<T, Error>) -> Void)
+    {
+        let url: URL?
+        if let query {
+            guard var urlcomponent = URLComponents(string: urlString) else { return }
+            let queryItems = query.map { item in URLQueryItem(name: item.key, value: item.value) }
+            urlcomponent.queryItems = queryItems
+            url = urlcomponent.url
+        } else {
+            url = URL(string: urlString)
+        }
+        guard let url else { return }
+        var request = URLRequest(url: url)
+        print(request.url)
+        request.timeoutInterval = 15
+        
+        let completionHandler = { @Sendable [weak self] (data: Data?, response: URLResponse?, error: Error?) in
+            if let error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse else {
+                print("not http response")
+                print(error)
+                return
+            }
+            
+            print(response.statusCode)
+            
+            guard (200..<400) ~= response.statusCode else {
+                completion(.failure(NetworkError.noResponse))
+                dump(response)
+                return
+            }
+            
+            guard let data else {
+                completion(.failure(NetworkError.invalidData))
+                return
+            }
+            
+            guard let newData = self?.decodeJson(type: dataType, fromJson: data) else { return }
+            completion(.success(newData))
+        }
+        
+        let dataTask = session.dataTask(with: request, completionHandler: completionHandler)
+        dataTask.resume()
+    }
+}
+
+// MARK: - Util
+
+extension NetworkManager {
+    func getTempJWT(
+        with code: String,
+        completion: @escaping (String?) -> Void
+    ) {
+        let url = baseURL + "/login"
+        var query: RequestParameters = [:]
+        query.updateValue(code, forKey: "code")
+        
+        getData(for: url, with: query, dataType: String?.self) { result in
+            switch result {
+            case .success(let token):
+                completion(token)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+}
