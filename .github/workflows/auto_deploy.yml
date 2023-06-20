@@ -9,7 +9,7 @@ on:
 env:
   working-directory: ./be
   docker-container-name: second-hand-be-nino
-  docker-image-name: ${{ secrets.DOCKERHUB_USERNAME }}/second-hand-fe-nino
+  docker-image-name: ${{ secrets.DOCKERHUB_USERNAME }}/second-hand-be-nino
 
 permissions:
   contents: read
