@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AuthenticationServices
 
 final class MyAccountViewController: UIViewController {
     private let border = BorderLine(height: 1)
@@ -66,6 +67,7 @@ final class MyAccountViewController: UIViewController {
     
     private func setButtons() {
         profileImageButton.setAction(target: nil, #selector(selectPhoto))
+        loginButton.addTarget(nil, action: #selector(loginWithGithub), for: .touchUpInside)
         joinButton.addTarget(nil, action: #selector(createAccount), for: .touchUpInside)
     }
     
@@ -82,4 +84,33 @@ final class MyAccountViewController: UIViewController {
         navigationController.view.backgroundColor = .systemBackground
         self.present(navigationController, animated: true)
     }
+    
+    @objc func loginWithGithub() {
+        let githubAuthURLString = "https://github.com/login/oauth/authorize?client_id=d3c9483c73b93a1a9267"
+        guard let githubAuthURL = URL(string: githubAuthURLString) else { return }
+        let scheme = "daangn-ios"
+        let session = ASWebAuthenticationSession(
+            url: githubAuthURL,
+            callbackURLScheme: scheme
+        ) { callbackURL, error in
+            guard error == nil, let callbackURL = callbackURL else { return }
+            let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
+            let authCode = queryItems?.first { $0.name == "code" }?.value
+            print(authCode)
+        }
+        session.presentationContextProvider = self
+        session.start()
+    }
 }
+
+extension MyAccountViewController: ASWebAuthenticationPresentationContextProviding {
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        guard let window = view.window else {
+            print("cannot")
+            fatalError("No window found in view")
+        }
+        return window
+    }
+}
+
+
