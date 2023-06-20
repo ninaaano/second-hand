@@ -9,8 +9,8 @@ import team4.codesquad.secondhand.repository.UserRepository;
 import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;
@@ -19,7 +19,12 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    @Transactional
     public User create(User user) {
         return userRepository.save(user);
+    }
+
+    public Boolean checkuUserExists(User user) {
+        return userRepository.existsByUsername(user.getUsername());
     }
 }
