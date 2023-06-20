@@ -7,6 +7,7 @@ disabled_rules:
 - class_delegate_protocol
 - redundant_optional_initialization
 - function_body_length
+- line_length
 
 indentation_width: 4
 
