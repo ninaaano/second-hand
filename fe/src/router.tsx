@@ -1,9 +1,11 @@
 import NotFound from '@Components/common/NotFound';
 import { createBrowserRouter } from 'react-router-dom';
 
+import { Category } from '@Pages/Category';
 import ChatList from '@Pages/ChatList';
 import Home from '@Pages/Home';
 import MyAccount from '@Pages/MyAccount';
+import { NewProduct } from '@Pages/NewProduct';
 import SalesList from '@Pages/SalesList';
 import WishList from '@Pages/WishList';
 
@@ -34,6 +36,14 @@ const router = createBrowserRouter(
         {
           path: '/account',
           element: <MyAccount />,
+        },
+        {
+          path: '/newproudct',
+          element: <NewProduct />,
+        },
+        {
+          path: '/category',
+          element: <Category />,
         },
       ],
     },

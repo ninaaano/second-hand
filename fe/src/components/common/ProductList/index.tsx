@@ -2,6 +2,8 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 
 import usePullToRefresh from '@Hooks/useFullToRefresh';
 
+import { debounce } from '@Utils/debounce';
+
 import { Product, ProductResponseData } from '@Types/index';
 
 import { ProductItem } from './ProductItem';
@@ -48,17 +50,6 @@ export const ProductList = ({ itemData }: ProductListProps) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isLoading]);
-
-  const debounce = <T extends unknown[]>(
-    func: (...args: T) => void,
-    delay: number,
-  ) => {
-    let timeoutId: ReturnType<typeof setTimeout>;
-    return (...args: T) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => func(...args), delay);
-    };
-  };
 
   const loadMoreData = async () => {
     setIsLoading(true);
