@@ -117,26 +117,17 @@ final class MyAccountViewController: UIViewController {
             }
             print(authCode)
             
-            self?.manager.getTempJWT(with: authCode) { tempJWT in
-                print("temp jwt: \(tempJWT)")
-
-                do {
-                    let jwt = try decode(jwt: tempJWT)
-                    let userName = jwt["username"].string
-                    print("username:", userName)
-                    self?.manager.postSignUpInfo(
-                        tempJWT: tempJWT,
-                        data: TempSignUpPostLocation()
-                    ) { (result: Result<Data?, Error>) in
-                        switch result {
-                        case .success:
-                            print("success")
-                            return
-                        case .failure(let error):
-                            print(error)
-                        }
+            self?.manager.requestJWT(with: authCode) { result in
+                switch result {
+                case .success(let finalJWT):
+                    print("success!!!! finalJWT is \(finalJWT.prefix(10))")
+                    do {
+                        let parsedData = try decode(jwt: finalJWT)
+                        print(parsedData["username"].string ?? "nil")
+                    } catch {
+                        print(error)
                     }
-                } catch {
+                case .failure(let error):
                     print(error)
                 }
             }

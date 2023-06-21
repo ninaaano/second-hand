@@ -15,6 +15,7 @@ enum NetworkError: Error {
     case failToPost
     case failToDelete
     case someError
+    case noResponseOrNotHTTPResponse
 }
 
 typealias RequestParameters = [String: String]
@@ -76,13 +77,12 @@ final class NetworkManager {
         
         let completionHandler = { @Sendable [weak self] (data: Data?, response: URLResponse?, error: Error?) in
             if let error {
-                completion(.failure(error))
+                print(error)
                 return
             }
             
             guard let response = response as? HTTPURLResponse else {
                 print("not http response")
-                print(error)
                 return
             }
             
@@ -170,8 +170,8 @@ final class NetworkManager {
         for urlString: String,
         with query: [String: String]? = nil,
         data: DataType,
-        completion: @escaping (Result<Response?, Error>) -> Void)
-    {
+        completion: @escaping (Result<Response?, Error>) -> Void
+    ) {
         guard let url = URL(string: urlString) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -210,33 +210,83 @@ final class NetworkManager {
 // MARK: - Util
 
 extension NetworkManager {
-    func getTempJWT(
-        with code: String,
-        completion: @escaping (String) -> Void
+    func requestJWT(
+        with authCode: String,
+        completion: @escaping (Result<String, Error>) -> Void
     ) {
-        let url = baseURL + "/login"
-        var query: RequestParameters = [:]
-        query.updateValue(code, forKey: "code")
-        query.updateValue("ios", forKey: "clientType")
+        guard var urlcomponent = URLComponents(string: baseURL + "/login") else { return }
+        var query: RequestParameters = ["code": authCode, "clientType": "ios"]
+        let queryItems = query.map { item in URLQueryItem(name: item.key, value: item.value) }
+        urlcomponent.queryItems = queryItems
+        guard let url = urlcomponent.url else { return }
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 15
         
-        getData(for: url, with: query, dataType: Response<String>.self) { result in
-            switch result {
-            case .success(let response):
-                guard let tempJWT = response.data else {
-                    print("response is nil")
+        let completionHandler = { @Sendable [weak self] (data: Data?, response: URLResponse?, error: Error?) in
+            if let error {
+                print(error)
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse else {
+                print("not http response")
+                return
+            }
+            
+            print(response.statusCode)
+            
+            switch response.statusCode {
+            case 200:
+                // 등록된 계정 찾음 > final jwt return
+                guard let data else {
+                    print("invalid data")
                     return
                 }
-                completion(tempJWT)
-            case .failure(let error):
-                print(error)
+                guard let finalToken = self?.getJWT(from: data) else {
+                    print("fail to get jwt")
+                    return
+                }
+                
+                completion(.success(finalToken))
+            case 302:
+                // 등록된 계정 없음 > temp jwt return
+                guard let data else {
+                    print("invalid data")
+                    return
+                }
+                
+                guard let tempJWT = self?.getJWT(from: data) else {
+                    print("fail to get jwt")
+                    return
+                }
+                
+                self?.postSignUpInfo(
+                    tempJWT: tempJWT,
+                    data: TempSignUpPostLocation(),
+                    completion: completion
+                )
+            default:
+                print(response.statusCode, "- no matched process")
+                return
             }
         }
+        
+        let dataTask = session.dataTask(with: request, completionHandler: completionHandler)
+        dataTask.resume()
     }
     
-    func postSignUpInfo<DataType: Encodable, Response: Codable>(
+    func getJWT(from data: Data) -> String? {
+        guard let finalJWTResponse = decodeJson(type: Response<String>.self, fromJson: data) else {
+            print("fail to parse temp jwt response")
+            return nil
+        }
+        return finalJWTResponse.data
+    }
+    
+    func postSignUpInfo<RequestData: Encodable>(
         tempJWT: String,
-        data: DataType,
-        completion: @escaping (Result<Response?, Error>) -> Void
+        data: RequestData,
+        completion: @escaping (Result<String, Error>) -> Void
     ) {
         let urlString = baseURL + "/signup"
         guard let url = URL(string: urlString) else { return }
@@ -247,7 +297,7 @@ extension NetworkManager {
         request.httpBody = encodeJson(data: data)
         request.timeoutInterval = 15
         
-        let dataTask = session.dataTask(with: request) { _, response, error in
+        let dataTask = session.dataTask(with: request) { [weak self] data, response, error in
             if let error {
                 completion(.failure(error))
                 return
@@ -261,9 +311,18 @@ extension NetworkManager {
             print(response.statusCode)
             
             switch response.statusCode {
-            case (200..<400):
-                completion(.success(nil))
-                return
+            case 200:
+                guard let data else {
+                    print("invalid data")
+                    return
+                }
+                
+                guard let finalToken = self?.getJWT(from: data) else {
+                    print("fail to get JWT")
+                    return
+                }
+                
+                completion(.success(finalToken))
             case 400:
                 completion(.failure(NetworkError.failToPost))
                 return
