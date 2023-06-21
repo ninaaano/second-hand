@@ -32,6 +32,25 @@ export type ProductResponseData = {
   };
 };
 
+export type LocationData = {
+  locationId: number;
+  district: string;
+  city: string;
+  town: string;
+};
+
+export type User = {
+  userId: number;
+  avatar: string;
+  username: string;
+  primaryLocation: LocationData;
+};
+
+export type UserContextProps = {
+  user: User | undefined;
+  setUserInfo: (userInfo: User) => void;
+}
+
 export type CategoryResponseData = {
   statusCode: number;
   message: string;

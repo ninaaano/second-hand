@@ -1,13 +1,29 @@
+import { createContext, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { GlobalStyle } from '@Styles/GlobalStyle';
 import { theme } from '@Styles/theme';
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    <GlobalStyle />
-    <Outlet />
-  </ThemeProvider>
-);
+import { User, UserContextProps } from './types';
+
+export const UserContext = createContext<UserContextProps | null>(null);
+
+const App = () => {
+  const [user, setUser] = useState<User>();
+
+  const setUserInfo = (userInfo: User) => {
+    setUser(userInfo);
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <UserContext.Provider value={{ user, setUserInfo }}>
+        <Outlet />
+      </UserContext.Provider>
+    </ThemeProvider>
+  );
+};
+
 export default App;

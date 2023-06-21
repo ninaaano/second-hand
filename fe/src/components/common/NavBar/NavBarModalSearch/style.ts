@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
 import { palette } from '@Styles/color';
+
 interface ButtonProps {
   isActive?: boolean;
 }
+
 export const Layout = styled.div`
   width: 100%;
   display: flex;
@@ -29,6 +31,7 @@ export const searchBox = styled.div`
     border: none;
   }
 `;
+
 export const Box = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -37,6 +40,7 @@ export const Box = styled.div`
   background: ${palette.white};
   width: 100vw;
 `;
+
 export const ModalText = styled.div`
   width: 90vw;
   padding-left: 12px;
@@ -44,6 +48,7 @@ export const ModalText = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 export const Button = styled.button<ButtonProps>`
   border: none;
   background: none;

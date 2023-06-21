@@ -1,9 +1,11 @@
 import { Icon } from '@Components/common/Icon';
 
 import * as S from './style';
+
 interface NavBarModalSearchProps {
   prevHandler?: () => void;
 }
+
 export const NavBarModalSearch = ({ prevHandler }: NavBarModalSearchProps) => (
   <S.Layout>
     <S.Box>

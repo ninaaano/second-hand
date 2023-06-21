@@ -34,7 +34,7 @@ export const Button = styled.button<ButtonStyleProps>`
           border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
           height: 6.5vh;
           padding: 8px 16px;
-          ${theme.font.fontType.headLine};
+          ${theme.font.fontType.subHead};
         `;
       }
     }
@@ -101,6 +101,7 @@ export const Button = styled.button<ButtonStyleProps>`
 
   display: flex;
   align-items: center;
+  gap: 3px;
   ${({ textAlign }) => css`
     justify-content: ${textAlign === 'center' ? 'center' : 'space-between'};
     ${textAlign === 'center' && `gap: 4px`};

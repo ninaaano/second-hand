@@ -3,15 +3,22 @@ import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
 import { TabBarHome } from '@Components/common/TabBar';
+
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useFetch from '@Hooks/useFetch';
 
-import { ProductResponseData } from '@Types/index';
+import { ProductResponseData, UserContextProps } from '@Types/index';
 
 import * as S from './style';
+import { UserContext } from '../../App';
 
 const Home = () => {
+  const { user } = useContext(UserContext as React.Context<UserContextProps>);
+
+  const JWTToken = localStorage.getItem('JWTToken');
+
   const navigate = useNavigate();
   const { data, status, errorMessage } = useFetch<ProductResponseData>(
     'http://3.38.73.117:8080/api/products?page=0&size=10',
