@@ -2,6 +2,10 @@ import styled from 'styled-components';
 
 import { palette } from '@Styles/color';
 
+interface ButtonProps {
+  isActive?: boolean;
+}
+
 export const Box = styled.div`
   display: flex;
   justify-content: center;
@@ -24,4 +28,13 @@ export const ModalText = styled.div`
   width: 90vw;
   display: flex;
   justify-content: space-between;
+`;
+
+export const Button = styled.button<ButtonProps>`
+  border: none;
+  background: none;
+  color: ${({ theme, isActive }) =>
+    isActive
+      ? theme.color.colors.neutralTextStrong
+      : theme.color.colors.neutralTextWeak};
 `;

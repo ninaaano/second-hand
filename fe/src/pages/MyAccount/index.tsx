@@ -1,9 +1,3 @@
-import { TabBarHome } from '@Components/common/TabBar';
-
-const MyAccount = () => (
-  <>
-    <TabBarHome currentPage={'account'} />
-  </>
-);
+const MyAccount = () => <div>index</div>;
 
 export default MyAccount;

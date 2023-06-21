@@ -6,6 +6,7 @@ import { ReactComponent as chevronDown } from './chevronDown.svg';
 import { ReactComponent as chevronLeft } from './chevronLeft.svg';
 import { ReactComponent as circleFill } from './circleFill.svg';
 import { ReactComponent as ellipsis } from './ellipsis.svg';
+import { ReactComponent as githubLogo } from './githubLogo.svg';
 import { ReactComponent as heart } from './heart.svg';
 import { ReactComponent as home } from './home.svg';
 import { ReactComponent as innerHeart } from './innerHeart.svg';
@@ -35,4 +36,5 @@ export default {
   slider,
   chat,
   innerHeart,
+  githubLogo,
 };

@@ -12,6 +12,7 @@ export const Layout = styled.header<LayOutProps>`
   align-items: flex-end;
   ${({ navBarType }) => layoutType[navBarType]}
   backdrop-filter: blur(4px);
+  z-index: 1;
 `;
 
 export const layoutType = {

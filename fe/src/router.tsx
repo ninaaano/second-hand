@@ -1,9 +1,13 @@
 import NotFound from '@Components/common/NotFound';
 import { createBrowserRouter } from 'react-router-dom';
 
+import Auth from '@Pages/Auth';
 import ChatList from '@Pages/ChatList';
 import Home from '@Pages/Home';
+import LocationSetting from '@Pages/LocationSetting';
+import Login from '@Pages/Login';
 import MyAccount from '@Pages/MyAccount';
+import Registration from '@Pages/Registration';
 import SalesList from '@Pages/SalesList';
 import WishList from '@Pages/WishList';
 
@@ -16,7 +20,23 @@ const router = createBrowserRouter(
       errorElement: <NotFound errorMessage="에러" />,
       children: [
         {
-          index: true,
+          path: '/',
+          element: <Login />,
+        },
+        {
+          path: '/auth',
+          element: <Auth />,
+        },
+        {
+          path: '/registration',
+          element: <Registration />,
+        },
+        {
+          path: '/locationSetting',
+          element: <LocationSetting />,
+        },
+        {
+          path: '/home',
           element: <Home />,
         },
         {

@@ -28,10 +28,10 @@ export const Button = styled.button<ButtonStyleProps>`
       }
       if (size === 'L') {
         return css`
-          width: fit-content;
+          width: 360px;
           height: 6.5vh;
           padding: 8px 16px;
-          ${theme.font.fontType.headLine};
+          ${theme.font.fontType.subHead};
         `;
       }
     }
@@ -86,7 +86,7 @@ export const Button = styled.button<ButtonStyleProps>`
     buttonState === 'default'
       ? css`
           color: ${theme.color.colors.accentTextWeak};
-          background-color: ${theme.color.colors.neutralBorder};
+          background-color: ${theme.color.colors.systemBackgroundWeak};
         `
       : css`
           color: ${theme.color.colors.accentText};
@@ -95,6 +95,7 @@ export const Button = styled.button<ButtonStyleProps>`
 
   display: flex;
   align-items: center;
+  gap: 3px;
   ${({ textAlign }) => css`
     justify-content: ${textAlign === 'center' ? 'center' : 'space-between'};
     ${textAlign === 'center' && `gap: 4px`};
