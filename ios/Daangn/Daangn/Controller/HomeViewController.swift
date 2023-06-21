@@ -19,7 +19,7 @@ final class HomeViewController: UIViewController {
         setLayout()
         applyUpdatedSnapshot()
         
-        get()
+//        get()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -86,8 +86,8 @@ final class MyAccountViewController: UIViewController {
     }
     
     @objc func loginWithGithub() {
-        let clientID = "d3c9483c73b93a1a9267"
-        let scheme = "daangn-ios"
+        let clientID = "Iv1.b4d6fbb2a8c02670"
+        let scheme = "daangn"
         
         let githubAuthURLString = "https://github.com/login/oauth/authorize?client_id=\(clientID)"
         guard let githubAuthURL = URL(string: githubAuthURLString) else { return }
@@ -112,7 +112,9 @@ final class MyAccountViewController: UIViewController {
                 return
             }
             
-            NetworkManager().getTempJWT(with: authCode) { token in print(token) }
+            NetworkManager().getTempJWT(with: authCode) { token in
+                print("temp jwt: \(token)")
+            }
         }
         
         session.presentationContextProvider = self

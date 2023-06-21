@@ -181,6 +181,7 @@ extension NetworkManager {
         let url = baseURL + "/login"
         var query: RequestParameters = [:]
         query.updateValue(code, forKey: "code")
+        query.updateValue("ios", forKey: "clientType")
         
         getData(for: url, with: query, dataType: String?.self) { result in
             switch result {
