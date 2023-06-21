@@ -124,6 +124,18 @@ final class MyAccountViewController: UIViewController {
                     let jwt = try decode(jwt: tempJWT)
                     let userName = jwt["username"].string
                     print("username:", userName)
+                    self?.manager.postSignUpInfo(
+                        tempJWT: tempJWT,
+                        data: TempSignUpPostLocation()
+                    ) { (result: Result<Data?, Error>) in
+                        switch result {
+                        case .success:
+                            print("success")
+                            return
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
                 } catch {
                     print(error)
                 }

@@ -20,10 +20,9 @@ enum NetworkError: Error {
 typealias RequestParameters = [String: String]
 
 final class NetworkManager {
-    static let dummyURLString = "https://example.com"
-    static let defaultPagingOffSet = 10
-    
     private let baseURL = "http://3.38.73.117:8080"
+    
+    let absoulte = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJoeXVuIiwiaWF0IjoxNjg3MDU0ODIxLCJleHAiOjE2ODk2NDY4MjEsInVzZXJJZCI6NCwiYXZhdGFyIjoiaHR0cHM6Ly9hdmF0YXJzLmdpdGh1YnVzZXJjb250ZW50LmNvbS91LzkxNTI1NDkyP3Y9NCIsInVzZXJuYW1lIjoiZ2hrZGd1czI5IiwicHJpbWFyeUxvY2F0aW9uIjp7ImxvY2F0aW9uSWQiOjEsImRpc3RyaWN0Ijoi7ISc7Jq47IucIiwiY2l0eSI6IuqwleuCqOq1rCIsInRvd24iOiLsl63sgrwx64-ZIn0sInNlY29uZGFyeUxvY2F0aW9uIjp7ImxvY2F0aW9uSWQiOjUsImRpc3RyaWN0Ijoi7ISc7Jq47IucIiwiY2l0eSI6IuqwleuCqOq1rCIsInRvd24iOiLssq3ri7Trj5kifX0.l4gch92HdNt53nPXWHNjRmj-hFANH5P--TQwczozrT4"
     
     private let session: URLSession
     
@@ -114,10 +113,6 @@ final class NetworkManager {
         dataType: T.Type,
         completion: @escaping (Result<T, Error>) -> Void)
     {
-        let absoulte = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJoeXVuIiwiaWF0IjoxNjg3MDU0ODIxLCJleHAiOjE2ODk2NDY4MjEsInVzZXJJZCI6NCwiYXZhdGFyIjoiaHR0cHM6Ly9hdmF0YXJzLmdpdGh1YnVzZXJjb250ZW50LmNvbS91LzkxNTI1NDkyP3Y9NCIsInVzZXJuYW1lIjoiZ2hrZGd1czI5IiwicHJpbWFyeUxvY2F0aW9uIjp7ImxvY2F0aW9uSWQiOjEsImRpc3RyaWN0Ijoi7ISc7Jq47IucIiwiY2l0eSI6IuqwleuCqOq1rCIsInRvd24iOiLsl63sgrwx64-ZIn0sInNlY29uZGFyeUxvY2F0aW9uIjp7ImxvY2F0aW9uSWQiOjUsImRpc3RyaWN0Ijoi7ISc7Jq47IucIiwiY2l0eSI6IuqwleuCqOq1rCIsInRvd24iOiLssq3ri7Trj5kifX0.l4gch92HdNt53nPXWHNjRmj-hFANH5P--TQwczozrT4"
-        
-        let value = "Bearer \(absoulte)"
-        
         let url: URL?
         guard var urlcomponent = URLComponents(string: urlString) else { return }
         let queryItems = query.map { item in URLQueryItem(name: item.key, value: item.value) }
@@ -130,7 +125,7 @@ final class NetworkManager {
         }
         
         var request = URLRequest(url: url)
-        request.addValue(value, forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(absoulte)", forHTTPHeaderField: "Authorization")
         
         print(request.url)
         request.timeoutInterval = 15
@@ -170,6 +165,46 @@ final class NetworkManager {
         let dataTask = session.dataTask(with: request, completionHandler: completionHandler)
         dataTask.resume()
     }
+    
+    private func postData<DataType: Encodable, Response: Codable>(
+        for urlString: String,
+        with query: [String: String]? = nil,
+        data: DataType,
+        completion: @escaping (Result<Response?, Error>) -> Void)
+    {
+        guard let url = URL(string: urlString) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 15
+        
+        request.httpBody = encodeJson(data: data)
+        
+        let dataTask = session.dataTask(with: request) { _, response, error in
+            if let error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse else {
+                completion(.failure(NetworkError.noResponse))
+                return
+            }
+            
+            switch response.statusCode {
+            case (200..<300):
+                completion(.success(nil))
+                return
+            case 400:
+                completion(.failure(NetworkError.failToPost))
+                return
+            default:
+                completion(.failure(NetworkError.someError))
+                return
+            }
+        }
+        dataTask.resume()
+    }
 }
 
 // MARK: - Util
@@ -184,7 +219,7 @@ extension NetworkManager {
         query.updateValue(code, forKey: "code")
         query.updateValue("ios", forKey: "clientType")
         
-        authorizedGET(for: url, with: query, dataType: Response<String>.self) { result in
+        getData(for: url, with: query, dataType: Response<String>.self) { result in
             switch result {
             case .success(let response):
                 guard let tempJWT = response.data else {
@@ -196,6 +231,48 @@ extension NetworkManager {
                 print(error)
             }
         }
+    }
+    
+    func postSignUpInfo<DataType: Encodable, Response: Codable>(
+        tempJWT: String,
+        data: DataType,
+        completion: @escaping (Result<Response?, Error>) -> Void
+    ) {
+        let urlString = baseURL + "/signup"
+        guard let url = URL(string: urlString) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Bearer \(tempJWT)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = encodeJson(data: data)
+        request.timeoutInterval = 15
+        
+        let dataTask = session.dataTask(with: request) { _, response, error in
+            if let error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse else {
+                completion(.failure(NetworkError.noResponse))
+                return
+            }
+            
+            print(response.statusCode)
+            
+            switch response.statusCode {
+            case (200..<400):
+                completion(.success(nil))
+                return
+            case 400:
+                completion(.failure(NetworkError.failToPost))
+                return
+            default:
+                completion(.failure(NetworkError.someError))
+                return
+            }
+        }
+        dataTask.resume()
     }
     
     func getProducts() {

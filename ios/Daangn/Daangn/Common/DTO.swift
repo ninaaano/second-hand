@@ -41,3 +41,21 @@ struct ProductImage: Decodable {
     let productImageId: Int
     let imageUrl: String
 }
+
+struct TempSignUpPostLocation: Codable {
+    let district: String
+    let city: String
+    let town: String
+    
+    init(district: String, city: String, town: String) {
+        self.district = district
+        self.city = city
+        self.town = town
+    }
+    
+    init() {
+        self.district = "서울시"
+        self.city = "강남구"
+        self.town = "역삼1동"
+    }
+}
