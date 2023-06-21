@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team4.codesquad.secondhand.annotation.Login;
 import team4.codesquad.secondhand.constant.ResponseMessage;
+import team4.codesquad.secondhand.controller.dto.LocationIdInputDTO;
 import team4.codesquad.secondhand.controller.dto.Message;
 import team4.codesquad.secondhand.domain.Location;
 import team4.codesquad.secondhand.domain.User;
@@ -13,7 +14,6 @@ import team4.codesquad.secondhand.service.JwtService;
 import team4.codesquad.secondhand.service.LocationService;
 import team4.codesquad.secondhand.service.OauthService;
 import team4.codesquad.secondhand.service.UserService;
-import team4.codesquad.secondhand.service.dto.LocationDTO;
 import team4.codesquad.secondhand.service.dto.OAuthUserInfoResponse;
 
 @RestController
@@ -42,12 +42,12 @@ public class LoginController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Message> completeSignUp(@RequestBody LocationDTO locationDTO, @Login User user) {
-        if (userService.checkuUserExists(user)) {
+    public ResponseEntity<Message> completeSignUp(@RequestBody LocationIdInputDTO locationIdInputDTO, @Login User user) {
+        if (userService.checkUserExists(user)) {
             throw new IllegalArgumentException("이미 존재하는 회원이므로 중복 회원가입 불가");
         }
 
-        Location location = locationService.findLocation(locationDTO.getDistrict(), locationDTO.getCity(), locationDTO.getTown());
+        Location location = locationService.findBy(locationIdInputDTO.getLocationId());
         user.setPrimaryLocation(location);
         User signUpUser = userService.create(user);
 

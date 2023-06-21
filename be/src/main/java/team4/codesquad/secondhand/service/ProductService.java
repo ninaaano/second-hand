@@ -10,6 +10,7 @@ import team4.codesquad.secondhand.repository.ProductRepository;
 import team4.codesquad.secondhand.service.dto.ProductDTO;
 import team4.codesquad.secondhand.service.dto.ProductDetailDTO;
 import team4.codesquad.secondhand.service.dto.ProductListDTO;
+import team4.codesquad.secondhand.service.dto.ProductSearchCondition;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +22,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductListDTO buildProductListDTO(Pageable pageable) {
-        Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable);
+    public ProductListDTO buildProductListDTO(Pageable pageable, ProductSearchCondition productSearchCondition) {
+        Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable, productSearchCondition);
         List<Product> products = productsWithSlice.getContent();
 
         return new ProductListDTO(products.stream()
