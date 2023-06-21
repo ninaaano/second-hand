@@ -24,7 +24,7 @@ const usePullToRefresh = <T,>(URL: string) => {
         url: 'ErrorTest',
         isGetData: true,
       });
-      if (data !== undefined) {
+      if (data) {
         setRefreshedData(data);
       }
       resetState();
