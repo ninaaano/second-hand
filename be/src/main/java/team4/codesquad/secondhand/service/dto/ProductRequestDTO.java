@@ -14,7 +14,6 @@ public class ProductRequestDTO {
     private Integer price;
     @NotBlank(message = "내용을 입력해주세요")
     private String contents;
-    @NotBlank(message = "사진은 1장 이상 등록되어야 합니다")
     private List<String> productImages;
     private int categoryId;
     private int locationId;
