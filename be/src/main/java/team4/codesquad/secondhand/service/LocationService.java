@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team4.codesquad.secondhand.domain.Location;
-import team4.codesquad.secondhand.service.dto.LocationDTO;
-import team4.codesquad.secondhand.service.dto.LocationListDTO;
 import team4.codesquad.secondhand.repository.LocationRepository;
+import team4.codesquad.secondhand.service.dto.LocationListDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,13 +19,11 @@ public class LocationService {
 
     public LocationListDTO buildLocationListDTO() {
         List<Location> locations = locationRepository.findAll();
-        return new LocationListDTO(locations.stream()
-                                        .map(LocationDTO::new)
-                                        .collect(Collectors.toList()));
+        return new LocationListDTO(locations);
     }
 
-    public Location findLocation(String district, String city, String town) {
-        return locationRepository.findByDistrictAndCityAndTown(district, city, town)
+    public Location findBy(Integer locationId) {
+        return locationRepository.findById(locationId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역 정보 입력"));
     }
 
