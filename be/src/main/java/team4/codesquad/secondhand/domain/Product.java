@@ -1,11 +1,18 @@
 package team4.codesquad.secondhand.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import team4.codesquad.secondhand.constant.Status;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +27,11 @@ public class Product {
     private String title;
     private String contents;
     private Integer price;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmss")
+    @CreationTimestamp
     private LocalDateTime createdAt;
+    @UpdateTimestamp
     private LocalDateTime modifiedAt;
     private Integer views;
     @Enumerated(value = EnumType.STRING)
@@ -63,16 +74,32 @@ public class Product {
         return watchlists.size();
     }
 
-    public String getSellerId(){
+    public String getSellerId() {
         return user.getUsername();
     }
 
-    public String getDetailedStatus(){
+    public String getDetailedStatus() {
         return status.name();
     }
 
-    public String getDetailedCategory(){
+    public String getDetailedCategory() {
         return category.getName();
     }
 
+
+    @Builder
+    public Product(String title, String contents, Integer price, Location location, Category category, User user, List<ProductImage> productImages) {
+        this.title = title;
+        this.contents = contents;
+        this.price = price;
+        this.views = 0;
+        this.status = Status.SALE;
+        this.deleted = false;
+        this.location = location;
+        this.category = category;
+        this.user = user;
+        this.productImages = productImages;
+        this.watchlists = new ArrayList<>();
+        this.chatrooms = new ArrayList<>();
+    }
 }
