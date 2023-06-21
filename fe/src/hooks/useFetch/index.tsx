@@ -8,7 +8,6 @@ const useFetch = <T,>(url?: string) => {
     'loading',
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
   const fetchData = async ({
     url,
     isGetData = false,
@@ -35,6 +34,7 @@ const useFetch = <T,>(url?: string) => {
         const data = await res.json();
         setData(data);
       }
+
       if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
       if (res.status === 404) throw new Error(ERROR_MESSAGE[404]);
 
@@ -46,12 +46,11 @@ const useFetch = <T,>(url?: string) => {
       if (error instanceof Error) setErrorMessage(ERROR_MESSAGE.default);
     }
   };
-
   useEffect(() => {
     fetchData({ url, isGetData: true });
   }, [url]);
 
   return { data, status, errorMessage, fetchData };
 };
-
+  
 export default useFetch;

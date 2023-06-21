@@ -15,7 +15,6 @@ export const Layout = styled.div`
   border-radius: 10px 10px 0px 0px;
   background: ${({ theme }) => theme.color.palette.white};
 `;
-
 export const searchBox = styled.div`
   display: flex;
   align-items: center;

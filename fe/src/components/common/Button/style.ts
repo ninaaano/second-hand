@@ -13,6 +13,7 @@ export const Button = styled.button<ButtonStyleProps>`
       if (size === 'S') {
         return css`
           width: fit-content;
+          border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
           height: 4vh;
           padding: 8px 16px;
           ${theme.font.fontType.caption1};
@@ -21,6 +22,7 @@ export const Button = styled.button<ButtonStyleProps>`
       if (size === 'M') {
         return css`
           width: 177.5px;
+          border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
           height: 5.5vh;
           padding: 8px 16px;
           ${theme.font.fontType.callOut};
@@ -28,7 +30,8 @@ export const Button = styled.button<ButtonStyleProps>`
       }
       if (size === 'L') {
         return css`
-          width: 360px;
+          width: fit-content;
+          border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
           height: 6.5vh;
           padding: 8px 16px;
           ${theme.font.fontType.subHead};
@@ -61,13 +64,15 @@ export const Button = styled.button<ButtonStyleProps>`
       if (size === 'S') {
         return css`
           width: fit-content;
-          height: 2.75vh;
+          border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
+          height: 3.5vh;
           ${theme.font.fontType.caption1};
         `;
       }
       if (size === 'M') {
         return css`
           width: fit-content;
+          border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
           height: 4vh;
           ${theme.font.fontType.callOut};
         `;
@@ -75,6 +80,7 @@ export const Button = styled.button<ButtonStyleProps>`
       if (size === 'L') {
         return css`
           width: fit-content;
+          border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
           height: 4.25vh;
           ${theme.font.fontType.callout};
         `;
@@ -104,5 +110,4 @@ export const Button = styled.button<ButtonStyleProps>`
     border-radius: ${buttonType === 'rectangle' ? '8px' : '50px'};
     padding: ${buttonType !== 'circle' && '8px 16px'};
   `};
-  border: none;
 `;

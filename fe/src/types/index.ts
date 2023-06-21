@@ -19,6 +19,11 @@ export type Product = {
   };
 };
 
+export type Category = {
+  categoryId: number;
+  categoryName: string;
+};
+
 export type ProductResponseData = {
   statusCode: number;
   message: string;
@@ -44,4 +49,12 @@ export type User = {
 export type UserContextProps = {
   user: User | undefined;
   setUserInfo: (userInfo: User) => void;
+}
+
+export type CategoryResponseData = {
+  statusCode: number;
+  message: string;
+  data: {
+    category: Category[];
+  };
 };

@@ -6,6 +6,10 @@ interface ButtonProps {
   isActive?: boolean;
 }
 
+interface ButtonProps {
+  isActive?: boolean;
+}
+
 export const Box = styled.div`
   display: flex;
   justify-content: center;
@@ -23,7 +27,6 @@ export const Box = styled.div`
     }
   }
 `;
-
 export const ModalText = styled.div`
   width: 90vw;
   display: flex;

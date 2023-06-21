@@ -1,7 +1,6 @@
 import { MouseEvent } from 'react';
 
 import * as S from './style';
-
 interface ModalProps {
   prev?: string;
   center?: string;

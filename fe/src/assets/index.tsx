@@ -4,6 +4,7 @@ import { ReactComponent as camera } from './camera.svg';
 import { ReactComponent as chat } from './chat.svg';
 import { ReactComponent as chevronDown } from './chevronDown.svg';
 import { ReactComponent as chevronLeft } from './chevronLeft.svg';
+import { ReactComponent as chevronRight } from './chevronRight.svg';
 import { ReactComponent as circleFill } from './circleFill.svg';
 import { ReactComponent as ellipsis } from './ellipsis.svg';
 import { ReactComponent as githubLogo } from './githubLogo.svg';
@@ -22,6 +23,7 @@ export default {
   camera,
   chevronDown,
   chevronLeft,
+  chevronRight,
   circleFill,
   ellipsis,
   heart,

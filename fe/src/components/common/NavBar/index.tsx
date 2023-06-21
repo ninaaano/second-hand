@@ -7,7 +7,6 @@ import { NavBarModal } from './NavBarModal';
 import { NavBarModalSearch } from './NavBarModalSearch';
 import { NavBarSegmentPicker } from './NavBarSegmentPicker';
 import * as S from './style';
-
 interface NavBarProps {
   type: string;
   title?: string;
@@ -18,7 +17,6 @@ interface NavBarProps {
   rightHandler?: (e: MouseEvent<HTMLButtonElement>) => void;
   isRightActive?: boolean;
 }
-
 //TODO: layout 이름을 페어와 통일성 있게 맞추는 작업이 필요
 export const NavigationBar = ({
   type,
@@ -47,7 +45,12 @@ export const NavigationBar = ({
       <NavBarModalSearch prevHandler={prevHandler} />
     )}
     {type === 'backBtnLayout' && (
-      <NavBarBackBtn prev={prev} center={center} right={right} />
+      <NavBarBackBtn
+        prev={prev}
+        center={center}
+        right={right}
+        prevHandler={prevHandler}
+      />
     )}
     {type === 'segmentPickerLayout' && <NavBarSegmentPicker title={center} />}
   </S.Layout>
