@@ -19,10 +19,23 @@ export type Product = {
   };
 };
 
+export type Category = {
+  categoryId: number;
+  categoryName: string;
+};
+
 export type ProductResponseData = {
   statusCode: number;
   message: string;
   data: {
     products: Product[];
+  };
+};
+
+export type CategoryResponseData = {
+  statusCode: number;
+  message: string;
+  data: {
+    category: Category[];
   };
 };
