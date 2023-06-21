@@ -11,6 +11,7 @@ import team4.codesquad.secondhand.constant.ResponseMessage;
 import team4.codesquad.secondhand.controller.dto.Message;
 import team4.codesquad.secondhand.service.CategoryService;
 import team4.codesquad.secondhand.service.ProductService;
+import team4.codesquad.secondhand.service.dto.ProductSearchCondition;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +21,8 @@ public class ProductController {
     private final CategoryService categoryService;
 
     @GetMapping("api/products")
-    public ResponseEntity<Message> products(Pageable pageable) {
-        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT, productService.buildProductListDTO(pageable));
+    public ResponseEntity<Message> products(Pageable pageable, ProductSearchCondition productSearchCondition) {
+        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT, productService.buildProductListDTO(pageable, productSearchCondition));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
