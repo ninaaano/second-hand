@@ -39,6 +39,4 @@ public class ProductDetailDTO {
         this.views = product.getViews();
     }
 
-
-
 }
