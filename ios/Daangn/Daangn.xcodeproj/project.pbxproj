@@ -47,6 +47,7 @@
 		F4AEA7F42A3617D200B00B03 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AEA7F32A3617D200B00B03 /* TabBarController.swift */; };
 		F4D525792A41C5DE00413119 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525782A41C5DE00413119 /* Network.swift */; };
 		F4D5257B2A41C94100413119 /* DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5257A2A41C94100413119 /* DTO.swift */; };
+		F4D5257E2A429E6100413119 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = F4D5257D2A429E6100413119 /* JWTDecode */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4D5257E2A429E6100413119 /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +284,9 @@
 			dependencies = (
 			);
 			name = Daangn;
+			packageProductDependencies = (
+				F4D5257D2A429E6100413119 /* JWTDecode */,
+			);
 			productName = Daangn;
 			productReference = F49F98BE2A305FAF00609856 /* Daangn.app */;
 			productType = "com.apple.product-type.application";
@@ -310,6 +315,9 @@
 				Base,
 			);
 			mainGroup = F49F98B52A305FAF00609856;
+			packageReferences = (
+				F4D5257C2A429E6100413119 /* XCRemoteSwiftPackageReference "JWTDecode" */,
+			);
 			productRefGroup = F49F98BF2A305FAF00609856 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -606,6 +614,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F4D5257C2A429E6100413119 /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F4D5257D2A429E6100413119 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4D5257C2A429E6100413119 /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			productName = JWTDecode;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F49F98B62A305FAF00609856 /* Project object */;
 }

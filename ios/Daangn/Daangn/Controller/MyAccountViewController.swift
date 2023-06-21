@@ -6,7 +6,9 @@
 //
 
 import UIKit
+
 import AuthenticationServices
+import JWTDecode
 
 final class MyAccountViewController: UIViewController {
     private let border = BorderLine(height: 1)
@@ -113,7 +115,18 @@ final class MyAccountViewController: UIViewController {
             }
             
             NetworkManager().getTempJWT(with: authCode) { token in
+                guard let token else {
+                    print("token is nil")
+                    return
+                }
                 print("temp jwt: \(token)")
+                
+                do {
+                    let jwt = try decode(jwt: token)
+                    dump(jwt)
+                } catch {
+                    print(error)
+                }
             }
         }
         
