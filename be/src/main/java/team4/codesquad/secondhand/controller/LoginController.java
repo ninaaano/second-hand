@@ -26,8 +26,8 @@ public class LoginController {
     private final OauthService oauthService;
 
     @GetMapping("/login")
-    public ResponseEntity<Message> login(@RequestParam String code) {
-        OAuthUserInfoResponse githubUser = oauthService.getGitHubUserInfoBy(code);
+    public ResponseEntity<Message> login(@RequestParam String code, @RequestParam String clientType) {
+        OAuthUserInfoResponse githubUser = oauthService.getGitHubUserInfoBy(code, clientType);
 
         User user = userService.findByUsername(githubUser.getUserId())
                 .orElseGet(() -> new User(githubUser.getProfileUrl(), githubUser.getUserId()));
