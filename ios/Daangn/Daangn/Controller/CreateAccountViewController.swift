@@ -79,7 +79,7 @@ final class CreateAccountViewController: UIViewController {
     
     @objc func save() {
         // TODO: 선택 위치 저장 로직 구현
-        self.dismiss(animated: true) {
+        self.presentingViewController?.dismiss(animated: true) {
             
         }
     }
