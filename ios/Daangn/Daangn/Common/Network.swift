@@ -110,7 +110,7 @@ final class NetworkManager {
     
     private func authorizedGET<T: Decodable>(
         for urlString: String,
-        with query: [String: String]? = nil,
+        with query: [String: String] = [:],
         dataType: T.Type,
         completion: @escaping (Result<T, Error>) -> Void)
     {
@@ -119,15 +119,16 @@ final class NetworkManager {
         let value = "Bearer \(absoulte)"
         
         let url: URL?
-        if let query {
-            guard var urlcomponent = URLComponents(string: urlString) else { return }
-            let queryItems = query.map { item in URLQueryItem(name: item.key, value: item.value) }
-            urlcomponent.queryItems = queryItems
-            url = urlcomponent.url
-        } else {
-            url = URL(string: urlString)
+        guard var urlcomponent = URLComponents(string: urlString) else { return }
+        let queryItems = query.map { item in URLQueryItem(name: item.key, value: item.value) }
+        urlcomponent.queryItems = queryItems
+        url = urlcomponent.url
+        
+        guard let url else {
+            print("cannot make url")
+            return
         }
-        guard let url else { return }
+        
         var request = URLRequest(url: url)
         request.addValue(value, forHTTPHeaderField: "Authorization")
         
@@ -176,17 +177,21 @@ final class NetworkManager {
 extension NetworkManager {
     func getTempJWT(
         with code: String,
-        completion: @escaping (String?) -> Void
+        completion: @escaping (String) -> Void
     ) {
         let url = baseURL + "/login"
         var query: RequestParameters = [:]
         query.updateValue(code, forKey: "code")
         query.updateValue("ios", forKey: "clientType")
         
-        getData(for: url, with: query, dataType: String?.self) { result in
+        authorizedGET(for: url, with: query, dataType: Response<String>.self) { result in
             switch result {
-            case .success(let token):
-                completion(token)
+            case .success(let response):
+                guard let tempJWT = response.data else {
+                    print("response is nil")
+                    return
+                }
+                completion(tempJWT)
             case .failure(let error):
                 print(error)
             }

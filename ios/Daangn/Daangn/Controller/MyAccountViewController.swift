@@ -11,6 +11,8 @@ import AuthenticationServices
 import JWTDecode
 
 final class MyAccountViewController: UIViewController {
+    let manager = NetworkManager()
+    
     private let border = BorderLine(height: 1)
     
     private let profileImageButton = ProfileImageButton()
@@ -96,7 +98,7 @@ final class MyAccountViewController: UIViewController {
         let session = ASWebAuthenticationSession(
             url: githubAuthURL,
             callbackURLScheme: scheme
-        ) { callbackURL, error in
+        ) { [weak self] callbackURL, error in
             if let error {
                 print(error)
                 return
@@ -113,17 +115,15 @@ final class MyAccountViewController: UIViewController {
                 print("no auth code")
                 return
             }
+            print(authCode)
             
-            NetworkManager().getTempJWT(with: authCode) { token in
-                guard let token else {
-                    print("token is nil")
-                    return
-                }
-                print("temp jwt: \(token)")
-                
+            self?.manager.getTempJWT(with: authCode) { tempJWT in
+                print("temp jwt: \(tempJWT)")
+
                 do {
-                    let jwt = try decode(jwt: token)
-                    dump(jwt)
+                    let jwt = try decode(jwt: tempJWT)
+                    let userName = jwt["username"].string
+                    print("username:", userName)
                 } catch {
                     print(error)
                 }
