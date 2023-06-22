@@ -51,25 +51,22 @@ public class ProductService {
         String contents = request.getContents();
         List<String> productImages = request.getProductImages();
         int categoryId = request.getCategoryId();
-        int locationId = request.getLocationId();
+        Location locationId = user.getPrimaryLocation();
 
-        User sellerId = userRepository.findById(user.getUserId())
+        User seller = userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
 
         // 상품 엔티티 생성을 위해 필요한 정보 설정
         Category categoryEntity = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
 
-        Location locationEntity = locationRepository.findById(locationId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 위치입니다."));
-
         Product product = Product.builder()
                 .title(title)
                 .price(price)
-                .user(sellerId)
+                .user(seller)
                 .contents(contents)
                 .category(categoryEntity)
-                .location(locationEntity)
+                .location(locationId)
                 .build();
 
         Product savedProduct = productRepository.save(product);
