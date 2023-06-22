@@ -1,8 +1,5 @@
 package team4.codesquad.secondhand.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +24,6 @@ public class Product {
     private String title;
     private String contents;
     private Integer price;
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmss")
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
@@ -85,6 +80,11 @@ public class Product {
     public String getDetailedCategory() {
         return category.getName();
     }
+
+    public int getDetailedLocationId(){
+        return location.getLocationId();
+    }
+
 
 
     @Builder
