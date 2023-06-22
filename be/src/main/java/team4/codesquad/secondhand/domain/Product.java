@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -45,14 +46,14 @@ public class Product {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductImage> productImages;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductImage> productImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Chatroom> chatrooms;
+    private List<Chatroom> chatrooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Watchlist> watchlists;
+    private List<Watchlist> watchlists = new ArrayList<>();
 
     public ProductImage findMainProductImage() {
         if (productImages.isEmpty()) {
@@ -85,10 +86,13 @@ public class Product {
         return location.getLocationId();
     }
 
-
+    public void addProductImage(ProductImage productImage) {
+        productImages.add(productImage);
+        productImage.setProduct(this);
+    }
 
     @Builder
-    public Product(String title, String contents, Integer price, Location location, Category category, User user, List<ProductImage> productImages) {
+    public Product(String title, String contents, Integer price, Location location, Category category, User user) {
         this.title = title;
         this.contents = contents;
         this.price = price;
@@ -98,8 +102,5 @@ public class Product {
         this.location = location;
         this.category = category;
         this.user = user;
-        this.productImages = productImages;
-        this.watchlists = new ArrayList<>();
-        this.chatrooms = new ArrayList<>();
     }
 }

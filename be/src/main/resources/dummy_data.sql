@@ -45,7 +45,8 @@ values (1, '디지털기기'),
 insert into user (user_id, avatar, username, primary_location_id, secondary_location_id)
 VALUES (1, 'https://second-hand-4.s3.ap-northeast-2.amazonaws.com/user-avatars/user1.jpeg', 'test_user', 1, null),
        (2, 'https://second-hand-4.s3.ap-northeast-2.amazonaws.com/user-avatars/user2.jpeg', 'test_user2', 1, null),
-       (3, null, 'test_user3', 1, null);
+       (3, null, 'test_user3', 1, null),
+       (4, 'https://avatars.githubusercontent.com/u/91525492?v=4' , 'ghkdgus29' , 1, 5);
 
 insert into product (product_id, title, contents, price, created_at, modified_at, views, status, deleted, category_id, location_id, user_id)
 values (1, '신세계 상품권 20만원(10만원권 2장) 팝니다.', '테스트내용1', 187000, '2023-06-16T09:52:33', '2023-06-16T09:52:33', floor(rand() * 100), 'SALE', false, floor(rand() * 18) + 1, floor(rand() * 22) + 1, floor(rand() * 3) + 1),

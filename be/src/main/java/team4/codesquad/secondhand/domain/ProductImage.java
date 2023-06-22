@@ -23,10 +23,13 @@ public class ProductImage {
     @JsonIgnore
     private Product product;
 
-    @Builder
-    public ProductImage(String imageUrl, Product product) {
+    public ProductImage(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void setProduct(Product product) {
         this.product = product;
+        product.getProductImages().add(this);
     }
 
 }

@@ -2,11 +2,13 @@ package team4.codesquad.secondhand.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class ProductRequestDTO {
     @NotBlank(message = "제목을 입력해주세요")

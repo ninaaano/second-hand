@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import team4.codesquad.secondhand.annotation.Login;
 import team4.codesquad.secondhand.domain.*;
 import team4.codesquad.secondhand.repository.*;
@@ -44,12 +45,12 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDetailDTO createProduct(ProductRequestDTO request, @Login User user) {
+    public Integer createProduct(ProductRequestDTO request, @Login User user) {
         // 상품 생성을 위해 필요한 정보 추출
         String title = request.getTitle();
         Integer price = request.getPrice();
         String contents = request.getContents();
-        List<String> productImages = request.getProductImages();
+        List<String> productImagesUrls = request.getProductImages();
         int categoryId = request.getCategoryId();
         Location locationId = user.getPrimaryLocation();
 
@@ -69,18 +70,12 @@ public class ProductService {
                 .location(locationId)
                 .build();
 
-        Product savedProduct = productRepository.save(product);
-
         // 상품 이미지 엔티티 생성 및 연관관계 설정
-        for (String image : productImages) {
-            ProductImage productImage = ProductImage.builder()
-                    .imageUrl(image)
-                    .product(savedProduct)
-                    .build();
-            productImageRepository.save(productImage);
-        }
+        productImagesUrls.stream()
+                .map(img -> new ProductImage(img))
+                .forEach(pi -> product.addProductImage(pi));
 
-        return increaseViewsAndRetrieveProduct(savedProduct.getProductId());
+        return productRepository.save(product).getProductId();
     }
 }
 
