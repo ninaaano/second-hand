@@ -21,10 +21,6 @@ enum NetworkError: Error {
 typealias RequestParameters = [String: String]
 
 final class NetworkManager {
-    private let baseURL = "http://3.38.73.117:8080"
-    
-    let absoulte = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJoeXVuIiwiaWF0IjoxNjg3MDU0ODIxLCJleHAiOjE2ODk2NDY4MjEsInVzZXJJZCI6NCwiYXZhdGFyIjoiaHR0cHM6Ly9hdmF0YXJzLmdpdGh1YnVzZXJjb250ZW50LmNvbS91LzkxNTI1NDkyP3Y9NCIsInVzZXJuYW1lIjoiZ2hrZGd1czI5IiwicHJpbWFyeUxvY2F0aW9uIjp7ImxvY2F0aW9uSWQiOjEsImRpc3RyaWN0Ijoi7ISc7Jq47IucIiwiY2l0eSI6IuqwleuCqOq1rCIsInRvd24iOiLsl63sgrwx64-ZIn0sInNlY29uZGFyeUxvY2F0aW9uIjp7ImxvY2F0aW9uSWQiOjUsImRpc3RyaWN0Ijoi7ISc7Jq47IucIiwiY2l0eSI6IuqwleuCqOq1rCIsInRvd24iOiLssq3ri7Trj5kifX0.l4gch92HdNt53nPXWHNjRmj-hFANH5P--TQwczozrT4"
-    
     private let session: URLSession
     
     init(session: URLSession = URLSession.shared) {
@@ -125,7 +121,7 @@ final class NetworkManager {
         }
         
         var request = URLRequest(url: url)
-        request.addValue("Bearer \(absoulte)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(APICredential.absoluteToken)", forHTTPHeaderField: "Authorization")
         
         print(request.url)
         request.timeoutInterval = 15
@@ -214,7 +210,8 @@ extension NetworkManager {
         with authCode: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
-        guard var urlcomponent = URLComponents(string: baseURL + "/login") else { return }
+        let urlString = APICredential.baseURL + "/login"
+        guard var urlcomponent = URLComponents(string: urlString) else { return }
         var query: RequestParameters = ["code": authCode, "clientType": "ios"]
         let queryItems = query.map { item in URLQueryItem(name: item.key, value: item.value) }
         urlcomponent.queryItems = queryItems
@@ -288,7 +285,7 @@ extension NetworkManager {
         data: RequestData,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
-        let urlString = baseURL + "/signup"
+        let urlString = APICredential.baseURL + "/signup"
         guard let url = URL(string: urlString) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -335,9 +332,9 @@ extension NetworkManager {
     }
     
     func getProducts() {
-        let url = baseURL + "/api/products"
+        let urlString = APICredential.baseURL + "/api/products"
         authorizedGET(
-            for: url,
+            for: urlString,
             dataType: Response<ProductDTO>.self) { result in
                 switch result {
                 case .success(let response):
