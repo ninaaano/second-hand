@@ -84,7 +84,7 @@ export const ProductList = ({ itemData }: ProductListProps) => {
       <S.TopBox />
       {refreshing && (
         <S.SpinnerBox distanceY={distance}>
-          <Spinner />
+          <Spinner isDynamic={true} />
         </S.SpinnerBox>
       )}
       {status === 'error' && <NotFound errorMessage={errorMessage} />}

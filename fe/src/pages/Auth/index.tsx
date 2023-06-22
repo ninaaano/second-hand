@@ -70,7 +70,7 @@ const Auth = () => {
     }
   }, [data]);
 
-  return <S.Box>{status === 'loading' && <Spinner />}</S.Box>;
+  return <S.Box>{status === 'loading' && <Spinner isDynamic={false} />}</S.Box>;
 };
 
 export default Auth;
