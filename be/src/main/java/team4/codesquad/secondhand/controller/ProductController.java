@@ -33,7 +33,7 @@ public class ProductController {
     }
 
     @PostMapping("api/product")
-    public ResponseEntity<Message> save(@RequestBody @Valid ProductRequestDTO request,@Login User user){
+    public ResponseEntity<Message> save(@RequestBody @Valid ProductRequestDTO request,@Login User user) {
         Message message = new Message(HttpStatus.OK, ResponseMessage.PRODUCT_CREATE_OK, productService.createProduct(request,user));
         return new ResponseEntity<>(message,HttpStatus.OK);
     }
