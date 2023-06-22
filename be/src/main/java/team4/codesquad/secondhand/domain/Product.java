@@ -1,16 +1,19 @@
 package team4.codesquad.secondhand.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team4.codesquad.secondhand.constant.Status;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product {
 
     @Id
@@ -40,13 +43,13 @@ public class Product {
     private User user;
 
     @OneToMany(mappedBy = "product")
-    private List<ProductImage> productImages;
+    private List<ProductImage> productImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Chatroom> chatrooms;
+    private List<Chatroom> chatrooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Watchlist> watchlists;
+    private List<Watchlist> watchlists = new ArrayList<>();
 
     public ProductImage findMainProductImage() {
         if (productImages.isEmpty()) {
