@@ -5,14 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 import team4.codesquad.secondhand.annotation.Login;
 import team4.codesquad.secondhand.domain.*;
 import team4.codesquad.secondhand.repository.*;
-import team4.codesquad.secondhand.service.dto.ProductDTO;
-import team4.codesquad.secondhand.service.dto.ProductDetailDTO;
-import team4.codesquad.secondhand.service.dto.ProductListDTO;
-import team4.codesquad.secondhand.service.dto.ProductRequestDTO;
+import team4.codesquad.secondhand.service.dto.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,21 +40,28 @@ public class ProductService {
         return new ProductDetailDTO(product);
     }
 
+    // TODO : 이미지 업로드
+    // TODO : 생성하고 ID값만 넘겨주기
+    // TODO : @CREATEAT 으로 변경하기
+    // TODO : RequestDTO에서 location값 삭제하기
+    // TODO : 컨트롤러 product -> products 로 변경하기
+    // TODO : ProductID반환하는 DTO 만들기
     @Transactional
-    public Integer createProduct(ProductRequestDTO request, @Login User user) {
+    public ProductCreateResponseDTO createProduct(ProductRequestDTO request, @Login User user){
         // 상품 생성을 위해 필요한 정보 추출
         String title = request.getTitle();
         Integer price = request.getPrice();
         String contents = request.getContents();
         List<String> productImagesUrls = request.getProductImages();
+        //List<MultipartFile> productImagesUrls = request.getProductImages();
         int categoryId = request.getCategoryId();
-        Location locationId = user.getPrimaryLocation();
+        Location primaryLocation = user.getPrimaryLocation();
 
         User seller = userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
 
         // 상품 엔티티 생성을 위해 필요한 정보 설정
-        Category categoryEntity = categoryRepository.findById(categoryId)
+        Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
 
         Product product = Product.builder()
@@ -66,16 +69,17 @@ public class ProductService {
                 .price(price)
                 .user(seller)
                 .contents(contents)
-                .category(categoryEntity)
-                .location(locationId)
+                .category(category)
+                .location(primaryLocation)
                 .build();
 
-        // 상품 이미지 엔티티 생성 및 연관관계 설정
+            // 상품 이미지 엔티티 생성 및 연관관계 설정
         productImagesUrls.stream()
-                .map(img -> new ProductImage(img))
-                .forEach(pi -> product.addProductImage(pi));
+                    .map(img -> new ProductImage(img))
+                    .forEach(pi -> product.addProductImage(pi));
 
-        return productRepository.save(product).getProductId();
+        return new ProductCreateResponseDTO(productRepository.save(product));
     }
+
 }
 
