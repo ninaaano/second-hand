@@ -82,6 +82,5 @@ final class HomeViewController: UIViewController {
     }
     
     private func get() {
-        manager.getProducts()
     }
 }
