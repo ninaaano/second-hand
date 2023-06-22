@@ -6,6 +6,8 @@ import { TabBarHome } from '@Components/common/TabBar';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
 import { ProductResponseData, UserContextProps } from '@Types/index';
@@ -18,7 +20,7 @@ const Home = () => {
 
   const navigate = useNavigate();
   const { data, status, errorMessage } = useFetch<ProductResponseData>(
-    'http://3.38.73.117:8080/api/products?page=0&size=10',
+    `${END_POINT.products}?page=0&size=10`,
   );
 
   return (

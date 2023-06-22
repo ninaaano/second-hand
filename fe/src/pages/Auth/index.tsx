@@ -3,6 +3,8 @@ import jwt_decode from 'jwt-decode';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
 import { User, UserContextProps } from '@Types/index';
@@ -26,12 +28,11 @@ const Auth = () => {
 
   const url = new URL(window.location.href);
   const queryCode = url.searchParams.get('code');
-  const loginURL = 'http://3.38.73.117:8080/login';
 
   useEffect(() => {
     const getToken = async () => {
       await fetchData({
-        url: `${loginURL}?code=${queryCode}&clientType=fe`,
+        url: `${END_POINT.login}?code=${queryCode}&clientType=fe`,
         isGetData: true,
       });
     };
@@ -41,6 +42,7 @@ const Auth = () => {
   useEffect(() => {
     if (data) {
       const JWTToken = data.data;
+
       const payload = jwt_decode<User>(JWTToken);
 
       if (!localStorage.getItem('JWTToken')) {

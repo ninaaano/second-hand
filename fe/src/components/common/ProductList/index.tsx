@@ -1,5 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import usePullToRefresh from '@Hooks/useFullToRefresh';
 
 import { debounce } from '@Utils/debounce';
@@ -25,7 +27,7 @@ export const ProductList = ({ itemData }: ProductListProps) => {
 
   const { refreshing, distance, status, errorMessage, refreshedData } =
     usePullToRefresh<ProductResponseData | undefined | null>(
-      'http://3.38.73.117:8080/api/products?page=0&size=20',
+      `${END_POINT.products}?page=0&size=10`,
     );
 
   useEffect(() => {
@@ -54,7 +56,7 @@ export const ProductList = ({ itemData }: ProductListProps) => {
   const loadMoreData = async () => {
     setIsLoading(true);
 
-    await fetch(`http://3.38.73.117:8080/api/products?page=${page}&size=10`)
+    await fetch(`${END_POINT.products}?page=${page}&size=10`)
       .then((response) => response.json())
       .then((productsData: ProductResponseData | undefined) => {
         if (productsData !== undefined) {

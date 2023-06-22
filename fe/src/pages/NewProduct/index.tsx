@@ -6,6 +6,8 @@ import { TabBarSellProduct } from '@Components/common/TabBar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
 import { debounce } from '@Utils/debounce';
@@ -14,9 +16,7 @@ import { Category, CategoryResponseData } from '@Types/index';
 
 import * as S from './style';
 export const NewProduct = () => {
-  const { data } = useFetch<CategoryResponseData>(
-    'http://3.38.73.117:8080/api/category',
-  );
+  const { data } = useFetch<CategoryResponseData>(END_POINT.category);
 
   const [randomCategory, setRandomCategory] = useState<Category[]>([]);
 

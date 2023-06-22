@@ -4,6 +4,8 @@ import NotFound from '@Components/common/NotFound';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
 import { LocationData } from '@Types/index';
@@ -28,7 +30,7 @@ const LocationSetting = () => {
   const location = useLocation();
 
   const { data, status, errorMessage } = useFetch<LocationResponseData>(
-    'http://3.38.73.117:8080/api/locations',
+    `${END_POINT.locations}`,
   );
   const [locationData, setLocation] =
     useState<LocationData>(initialLocationState);

@@ -2,6 +2,8 @@ import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
 import * as S from './style';
@@ -28,7 +30,7 @@ const Registration = () => {
   const handleSubmitBtnClick = async () => {
     if (!primaryLocation) return;
     await fetchData({
-      url: `http://3.38.73.117:8080/signup`,
+      url: END_POINT.signUp,
       isGetData: true,
       method: 'POST',
       body: JSON.stringify({

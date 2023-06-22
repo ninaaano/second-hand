@@ -1,5 +1,7 @@
 import NotFound from '@Components/common/NotFound';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
 import { CategoryResponseData } from '@Types/index';
@@ -8,7 +10,7 @@ import * as S from './style';
 
 export const CategoryList = () => {
   const { data, status, errorMessage } = useFetch<CategoryResponseData>(
-    'http://3.38.73.117:8080/api/category',
+    END_POINT.category,
   );
 
   return (
