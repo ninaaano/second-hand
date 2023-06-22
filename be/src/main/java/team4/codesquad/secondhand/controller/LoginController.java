@@ -10,7 +10,6 @@ import team4.codesquad.secondhand.controller.dto.LocationIdInputDTO;
 import team4.codesquad.secondhand.controller.dto.Message;
 import team4.codesquad.secondhand.domain.User;
 import team4.codesquad.secondhand.service.JwtService;
-import team4.codesquad.secondhand.service.LocationService;
 import team4.codesquad.secondhand.service.OauthService;
 import team4.codesquad.secondhand.service.UserService;
 import team4.codesquad.secondhand.service.dto.OAuthUserInfoResponse;
@@ -27,8 +26,7 @@ public class LoginController {
     public ResponseEntity<Message> login(@RequestParam String code, @RequestParam String clientType) {
         OAuthUserInfoResponse githubUser = oauthService.getGitHubUserInfoBy(code, clientType);
 
-        User user = userService.findByUsername(githubUser.getUserId())
-                .orElseGet(() -> new User(githubUser.getProfileUrl(), githubUser.getUserId()));
+        User user = userService.findExistingUserOrCreateNewUser(githubUser.getUserId(), githubUser.getProfileUrl());
 
         if (user.isSignUpInProgress()) {
             Message message = new Message(HttpStatus.FOUND, ResponseMessage.SIGNUP_USER, jwtService.issueJwt(user));
@@ -41,11 +39,7 @@ public class LoginController {
 
     @PostMapping("/signup")
     public ResponseEntity<Message> completeSignUp(@RequestBody LocationIdInputDTO locationIdInputDTO, @Login User user) {
-        if (userService.checkUserExists(user)) {
-            throw new IllegalArgumentException("이미 존재하는 회원이므로 중복 회원가입 불가");
-        }
-
-        User signUpUser = userService.create(user, locationIdInputDTO.getLocationId());
+        User signUpUser = userService.signUp(user, locationIdInputDTO.getLocationId());
 
         Message message = new Message(HttpStatus.OK, ResponseMessage.ISSUE_ACCESS_TOKEN, jwtService.issueJwt(signUpUser));
         return new ResponseEntity<>(message, HttpStatus.OK);

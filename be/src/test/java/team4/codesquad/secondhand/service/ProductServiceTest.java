@@ -60,7 +60,7 @@ class ProductServiceTest {
 
         SliceImpl<Product> mockSlice = new SliceImpl<>(mockProducts, pageable, true);
 
-        BDDMockito.given(productRepository.findFilteredProducts(Mockito.any(Pageable.class), Mockito.any(ProductSearchCondition.class)))
+        BDDMockito.given(productRepository.findFilteredProducts(pageable, productSearchCondition))
                 .willReturn(mockSlice);
 
         // when
