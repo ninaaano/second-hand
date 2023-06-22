@@ -45,10 +45,11 @@
 		F49F98CE2A305FB000609856 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F49F98CC2A305FB000609856 /* LaunchScreen.storyboard */; };
 		F49F99022A309A6800609856 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F49F99012A309A6800609856 /* .swiftlint.yml */; };
 		F4AEA7F42A3617D200B00B03 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AEA7F32A3617D200B00B03 /* TabBarController.swift */; };
-		F4D525792A41C5DE00413119 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525782A41C5DE00413119 /* Network.swift */; };
+		F4D525792A41C5DE00413119 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525782A41C5DE00413119 /* NetworkManager.swift */; };
 		F4D5257B2A41C94100413119 /* DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5257A2A41C94100413119 /* DTO.swift */; };
 		F4D5257E2A429E6100413119 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = F4D5257D2A429E6100413119 /* JWTDecode */; };
 		F4D525802A43E80600413119 /* APICredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5257F2A43E80600413119 /* APICredential.swift */; };
+		F4D525832A4513F100413119 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525822A4513F100413119 /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,9 +93,10 @@
 		F49F98CF2A305FB000609856 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F49F99012A309A6800609856 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		F4AEA7F32A3617D200B00B03 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		F4D525782A41C5DE00413119 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		F4D525782A41C5DE00413119 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F4D5257A2A41C94100413119 /* DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTO.swift; sourceTree = "<group>"; };
 		F4D5257F2A43E80600413119 /* APICredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICredential.swift; sourceTree = "<group>"; };
+		F4D525822A4513F100413119 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,7 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				F4029F202A3B54D200ECEABD /* Radius.swift */,
-				F4D525782A41C5DE00413119 /* Network.swift */,
+				F4D525782A41C5DE00413119 /* NetworkManager.swift */,
+				F4D525822A4513F100413119 /* NetworkError.swift */,
 				F4D5257A2A41C94100413119 /* DTO.swift */,
 			);
 			path = Common;
@@ -393,6 +396,7 @@
 				F4029F352A3B5A8200ECEABD /* CollectionViewLayoutGenerator.swift in Sources */,
 				F4029F4D2A3B61A400ECEABD /* SalesViewController.swift in Sources */,
 				F4029F2E2A3B56D300ECEABD /* PaddedLabel.swift in Sources */,
+				F4D525832A4513F100413119 /* NetworkError.swift in Sources */,
 				F4029F442A3B5D6E00ECEABD /* CategoryFilterCollectionView.swift in Sources */,
 				F4029F2C2A3B56CB00ECEABD /* BorderView.swift in Sources */,
 				F4029F472A3B5D9900ECEABD /* Category.swift in Sources */,
@@ -406,7 +410,7 @@
 				F4029F542A3B904200ECEABD /* IDField.swift in Sources */,
 				F4029F392A3B5B4500ECEABD /* LoadCollectionViewCell.swift in Sources */,
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
-				F4D525792A41C5DE00413119 /* Network.swift in Sources */,
+				F4D525792A41C5DE00413119 /* NetworkManager.swift in Sources */,
 				4F35D2672A3813FE00DE2CBA /* MyAccountViewController.swift in Sources */,
 				F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */,
 				4F35D26B2A39823200DE2CBA /* ConfigureTown.swift in Sources */,
