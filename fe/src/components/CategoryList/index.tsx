@@ -17,7 +17,6 @@ export const CategoryList = () => {
 
   const handleCategory = (e: React.MouseEvent<HTMLDivElement>) => {
     const categoryId = (e.target as HTMLDivElement).getAttribute('data-id');
-    console.log(categoryId);
     sessionStorage.setItem('saveCategoryId', String(categoryId));
     saveCategory();
   };
