@@ -16,7 +16,6 @@ public class LocationService {
 
     private final LocationRepository locationRepository;
 
-
     public LocationListDTO buildLocationListDTO() {
         List<Location> locations = locationRepository.findAll();
         return new LocationListDTO(locations);
@@ -26,5 +25,4 @@ public class LocationService {
         return locationRepository.findById(locationId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역 정보 입력"));
     }
-
 }
