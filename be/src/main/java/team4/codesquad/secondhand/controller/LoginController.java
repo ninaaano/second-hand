@@ -33,11 +33,11 @@ public class LoginController {
                 .orElseGet(() -> new User(githubUser.getProfileUrl(), githubUser.getUserId()));
 
         if (user.isSignUpInProgress()) {
-            Message message = new Message(HttpStatus.FOUND, ResponseMessage.SIGNUP_USER, jwtService.issueJwtToken(user));
+            Message message = new Message(HttpStatus.FOUND, ResponseMessage.SIGNUP_USER, jwtService.issueJwt(user));
             return new ResponseEntity<>(message, HttpStatus.FOUND);
         }
 
-        Message message = new Message(HttpStatus.OK, ResponseMessage.ISSUE_ACCESS_TOKEN, jwtService.issueJwtToken(user));
+        Message message = new Message(HttpStatus.OK, ResponseMessage.ISSUE_ACCESS_TOKEN, jwtService.issueJwt(user));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
@@ -51,7 +51,7 @@ public class LoginController {
         user.setPrimaryLocation(location);
         User signUpUser = userService.create(user);
 
-        Message message = new Message(HttpStatus.OK, ResponseMessage.ISSUE_ACCESS_TOKEN, jwtService.issueJwtToken(signUpUser));
+        Message message = new Message(HttpStatus.OK, ResponseMessage.ISSUE_ACCESS_TOKEN, jwtService.issueJwt(signUpUser));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 

@@ -23,7 +23,7 @@ public class SignUpInterceptor implements HandlerInterceptor {
         }
 
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        Claims claims = jwtService.parseJwtToken(authorizationHeader);
+        Claims claims = jwtService.parseJwt(authorizationHeader);
 
         if (claims.get(USER_ID) != null) {
             throw new IllegalArgumentException("이미 존재하는 회원이므로, 회원 가입 불가");
