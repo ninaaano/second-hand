@@ -30,7 +30,7 @@ export const NavigationBar = ({
 }: NavBarProps) => (
   <S.Layout navBarType={type as keyof typeof S.layoutType}>
     {type === 'defaultLayout' && <NavBarDefault title={title} />}
-    {type === 'homeLayout' && <NavBarHome />}
+    {type === 'homeLayout' && <NavBarHome town={prev} />}
     {type === 'modalLayout' && (
       <NavBarModal
         prev={prev}

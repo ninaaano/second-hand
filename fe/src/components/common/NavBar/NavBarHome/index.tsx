@@ -1,9 +1,14 @@
 import * as S from './style';
 import { Icon } from '../../Icon';
-export const NavBarHome = () => (
+
+interface NavBarHomeProps {
+  town: string | undefined;
+}
+
+export const NavBarHome = ({ town }: NavBarHomeProps) => (
   <S.Box>
     <S.AddressBox>
-      <span>역삼2동</span>
+      <span>{town}</span>
       <Icon iconType="chevronDown" />
     </S.AddressBox>
     <S.CategoryBox>
