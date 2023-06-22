@@ -16,6 +16,8 @@ enum NetworkError: Error {
     case failToDelete
     case someError
     case noResponseOrNotHTTPResponse
+    case failToDecodeJWT
+    case failToParse
 }
 
 typealias RequestParameters = [String: String]
@@ -178,5 +180,89 @@ extension NetworkManager {
             }
         }
         dataTask.resume()
+    }
+}
+
+
+extension NetworkManager {
+    func requestJWT(with authCode: String) async throws -> String {
+        let urlString = APICredential.baseURL + "/login"
+        guard var urlcomponent = URLComponents(string: urlString) else { throw NetworkError.someError }
+        var query: RequestParameters = ["code": authCode, "clientType": "ios"]
+        let queryItems = query.map { item in URLQueryItem(name: item.key, value: item.value) }
+        urlcomponent.queryItems = queryItems
+        guard let url = urlcomponent.url else { throw NetworkError.someError }
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 15
+        
+        do {
+            let (data, response) = try await session.data(for: request)
+            
+            guard let response = response as? HTTPURLResponse else {
+                throw NetworkError.noResponseOrNotHTTPResponse
+            }
+            
+            print(response.statusCode)
+            
+            switch response.statusCode {
+            case 200:
+                // 등록된 계정 찾음 > final jwt return
+                guard let finalJWT = getJWT(from: data) else {
+                    throw NetworkError.failToParse
+                }
+                
+                return finalJWT
+            case 302:
+                // 등록된 계정 없음 > temp jwt return
+                guard let tempJWT = getJWT(from: data) else {
+                    throw NetworkError.failToParse
+                }
+                
+                let finalJWT = try await postSignUpInfo(tempJWT: tempJWT, data: TempSignUpPostLocation())
+                return finalJWT
+            default:
+                throw NetworkError.someError
+            }
+        } catch {
+            throw error
+        }
+    }
+    
+    func postSignUpInfo<RequestData: Encodable>(
+        tempJWT: String,
+        data: RequestData
+    ) async throws -> String {
+        let urlString = APICredential.baseURL + "/signup"
+        guard let url = URL(string: urlString) else { throw NetworkError.someError }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Bearer \(tempJWT)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = encodeJson(data: data)
+        request.timeoutInterval = 15
+        
+        do {
+            let (data, response) = try await session.data(for: request)
+            
+            guard let response = response as? HTTPURLResponse else {
+                throw NetworkError.noResponseOrNotHTTPResponse
+            }
+            
+            print(response.statusCode)
+            
+            switch response.statusCode {
+            case 200:
+                guard let finalToken = getJWT(from: data) else {
+                    throw NetworkError.failToParse
+                }
+                return finalToken
+            case 400:
+                throw NetworkError.failToPost
+            default:
+                throw NetworkError.someError
+            }
+        } catch {
+            throw error
+        }
     }
 }

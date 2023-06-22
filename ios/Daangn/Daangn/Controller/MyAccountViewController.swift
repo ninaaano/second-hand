@@ -117,17 +117,18 @@ final class MyAccountViewController: UIViewController {
             }
             print(authCode)
             
-            self?.manager.requestJWT(with: authCode) { result in
-                switch result {
-                case .success(let finalJWT):
-                    print("success!!!! finalJWT is \(finalJWT.prefix(10))")
-                    do {
-                        let parsedData = try decode(jwt: finalJWT)
-                        print(parsedData["username"].string ?? "nil")
-                    } catch {
-                        print(error)
+            Task { [weak self] in
+                guard let self else { return }
+                do {
+                    let finalJWT = try await self.manager.requestJWT(with: authCode)
+                    let parsedData = try decode(jwt: finalJWT)
+                    let username = parsedData["username"].string
+                    
+                    // 메인 스레드가 보장되어야 한다? (UI 업데이트, 프로퍼티 업데이트)
+                    await MainActor.run {
+                        self.title = username
                     }
-                case .failure(let error):
+                } catch {
                     print(error)
                 }
             }
