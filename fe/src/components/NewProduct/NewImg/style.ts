@@ -1,20 +1,24 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Layout = styled.div`
+export const Layout = styled.div<{ disabled: boolean }>`
   display: flex;
+  height: 10vh;
   gap: 8px;
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  align-items: center;
 
   ::-webkit-scrollbar {
     display: none;
   }
   .saveUploadImg {
-    position: sticky;
-    width: 16vw;
+    width: 7.5vw;
     height: 7vh;
-    border: 1px solid ${({ theme }) => theme.color.palette.gray600};
+    padding: 0px 17.5px;
+    border: 1px solid ${({ theme }) => theme.color.colors.neutralTextStrong};
+    ${({ theme }) => theme.font.fontType.subHead};
+    background: ${({ theme }) => theme.color.palette.white};
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -23,6 +27,16 @@ export const Layout = styled.div`
     color: ${({ theme }) => theme.color.colors.neutralTextStrong};
     ${({ theme }) => theme.font.fontType.subHead};
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      .saveUploadImg {
+        pointer-events: none;
+        color: ${({ theme }) => theme.color.palette.orange};
+        border: 1px solid ${({ theme }) => theme.color.palette.orange};
+      }
+    `}
 
   .uploadImg {
     width: 16vw;
@@ -62,6 +76,13 @@ export const CancelImagBox = styled.div`
 
 export const ButtonBox = styled.div`
   position: absolute;
-  top: 0px;
+  top: -10px;
   left: 45px;
+`;
+
+export const ImgBox = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 `;

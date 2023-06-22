@@ -2,68 +2,97 @@ import * as S from '@Components/NewProduct/NewImg/style';
 import Button from '@Components/common/Button';
 import { Icon } from '@Components/common/Icon';
 import { useRef, useState } from 'react';
+
+import { palette } from '@Styles/color';
+
+import { ImgFileTye } from '@Types/index';
 export const NewImg = () => {
-  const [imgFile, setImgFile] = useState<string[]>([]);
+  const [imgFile, setImgFile] = useState<ImgFileTye[]>([]);
+  const [isFullFile, setIsFullFile] = useState(false);
+  const [id, setId] = useState(0);
 
   const fileInput = useRef<HTMLInputElement | null>(null);
 
   const handleIconClick = () => fileInput.current?.click();
+  const imgCount = 10;
 
   const handleImgFile = () => {
     if (fileInput.current && fileInput.current.files) {
       const files = fileInput.current.files;
       const reader: FileReader = new FileReader();
-      if (files && files.length > 0 && files.length <= 4) {
+      if (files && files.length > 0 && imgFile.length < imgCount) {
         reader.readAsDataURL(files[0]);
 
         reader.onload = () => {
           if (reader.result) {
-            setImgFile((prevState) => [...prevState, String(reader.result)]);
+            setImgFile((prevState) => [
+              ...prevState,
+              {
+                ImgFileId: id,
+                ImgFileName: String(reader.result),
+              },
+            ]);
           }
+          setId(id + 1);
         };
       }
     }
+    if (imgFile.length === imgCount - 1) {
+      setIsFullFile(true);
+    }
   };
 
-  const handleOnRemove = (url: string) => {
-    setImgFile(imgFile.filter((img) => img !== url));
+  const handleOnRemove = (id: number) => {
+    setImgFile(imgFile.filter((img) => img.ImgFileId !== id));
+    setIsFullFile(false);
   };
 
   return (
-    <S.Layout>
+    <S.Layout disabled={isFullFile}>
       <div className="saveUploadImg">
-        <Icon iconType="camera" width={23} onClick={handleIconClick} />
-        <span>{imgFile.length}/10</span>
-        <input
-          type="file"
-          ref={fileInput}
-          onChange={handleImgFile}
-          style={{ display: 'none' }}
-          accept="image/png, image/jpeg"
+        <Icon
+          iconType="camera"
+          width={23}
+          onClick={handleIconClick}
+          fill={isFullFile ? palette.orange : palette.black}
         />
+        <span>
+          {imgFile.length}/{imgCount}
+        </span>
       </div>
-      {imgFile &&
-        imgFile.length > 0 &&
-        imgFile.map(
-          (url, index) =>
-            url && (
-              <S.CancelImagBox key={index}>
-                <S.SaveImgBox>
-                  <img src={url} className="uploadImg" />
-                  <S.TextBox>대표 사진</S.TextBox>
-                </S.SaveImgBox>
-                <S.ButtonBox>
-                  <Button
-                    buttonType="circle"
-                    buttonState="active"
-                    size="M"
-                    iconType="multiply"
-                    onClick={() => handleOnRemove(url)}
-                  />
-                </S.ButtonBox>
-              </S.CancelImagBox>
-            ),
-        )}
+
+      <input
+        type="file"
+        ref={fileInput}
+        onChange={handleImgFile}
+        style={{ display: 'none' }}
+        accept="image/png, image/jpeg"
+      />
+
+      <S.ImgBox>
+        {imgFile &&
+          imgFile.length > 0 &&
+          imgFile.map(
+            (url, index) =>
+              url && (
+                <S.CancelImagBox key={url.ImgFileId}>
+                  <S.SaveImgBox>
+                    <img src={url.ImgFileName} className="uploadImg" />
+                    {index === 0 && <S.TextBox>대표 사진</S.TextBox>}
+                  </S.SaveImgBox>
+                  <S.ButtonBox>
+                    <Button
+                      buttonType="circle"
+                      buttonState="active"
+                      size="M"
+                      iconType="multiply"
+                      onClick={() => handleOnRemove(url.ImgFileId)}
+                    />
+                  </S.ButtonBox>
+                </S.CancelImagBox>
+              ),
+          )}
+      </S.ImgBox>
     </S.Layout>
   );
 };
