@@ -3,7 +3,6 @@ import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
 import { TabBarHome } from '@Components/common/TabBar';
-
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,8 +16,6 @@ import { UserContext } from '../../App';
 const Home = () => {
   const { user } = useContext(UserContext as React.Context<UserContextProps>);
 
-  const JWTToken = localStorage.getItem('JWTToken');
-
   const navigate = useNavigate();
   const { data, status, errorMessage } = useFetch<ProductResponseData>(
     'http://3.38.73.117:8080/api/products?page=0&size=10',
@@ -26,7 +23,11 @@ const Home = () => {
 
   return (
     <>
-      <NavigationBar type={'homeLayout'} title={'title1'} />
+      <NavigationBar
+        type={'homeLayout'}
+        title={'title1'}
+        prev={user?.primaryLocation.town}
+      />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
       {data && <ProductList itemData={data?.data.products} />}
       <S.ButtonBox>

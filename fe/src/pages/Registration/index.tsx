@@ -27,17 +27,10 @@ const Registration = () => {
 
   const handleSubmitBtnClick = async () => {
     if (!primaryLocation) return;
-
-    const JWTToken = localStorage.getItem('JWTToken');
-
     await fetchData({
       url: `http://3.38.73.117:8080/signup`,
       isGetData: true,
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${JWTToken}`,
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({
         ...primaryLocation,
       }),
@@ -61,7 +54,7 @@ const Registration = () => {
         </S.ImgBox>
         <S.NoticeBox>
           <S.UserId>{username}</S.UserId>
-          <S.Notice>님</S.Notice>
+          <S.Notice>🥕</S.Notice>
         </S.NoticeBox>
         <S.AddLocationButtonBox>
           <Button

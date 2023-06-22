@@ -12,17 +12,20 @@ const useFetch = <T,>(url?: string) => {
     url,
     isGetData = false,
     method = 'GET',
-    headers,
     body,
   }: {
     url?: string;
     isGetData: boolean;
     method?: string;
-    headers?: Record<string, string>;
     body?: BodyInit | null | undefined;
   }) => {
     try {
       if (!url) return;
+
+      const JWTToken = localStorage.getItem('JWTToken');
+      const headers = {
+        Authorization: `Bearer ${JWTToken}`,
+      };
 
       const res = await fetch(url, {
         method,
@@ -52,5 +55,5 @@ const useFetch = <T,>(url?: string) => {
 
   return { data, status, errorMessage, fetchData };
 };
-  
+
 export default useFetch;
