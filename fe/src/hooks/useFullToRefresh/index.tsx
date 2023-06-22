@@ -21,7 +21,7 @@ const usePullToRefresh = <T,>(URL: string) => {
     // TODO: ref를 써볼까?
     setTimeout(async () => {
       await fetchData({
-        url: 'ErrorTest',
+        url: URL,
         isGetData: true,
       });
       if (data) {
@@ -50,8 +50,9 @@ const usePullToRefresh = <T,>(URL: string) => {
       }
     };
 
-    // TODO: 시작 조건 추가하기.
     const container = document.documentElement;
+    const { top } = container.getBoundingClientRect();
+    if (top < 0) resetState();
     container.addEventListener('touchmove', handleTouchMove);
     container.addEventListener('touchend', handleTouchEnd);
 

@@ -23,8 +23,10 @@ const useFetch = <T,>(url?: string) => {
       if (!url) return;
 
       const JWTToken = localStorage.getItem('JWTToken');
+
       const headers = {
         Authorization: `Bearer ${JWTToken}`,
+        'Content-Type': 'application/json',
       };
 
       const res = await fetch(url, {
