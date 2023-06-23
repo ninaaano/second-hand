@@ -15,7 +15,7 @@ struct SignUpTempInfo {
     }
     
     var imageURLString: String? {
-        let key = ""
+        let key = "imageURLString"
         return jwt.getString(key: key)
     }
     

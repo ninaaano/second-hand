@@ -15,7 +15,7 @@ final class MyAccountViewController: UIViewController {
     
     private let border = BorderLine(height: 1)
     
-    private let loginButton = LoginButton(status: .logout)
+    private let loginButton = LoginButton(status: .login)
     
     override func viewDidLoad() {
         super.viewDidLoad()
