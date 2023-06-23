@@ -3,8 +3,6 @@ import jwt_decode from 'jwt-decode';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { END_POINT } from '@Constants/endpoint';
-
 import useFetch from '@Hooks/useFetch';
 
 import { User, UserContextProps } from '@Types/index';
