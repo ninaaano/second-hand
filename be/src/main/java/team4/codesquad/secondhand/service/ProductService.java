@@ -56,10 +56,6 @@ public class ProductService {
         Integer price = request.getPrice();
         String contents = request.getContents();
         List<MultipartFile> productImages = request.getProductImages();
-        if (productImages == null) {
-            throw new IllegalArgumentException("상품 이미지가 없습니다.");
-        }
-
         List<String> productImagesUrls = getPhotosUrl(productImages);
         int categoryId = request.getCategoryId();
         int locationId = request.getLocationId();

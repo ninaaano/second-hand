@@ -34,6 +34,9 @@ public class ProductController {
 
     @PostMapping("api/products")
     public ResponseEntity<Message> save(@ModelAttribute @Valid ProductRequestDTO request,@Login User user) {
+        if (request.getProductImages() == null) {
+            throw new IllegalArgumentException("상품 이미지가 없습니다.");
+        }
         Message message = new Message(HttpStatus.OK, ResponseMessage.PRODUCT_CREATE_OK, productService.createProduct(request,user));
         return new ResponseEntity<>(message,HttpStatus.OK);
     }
