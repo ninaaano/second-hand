@@ -32,7 +32,7 @@ const Auth = () => {
   useEffect(() => {
     const getToken = async () => {
       await fetchData({
-        url: `${END_POINT.login}?code=${queryCode}&clientType=fe`,
+        url: `http://3.38.73.117/api/login?code=${queryCode}&clientType=fe`,
         isGetData: true,
       });
     };
