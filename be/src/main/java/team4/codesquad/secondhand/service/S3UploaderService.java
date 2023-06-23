@@ -3,6 +3,7 @@ package team4.codesquad.secondhand.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,12 +20,15 @@ public class S3UploaderService {
     private final AmazonS3 amazonS3;
     private final S3Properties s3Properties;
 
+    @Value("${aws.bucketFolderPath}")
+    private String filePath;
+
     public String upload(MultipartFile multipartFile) {
         String s3FileName = generateS3FileName(multipartFile.getOriginalFilename());
         ObjectMetadata objMeta = createObjectMetadata(multipartFile);
 
         try {
-            amazonS3.putObject(s3Properties.getS3().getBucket(), s3FileName, multipartFile.getInputStream(), objMeta);
+            amazonS3.putObject(s3Properties.getS3().getBucket() + filePath, s3FileName, multipartFile.getInputStream(), objMeta);
             return generateS3FileUrl(s3FileName);
         } catch (IOException e) {
             throw new IllegalStateException("Upload failed", e);
