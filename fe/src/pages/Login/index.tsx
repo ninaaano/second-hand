@@ -1,11 +1,10 @@
 import Button from '@Components/common/Button';
 
-import { END_POINT } from '@Constants/endpoint';
-
 import * as S from './style';
 
 const Login = () => {
-  const githubURL = END_POINT.oAuth;
+  const githubURL =
+    'https://github.com/login/oauth/authorize?client_id=Iv1.b2c72e9d29d91862';
 
   const gitHubLoginHandler = () => {
     window.location.href = githubURL;
