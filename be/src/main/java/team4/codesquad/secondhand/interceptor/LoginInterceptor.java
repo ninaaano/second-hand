@@ -2,7 +2,6 @@ package team4.codesquad.secondhand.interceptor;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import team4.codesquad.secondhand.service.JwtService;
 
@@ -25,7 +24,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
 
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        Claims claims = jwtService.parseJwtToken(authorizationHeader);
+        Claims claims = jwtService.parseJwt(authorizationHeader);
 
         if (claims.get(USER_ID) == null) {
             throw new IllegalArgumentException("회원가입 진행 중이므로 리소스에 접근 불가");

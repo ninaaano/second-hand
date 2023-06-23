@@ -16,7 +16,7 @@ public class JwtService {
     @Value("${jwt-secret}")
     private String jwtSecretKey;
 
-    public String issueJwtToken(User user) {
+    public String issueJwt(User user) {
         Date now = new Date();
 
         return Jwts.builder()
@@ -33,7 +33,7 @@ public class JwtService {
                 .compact();
     }
 
-    public Claims parseJwtToken(String authorizationHeader) {
+    public Claims parseJwt(String authorizationHeader) {
         validationAuthorizationHeader(authorizationHeader);
         String token = extractToken(authorizationHeader);
 

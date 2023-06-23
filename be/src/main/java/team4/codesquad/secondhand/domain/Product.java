@@ -1,6 +1,7 @@
 package team4.codesquad.secondhand.domain;
 
 import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product {
 
     @Id

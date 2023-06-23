@@ -20,7 +20,6 @@ public class ProductImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    @JsonIgnore
     private Product product;
 
     public ProductImage(String imageUrl) {

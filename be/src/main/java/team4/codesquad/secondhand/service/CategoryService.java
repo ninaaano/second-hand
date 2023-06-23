@@ -15,10 +15,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CategoryService {
+
     private final CategoryRepository categoryRepository;
 
-
-    // 카테고리 목록
     public CategoryListDTO findAll(){
         List<Category> category = categoryRepository.findAll();
         return new CategoryListDTO(category.stream()

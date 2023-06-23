@@ -4,7 +4,6 @@ import lombok.Getter;
 import team4.codesquad.secondhand.constant.Status;
 import team4.codesquad.secondhand.domain.Location;
 import team4.codesquad.secondhand.domain.Product;
-import team4.codesquad.secondhand.domain.ProductImage;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +18,7 @@ public class ProductDTO {
     private final Location location;
     private final int watchlistCounts;
     private final int chatroomCounts;
-    private final ProductImage mainImage;
+    private final ProductImageDTO mainImage;
 
     public ProductDTO(Product product) {
         this.productId = product.getProductId();
@@ -30,6 +29,6 @@ public class ProductDTO {
         this.location = product.getLocation();
         this.watchlistCounts = product.calculateWatchlistCount();
         this.chatroomCounts = product.calculateChatroomCount();
-        this.mainImage = product.findMainProductImage();
+        this.mainImage = new ProductImageDTO(product.findMainProductImage());
     }
 }
