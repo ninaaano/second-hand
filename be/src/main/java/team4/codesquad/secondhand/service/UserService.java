@@ -7,6 +7,7 @@ import team4.codesquad.secondhand.domain.Location;
 import team4.codesquad.secondhand.domain.User;
 import team4.codesquad.secondhand.repository.LocationRepository;
 import team4.codesquad.secondhand.repository.UserRepository;
+import team4.codesquad.secondhand.service.dto.UserLocationInfoDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +32,12 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역 정보 입력"));
         user.setPrimaryLocation(primaryLocation);
         return userRepository.save(user);
+    }
+
+    public UserLocationInfoDTO findLocationInfo(User user) {
+        User savedUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
+
+        return new UserLocationInfoDTO(savedUser.getPrimaryLocation(), savedUser.getSecondaryLocation());
     }
 }
