@@ -11,11 +11,11 @@ import AuthenticationServices
 import JWTDecode
 
 final class MyAccountViewController: UIViewController {
-    let manager = NetworkManager()
+    private let manager = NetworkManager()
     
     private let border = BorderLine(height: 1)
     
-    private let loginButton = LoginButton()
+    private let loginButton = LoginButton(status: .logout)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,19 +44,14 @@ final class MyAccountViewController: UIViewController {
     private func setButtons() {
         loginButton.addTarget(nil, action: #selector(loginWithGithub), for: .touchUpInside)
     }
-    
+}
+
+extension MyAccountViewController {
     @objc func selectPhoto() {
         let vc = UIViewController()
         let navi = UINavigationController(rootViewController: vc)
         navi.view.backgroundColor = .systemBackground
         self.present(navi, animated: true)
-    }
-    
-    @objc func createAccount() {
-        let createViewController = CreateAccountViewController()
-        let navigationController = UINavigationController(rootViewController: createViewController)
-        navigationController.view.backgroundColor = .systemBackground
-        self.present(navigationController, animated: true)
     }
     
     @objc func loginWithGithub() {
@@ -90,13 +85,19 @@ final class MyAccountViewController: UIViewController {
             Task { [weak self] in
                 guard let self else { return }
                 do {
-                    let finalJWT = try await self.manager.requestJWT(with: authCode)
-                    let parsedData = try decode(jwt: finalJWT)
-                    let username = parsedData["username"].string
-                    
-                    // 메인 스레드가 보장되어야 한다? (UI 업데이트, 프로퍼티 업데이트)
-                    await MainActor.run {
-                        self.title = username
+                    let jwt = try await self.manager.requestJWT(with: authCode)
+                    switch jwt.kind {
+                        
+                    case .final:
+                        await MainActor.run {
+                            
+                        }
+                    case .temp:
+                        let tempInfo = SignUpTempInfo(jwt: jwt)
+                        let signupViewController = CreateAccountViewController(tempInfo: tempInfo)
+                        let navigationController = UINavigationController(rootViewController: signupViewController)
+                        navigationController.view.backgroundColor = .systemBackground
+                        self.present(navigationController, animated: true)
                     }
                 } catch {
                     print(error)

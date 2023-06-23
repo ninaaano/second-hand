@@ -8,13 +8,41 @@
 import UIKit
 
 final class CreateAccountViewController: UIViewController {
+    let networkManager = NetworkManager()
+    
+    // MARK: Views
     private let border = BorderLine(height: 1)
     
     private let profileImageButton = ProfileImageButton()
     
-    private let idField = IDField()
+    private let userNameLabel: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: FontStyle.headline, color: ColorStyle.black)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     private let townButton = TownButton()
+    
+    // MARK: Properties
+    
+    private let tempInfo: SignUpTempInfo
+    
+    // MARK: Initializer
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        return nil
+    }
+    
+    init(tempInfo: SignUpTempInfo) {
+        self.tempInfo = tempInfo
+        super.init(nibName: nil, bundle: nil)
+        configure()
+    }
+    
+    // MARK: Life cycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +50,8 @@ final class CreateAccountViewController: UIViewController {
         setProfileButton()
         setLayout()
     }
+    
+    // MARK: Life cycle Methods
     
     private func setNavigationItem() {
         self.title = "회원가입"
@@ -58,18 +88,18 @@ final class CreateAccountViewController: UIViewController {
             profileImageButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
         ])
         
-        view.addSubview(idField)
+        view.addSubview(userNameLabel)
         NSLayoutConstraint.activate([
-            idField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            idField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            idField.topAnchor.constraint(equalTo: profileImageButton.bottomAnchor, constant: 24),
+            userNameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            userNameLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            userNameLabel.topAnchor.constraint(equalTo: profileImageButton.bottomAnchor, constant: 24),
         ])
         
         view.addSubview(townButton)
         NSLayoutConstraint.activate([
             townButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             townButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            townButton.topAnchor.constraint(equalTo: idField.bottomAnchor, constant: 40),
+            townButton.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 40),
         ])
     }
     
@@ -77,10 +107,18 @@ final class CreateAccountViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
-    @objc func save() {
-        // TODO: 선택 위치 저장 로직 구현
-        self.presentingViewController?.dismiss(animated: true) {
-            
+    @objc func save() async {
+        Task { [weak self] in
+            do {
+                let tempLocation = TempSignUpPostLocation()
+                let finalJWT = try await networkManager.postSignUpInfo(tempJWT: tempInfo.jwt, data: tempLocation)
+                
+                // jwt 저장 > Notification post
+                
+                self?.presentingViewController?.dismiss(animated: true)
+            } catch {
+                print(error)
+            }
         }
     }
     
@@ -89,5 +127,13 @@ final class CreateAccountViewController: UIViewController {
         let navi = UINavigationController(rootViewController: vc)
         navi.view.backgroundColor = .systemBackground
         self.present(navi, animated: true)
+    }
+}
+
+extension CreateAccountViewController {
+    private func configure() {
+        let profileImage = UIImage()
+        profileImageButton.setImage(image: profileImage)
+        userNameLabel.text = tempInfo.userName
     }
 }

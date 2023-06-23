@@ -50,6 +50,8 @@
 		F4D5257E2A429E6100413119 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = F4D5257D2A429E6100413119 /* JWTDecode */; };
 		F4D525802A43E80600413119 /* APICredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5257F2A43E80600413119 /* APICredential.swift */; };
 		F4D525832A4513F100413119 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525822A4513F100413119 /* NetworkError.swift */; };
+		F4D525852A45173B00413119 /* JWToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525842A45173B00413119 /* JWToken.swift */; };
+		F4D525872A45519B00413119 /* SignUpTempInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525862A45519B00413119 /* SignUpTempInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +99,8 @@
 		F4D5257A2A41C94100413119 /* DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTO.swift; sourceTree = "<group>"; };
 		F4D5257F2A43E80600413119 /* APICredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICredential.swift; sourceTree = "<group>"; };
 		F4D525822A4513F100413119 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		F4D525842A45173B00413119 /* JWToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWToken.swift; sourceTree = "<group>"; };
+		F4D525862A45519B00413119 /* SignUpTempInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpTempInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +165,8 @@
 				F4D525782A41C5DE00413119 /* NetworkManager.swift */,
 				F4D525822A4513F100413119 /* NetworkError.swift */,
 				F4D5257A2A41C94100413119 /* DTO.swift */,
+				F4D525842A45173B00413119 /* JWToken.swift */,
+				F4D525862A45519B00413119 /* SignUpTempInfo.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -395,6 +401,7 @@
 				F4AEA7F42A3617D200B00B03 /* TabBarController.swift in Sources */,
 				F4029F352A3B5A8200ECEABD /* CollectionViewLayoutGenerator.swift in Sources */,
 				F4029F4D2A3B61A400ECEABD /* SalesViewController.swift in Sources */,
+				F4D525852A45173B00413119 /* JWToken.swift in Sources */,
 				F4029F2E2A3B56D300ECEABD /* PaddedLabel.swift in Sources */,
 				F4D525832A4513F100413119 /* NetworkError.swift in Sources */,
 				F4029F442A3B5D6E00ECEABD /* CategoryFilterCollectionView.swift in Sources */,
@@ -423,6 +430,7 @@
 				F4029F522A3B812500ECEABD /* ProfileImageButton.swift in Sources */,
 				4F35D2692A38816A00DE2CBA /* CategoryViewController.swift in Sources */,
 				4F35D25F2A38139B00DE2CBA /* HomeViewController.swift in Sources */,
+				F4D525872A45519B00413119 /* SignUpTempInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

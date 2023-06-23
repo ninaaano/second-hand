@@ -23,8 +23,6 @@ final class NetworkManager {
         do {
             result = try JSONDecoder().decode(type, from: data)
         } catch {
-            // TODO: failToParse 에러 핸들링
-            print("fail to parse \(String(describing: type.self))")
             print(error)
         }
         return result
@@ -35,8 +33,6 @@ final class NetworkManager {
         do {
             json = try JSONEncoder().encode(data)
         } catch {
-            // TODO: failToEncode 에러 핸들링
-            print("fail to encode \(String(describing: data))")
             print(error)
         }
         return json
@@ -58,7 +54,7 @@ extension NetworkManager {
 // MARK: - Util
 
 extension NetworkManager {
-    func requestJWT(with authCode: String) async throws -> String {
+    func requestJWT(with authCode: String) async throws -> JWToken {
         let urlString = APICredential.baseURL + "/login"
         guard var urlcomponent = URLComponents(string: urlString) else { throw NetworkError.someError }
         var query: RequestParameters = ["code": authCode, "clientType": "ios"]
@@ -77,25 +73,10 @@ extension NetworkManager {
             
             print(response.statusCode)
             
+            let jwtValue = try getJWT(from: data)
             switch response.statusCode {
-            case 200:
-                // 등록된 계정 찾음 > final jwt return
-                do {
-                    let finalJWT = try getJWT(from: data)
-                    return finalJWT
-                } catch {
-                    throw error
-                }
-            case 302:
-                // 등록된 계정 없음 > temp jwt return
-                do {
-                    let tempJWT = try getJWT(from: data)
-                    let tempLocation = TempSignUpPostLocation()
-                    let finalJWT = try await postSignUpInfo(tempJWT: tempJWT, data: tempLocation)
-                    return finalJWT
-                } catch {
-                    throw error
-                }
+            case 200: return JWToken(kind: .final, value: jwtValue)
+            case 302: return JWToken(kind: .temp, value: jwtValue)
             default:
                 throw NetworkError.someError
             }
@@ -105,14 +86,14 @@ extension NetworkManager {
     }
     
     func postSignUpInfo<RequestData: Encodable>(
-        tempJWT: String,
+        tempJWT: JWToken,
         data: RequestData
     ) async throws -> String {
         let urlString = APICredential.baseURL + "/signup"
         guard let url = URL(string: urlString) else { throw NetworkError.someError }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.addValue("Bearer \(tempJWT)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(tempJWT.value)", forHTTPHeaderField: "Authorization")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = encodeJson(data: data)
         request.timeoutInterval = 15
