@@ -27,8 +27,6 @@ public class JwtService {
                 .claim("userId", user.getUserId())
                 .claim("avatar", user.getAvatar())
                 .claim("username", user.getUsername())
-                .claim("primaryLocation", user.getPrimaryLocation())
-                .claim("secondaryLocation", user.getSecondaryLocation())
                 .signWith(SignatureAlgorithm.HS256, jwtSecretKey)
                 .compact();
     }
