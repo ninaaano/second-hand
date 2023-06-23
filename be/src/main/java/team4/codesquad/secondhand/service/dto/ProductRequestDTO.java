@@ -12,7 +12,7 @@ public class ProductRequestDTO {
     private String title;
     private Integer price;
     private String contents;
-    private List<String> productImages;
+    private List<MultipartFile> productImages;
     private int categoryId;
     private int locationId;
 
