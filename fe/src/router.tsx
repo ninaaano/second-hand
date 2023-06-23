@@ -74,7 +74,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/',
+    basename: 'http://3.38.73.117',
   },
 );
 
