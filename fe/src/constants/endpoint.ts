@@ -4,6 +4,6 @@ export const END_POINT = {
   category: `${process.env.REACT_APP_BASE_URL}/api/category`,
   sale: `${process.env.REACT_APP_BASE_URL}/api/product`,
   oAuth: `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}`,
-  login: `${process.env.REACT_APP_BASE_URL}/login`,
-  signUp: `${process.env.REACT_APP_BASE_URL}/signup`,
+  login: `${process.env.REACT_APP_BASE_URL}/api/login`,
+  signUp: `${process.env.REACT_APP_BASE_URL}/api/signup`,
 };
