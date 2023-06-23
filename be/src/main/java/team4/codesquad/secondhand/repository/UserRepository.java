@@ -16,4 +16,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUsername(@Param("username") String username);
 
     Boolean existsByUsername(String username);
+
+    @Query("select u from User u " +
+            "left join fetch u.primaryLocation " +
+            "left join fetch u.secondaryLocation " +
+            "where u.userId = :userId")
+    Optional<User> findById(@Param("userId") Integer userId);
 }
