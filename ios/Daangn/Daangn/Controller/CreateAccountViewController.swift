@@ -114,6 +114,7 @@ final class CreateAccountViewController: UIViewController {
                 let finalJWT = try await networkManager.postSignUpInfo(tempJWT: tempInfo.jwt, data: tempLocation)
                 
                 // jwt 저장 > Notification post
+                print(finalJWT.value)
                 
                 self?.presentingViewController?.dismiss(animated: true)
             } catch {

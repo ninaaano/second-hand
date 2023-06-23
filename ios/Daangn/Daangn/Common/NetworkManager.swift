@@ -88,7 +88,7 @@ extension NetworkManager {
     func postSignUpInfo<RequestData: Encodable>(
         tempJWT: JWToken,
         data: RequestData
-    ) async throws -> String {
+    ) async throws -> JWToken {
         let urlString = APICredential.baseURL + "/signup"
         guard let url = URL(string: urlString) else { throw NetworkError.someError }
         var request = URLRequest(url: url)
@@ -110,8 +110,8 @@ extension NetworkManager {
             switch response.statusCode {
             case 200:
                 do {
-                    let finalJWT = try getJWT(from: data)
-                    return finalJWT
+                    let finalJWTString = try getJWT(from: data)
+                    return JWToken(kind: .final, value: finalJWTString)
                 } catch {
                     throw error
                 }

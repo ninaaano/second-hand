@@ -90,7 +90,7 @@ extension MyAccountViewController {
                         
                     case .final:
                         await MainActor.run {
-                            
+                            print(jwt.value)
                         }
                     case .temp:
                         let tempInfo = SignUpTempInfo(jwt: jwt)
