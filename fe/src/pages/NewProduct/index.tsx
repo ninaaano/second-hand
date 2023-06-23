@@ -1,33 +1,20 @@
 import { NewImg } from '@Components/NewProduct/NewImg';
-import Button from '@Components/common/Button';
-import { Icon } from '@Components/common/Icon';
+import { NewTitle } from '@Components/NewProduct/NewTitle';
 import { NavigationBar } from '@Components/common/NavBar';
 import { TabBarSellProduct } from '@Components/common/TabBar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import useFetch from '@Hooks/useFetch';
-
-import { debounce } from '@Utils/debounce';
-
-import { Category, CategoryResponseData } from '@Types/index';
-
 import * as S from './style';
+
 export const NewProduct = () => {
-  const { data } = useFetch<CategoryResponseData>(
-    'http://3.38.73.117:8080/api/category',
-  );
+  const [price, setPrice] = useState<string>('');
+  const handelSavePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    sessionStorage.setItem('savePrice', JSON.stringify(value));
+  };
 
-  const [randomCategory, setRandomCategory] = useState<Category[]>([]);
-
-  const navigate = useNavigate();
-
-  const handleSaveCatgory = debounce(() => {
-    const arr = data?.data.category.sort(() => Math.random() - 0.5);
-    if (arr) {
-      setRandomCategory(arr?.slice(0, 3));
-    }
-  }, 2000);
+  const navigation = useNavigate();
 
   return (
     <S.Layout>
@@ -36,6 +23,7 @@ export const NewProduct = () => {
         prev="닫기"
         center="내 물건 팔기"
         right="완료"
+        prevHandler={() => navigation(-1)}
       />
       <S.ContentBox>
         <div className="empty" />
@@ -43,36 +31,20 @@ export const NewProduct = () => {
           <NewImg />
         </S.SaveImgBox>
         <hr />
-        <S.TitleBox>
-          <input
-            type="text"
-            placeholder="글제목"
-            onChange={handleSaveCatgory}
-          />
-          {randomCategory.length > 0 && (
-            <S.CategoryBox>
-              <S.CategoryBtnBox>
-                {randomCategory.map((category) => (
-                  <Button
-                    key={category.categoryId}
-                    buttonType="ellipse"
-                    buttonState="default"
-                    size="S"
-                    title={category.categoryName}
-                  />
-                ))}
-              </S.CategoryBtnBox>
-              <Icon
-                iconType="chevronRight"
-                onClick={() => navigate('/category')}
-              />
-            </S.CategoryBox>
-          )}
-        </S.TitleBox>
+        <NewTitle />
         <hr />
         <S.PriceBox>
           <label htmlFor="priceBox">￦</label>
-          <input type="number" placeholder="가격(선택 사항)" id="priceBox" />
+          <input
+            type="number"
+            placeholder="가격(선택 사항)"
+            id="priceBox"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setPrice(e.target.value);
+              handelSavePrice(e);
+            }}
+            value={price}
+          />
         </S.PriceBox>
         <hr />
         <S.DetailBox>

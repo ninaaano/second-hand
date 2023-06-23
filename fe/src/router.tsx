@@ -8,8 +8,8 @@ import Home from '@Pages/Home';
 import LocationSetting from '@Pages/LocationSetting';
 import Login from '@Pages/Login';
 import MyAccount from '@Pages/MyAccount';
-import Registration from '@Pages/Registration';
 import { NewProduct } from '@Pages/NewProduct';
+import Registration from '@Pages/Registration';
 import SalesList from '@Pages/SalesList';
 import WishList from '@Pages/WishList';
 
@@ -22,7 +22,7 @@ const router = createBrowserRouter(
       errorElement: <NotFound errorMessage="에러" />,
       children: [
         {
-          path: '/',
+          path: '/login',
           element: <Login />,
         },
         {
@@ -38,7 +38,7 @@ const router = createBrowserRouter(
           element: <LocationSetting />,
         },
         {
-          path: '/home',
+          index: true,
           element: <Home />,
         },
         {

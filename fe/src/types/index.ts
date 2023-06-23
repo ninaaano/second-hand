@@ -19,7 +19,7 @@ export type Product = {
   };
 };
 
-export type Category = {
+export type CategoryType = {
   categoryId: number;
   categoryName: string;
 };
@@ -49,12 +49,17 @@ export type User = {
 export type UserContextProps = {
   user: User | undefined;
   setUserInfo: (userInfo: User) => void;
-}
+};
 
 export type CategoryResponseData = {
   statusCode: number;
   message: string;
   data: {
-    category: Category[];
+    category: CategoryType[];
   };
+};
+
+export type ImgFileTye = {
+  ImgFileId: number;
+  ImgFileName: string;
 };
