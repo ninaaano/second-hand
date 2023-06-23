@@ -23,6 +23,7 @@ public class ProductDetailDTO {
     private final List<ProductImage> images;
     private final String category;
     private final Integer views;
+    private final int location;
 
     public ProductDetailDTO(Product product){
         this.productId = product.getProductId();
@@ -37,8 +38,7 @@ public class ProductDetailDTO {
         this.images = product.getProductImages();
         this.category = product.getDetailedCategory();
         this.views = product.getViews();
+        this.location = product.getDetailedLocationId();
     }
-
-
 
 }

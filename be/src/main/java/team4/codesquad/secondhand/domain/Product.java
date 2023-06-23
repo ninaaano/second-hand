@@ -1,12 +1,17 @@
 package team4.codesquad.secondhand.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import team4.codesquad.secondhand.constant.Status;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -20,7 +25,9 @@ public class Product {
     private String title;
     private String contents;
     private Integer price;
+    @CreationTimestamp
     private LocalDateTime createdAt;
+    @UpdateTimestamp
     private LocalDateTime modifiedAt;
     private Integer views;
     @Enumerated(value = EnumType.STRING)
@@ -39,14 +46,14 @@ public class Product {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductImage> productImages;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductImage> productImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Chatroom> chatrooms;
+    private List<Chatroom> chatrooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Watchlist> watchlists;
+    private List<Watchlist> watchlists = new ArrayList<>();
 
     public ProductImage findMainProductImage() {
         if (productImages.isEmpty()) {
@@ -63,16 +70,37 @@ public class Product {
         return watchlists.size();
     }
 
-    public String getSellerId(){
+    public String getSellerId() {
         return user.getUsername();
     }
 
-    public String getDetailedStatus(){
+    public String getDetailedStatus() {
         return status.name();
     }
 
-    public String getDetailedCategory(){
+    public String getDetailedCategory() {
         return category.getName();
     }
 
+    public int getDetailedLocationId(){
+        return location.getLocationId();
+    }
+
+    public void addProductImage(ProductImage productImage) {
+        productImages.add(productImage);
+        productImage.setProduct(this);
+    }
+
+    @Builder
+    public Product(String title, String contents, Integer price, Location location, Category category, User user) {
+        this.title = title;
+        this.contents = contents;
+        this.price = price;
+        this.views = 0;
+        this.status = Status.SALE;
+        this.deleted = false;
+        this.location = location;
+        this.category = category;
+        this.user = user;
+    }
 }
