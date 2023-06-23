@@ -6,7 +6,7 @@ import * as S from './style';
 
 const LocationSetting = () => {
   const navigate = useNavigate();
-  // 추후 비동기 처리로 변경
+  // TODO(덴): 유저 동네 GET, POST api 나오면 붙이기
   const Towns = ['역삼 1동'];
 
   return (

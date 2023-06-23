@@ -26,6 +26,7 @@ const initialLocationState = {
 };
 
 const LocationSearch = () => {
+  // TODO(덴): 동네 검색 api 나오면 붙이기
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -33,8 +33,8 @@ export const Town = styled.div`
   height: 30px;
   width: 45vw;
   padding: 0.7vh 0 0.7vh 5vw;
-  border-bottom: 1px solid;
-  ${({ theme }) => theme.color.colors.neutralBackgroundBold};
+  border-bottom: 1px solid
+    ${({ theme }) => theme.color.colors.neutralBackgroundBold};
   ${({ theme }) => theme.font.fontType.headLine};
 `;
 
