@@ -2,9 +2,9 @@ import { Icon } from '@Components/common/Icon';
 import NotFound from '@Components/common/NotFound';
 import { Fragment, useEffect, useState } from 'react';
 
-import { palette } from '@Styles/color';
-
 import { END_POINT } from '@Constants/endpoint';
+
+import { palette } from '@Styles/color';
 
 import useFetch from '@Hooks/useFetch';
 

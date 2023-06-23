@@ -23,7 +23,7 @@ const router = createBrowserRouter(
       errorElement: <NotFound errorMessage="에러" />,
       children: [
         {
-          path: '/login',
+          index: true,
           element: <Login />,
         },
         {
@@ -39,7 +39,7 @@ const router = createBrowserRouter(
           element: <LocationSearch />,
         },
         {
-          index: true,
+          path: '/home',
           element: <Home />,
         },
         {

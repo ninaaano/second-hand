@@ -26,7 +26,7 @@ const MyAccount = () => {
           <S.UserImg src={user?.avatar} />
         </S.ImgBox>
         <S.NoticeBox>
-          <S.UserId>{user?.username}</S.UserId>
+          <S.UserId>{user?.username} 🥕</S.UserId>
         </S.NoticeBox>
         <S.AddLocationButtonBox>
           <Button

@@ -1,20 +1,17 @@
 import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { UserContextProps } from '@Types/index';
-
 import * as S from './style';
-import { UserContext } from '../../App';
 
 const LocationSetting = () => {
   const navigate = useNavigate();
-  // TODO: 유저 동네 GET, POST api 나오면 붙이기.
-  // TODO: api 붙이면서 리팩토링하기.
-  const { user } = useContext(UserContext as React.Context<UserContextProps>);
-  const primaryLocation = user?.primaryLocation.town;
-  const [locations, setLocations] = useState([primaryLocation]);
+  // TODO(덴): 유저 동네 GET, POST api 나오면 붙이기.
+  // TODO(덴): 유저 동네 GET 요청.
+  // const { user } = useContext(UserContext as React.Context<UserContextProps>);
+  // const primaryLocation = user?.primaryLocation.town;
+  const [locations, setLocations] = useState(['강남동']);
   const location = useLocation();
 
   const handlerGoBackButtonClick = () => {

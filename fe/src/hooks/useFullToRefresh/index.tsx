@@ -18,7 +18,6 @@ const usePullToRefresh = <T,>(URL: string) => {
     setDistance(40);
     setRefreshing(true);
 
-    // TODO: ref를 써볼까?
     setTimeout(async () => {
       await fetchData({
         url: URL,

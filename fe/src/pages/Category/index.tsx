@@ -1,5 +1,5 @@
 import { NavigationBar } from '@Components/common/NavBar';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { CategoryList } from '@Components/CategoryList';
 

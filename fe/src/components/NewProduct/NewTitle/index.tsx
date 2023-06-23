@@ -3,6 +3,8 @@ import { Icon } from '@Components/common/Icon';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
 import { debounce } from '@Utils/debounce';
@@ -12,9 +14,7 @@ import { CategoryType, CategoryResponseData } from '@Types/index';
 import * as S from './style';
 
 export const NewTitle = () => {
-  const { data } = useFetch<CategoryResponseData>(
-    'http://3.38.73.117:8080/api/category',
-  );
+  const { data } = useFetch<CategoryResponseData>(END_POINT.category);
   const navigation = useNavigate();
   const [randomCategory, setRandomCategory] = useState<CategoryType[]>([]);
   const [selectCategory, setSelectCategory] = useState<CategoryType>();

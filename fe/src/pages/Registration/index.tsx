@@ -8,11 +8,17 @@ import useFetch from '@Hooks/useFetch';
 
 import * as S from './style';
 
+interface AuthData {
+  code: string;
+  message: string;
+  data: string;
+}
+
 const Registration = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { fetchData } = useFetch();
 
+  const { fetchData } = useFetch<AuthData>();
   const { username, avatar, primaryLocation } = location.state;
 
   const handleLocationBtnClick = () => {
@@ -30,14 +36,19 @@ const Registration = () => {
 
   const handleSubmitBtnClick = async () => {
     if (!primaryLocation) return;
-    await fetchData({
-      url: END_POINT.signUp,
-      isGetData: true,
-      method: 'POST',
-      body: JSON.stringify({
-        ...primaryLocation,
-      }),
-    });
+    if (primaryLocation.locationId) {
+      await fetchData({
+        url: END_POINT.signUp,
+        isGetData: true,
+        method: 'POST',
+        body: JSON.stringify({
+          locationId: primaryLocation.locationId,
+        }),
+      });
+
+      // TODO(덴): 유저 동네 api 나오면 get 요청 후 context에 저장하기.
+      navigate('/home');
+    }
   };
 
   return (

@@ -43,7 +43,7 @@ export type User = {
   userId: number;
   avatar: string;
   username: string;
-  primaryLocation: LocationData;
+  primaryLocation?: LocationData;
 };
 
 export type UserContextProps = {

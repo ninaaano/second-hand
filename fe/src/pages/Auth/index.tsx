@@ -42,8 +42,15 @@ const Auth = () => {
   useEffect(() => {
     if (data) {
       const JWTToken = data.data;
-
       const payload = jwt_decode<User>(JWTToken);
+
+      const userInfo = {
+        userId: payload.userId,
+        username: payload.username,
+        avatar: payload.avatar,
+      };
+
+      setUserInfo(userInfo);
 
       if (!localStorage.getItem('JWTToken')) {
         localStorage.setItem('JWTToken', JWTToken);
@@ -59,14 +66,7 @@ const Auth = () => {
       }
 
       if (data.message === USER_ALREADY_REGISTERED) {
-        const userInfo = {
-          userId: payload.userId,
-          username: payload.username,
-          avatar: payload.avatar,
-          primaryLocation: payload.primaryLocation,
-        };
-
-        setUserInfo(userInfo);
+        // TODO(덴): 유저 동네 api 나오면, Get 요청 보내서 context에 set하기.
         navigate('/home');
       }
     }

@@ -25,7 +25,7 @@ export const TabBarHome = ({ currentPage }: TabBarHomeProps) => {
     if (tabId === currentPage) {
       scrollToTop();
     } else {
-      const targetPage = tabId === 'home' ? '/' : `/${tabId}`;
+      const targetPage = tabId === 'home' ? '/home' : `/${tabId}`;
       navigate(targetPage);
     }
   };
