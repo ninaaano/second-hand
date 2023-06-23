@@ -33,9 +33,6 @@ public class LoginInterceptor implements HandlerInterceptor {
         request.setAttribute(USER_ID, claims.get(USER_ID));
         request.setAttribute(AVATAR, claims.get(AVATAR));
         request.setAttribute(USERNAME, claims.get(USERNAME));
-        request.setAttribute(USER_ID, claims.get(USER_ID));
-        request.setAttribute(PRIMARY_LOCATION, claims.get(PRIMARY_LOCATION));
-        request.setAttribute(SECONDARY_LOCATION, claims.get(SECONDARY_LOCATION));
         return true;
     }
 }

@@ -43,6 +43,6 @@ public class User {
     }
 
     public boolean isSignUpInProgress() {
-        return (primaryLocation == null);
+        return (userId == null);
     }
 }
