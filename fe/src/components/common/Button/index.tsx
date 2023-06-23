@@ -11,6 +11,7 @@ interface ButtonProps extends S.ButtonStyleProps {
   title?: string;
   iconType?: keyof typeof icons;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+  iconHandler?: () => void;
 }
 
 const Button = ({
@@ -21,6 +22,7 @@ const Button = ({
   textAlign = 'center',
   iconType,
   onClick,
+  iconHandler,
 }: ButtonProps) => (
   <>
     <S.Button
@@ -37,6 +39,7 @@ const Button = ({
           width={size === 'S' ? 16 : 20}
           height={size === 'S' ? 16 : 20}
           fill={buttonState === 'default' ? palette.black : palette.white}
+          onClick={iconHandler}
         />
       )}
       {title && textAlign === 'center' && <span>{title}</span>}

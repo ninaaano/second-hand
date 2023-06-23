@@ -1,66 +1,84 @@
-import LocationList from '@Components/common/LocationList';
+import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
-import NotFound from '@Components/common/NotFound';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import useFetch from '@Hooks/useFetch';
+import { UserContextProps } from '@Types/index';
 
-import { LocationData } from '@Types/index';
-
-interface LocationResponseData {
-  statusCode: string;
-  message: string;
-  data: {
-    locations: LocationData[];
-  };
-}
-
-const initialLocationState = {
-  locationId: 0,
-  district: '',
-  city: '',
-  town: '',
-};
+import * as S from './style';
+import { UserContext } from '../../App';
 
 const LocationSetting = () => {
   const navigate = useNavigate();
+  // TODO: 유저 동네 GET, POST api 나오면 붙이기.
+  // TODO: api 붙이면서 리팩토링하기.
+  const { user } = useContext(UserContext as React.Context<UserContextProps>);
+  const primaryLocation = user?.primaryLocation.town;
+  const [locations, setLocations] = useState([primaryLocation]);
   const location = useLocation();
 
-  const { data, status, errorMessage } = useFetch<LocationResponseData>(
-    'http://3.38.73.117:8080/api/locations',
-  );
-  const [locationData, setLocation] =
-    useState<LocationData>(initialLocationState);
-
-  const locations = data?.data.locations;
-
-  const goToRegistrationPage = (locationData: LocationData) => {
-    navigate('/registration', {
-      state: {
-        ...location.state,
-        primaryLocation: locationData,
-      },
-    });
-  };
-
-  const goToPreviousPage = () => {
-    navigate(-1);
+  const handlerGoBackButtonClick = () => {
+    navigate('/home');
   };
 
   useEffect(() => {
-    if (locationData.district && locationData.city && locationData.town) {
-      goToRegistrationPage(locationData);
+    if (location.state) {
+      const { locationData } = location.state;
+      setLocations((prevLocation) => [...prevLocation, locationData.town]);
     }
-  }, [locationData]);
+  }, [location]);
+
+  const handleIconClick = (index: number) => {
+    setLocations((prevLocation) => {
+      const updatedLocations = [...prevLocation];
+      updatedLocations.splice(index, 1);
+      return updatedLocations;
+    });
+  };
 
   return (
     <>
-      <NavigationBar type="modalSearchLayout" prevHandler={goToPreviousPage} />
-      {status === 'error' && <NotFound errorMessage={errorMessage} />}
-      {status !== 'error' && locations && (
-        <LocationList locations={locations} handleItemClick={setLocation} />
-      )}
+      <NavigationBar
+        type="modalLayout"
+        prev="닫기"
+        center="동네 설정"
+        prevHandler={handlerGoBackButtonClick}
+      />
+      <S.Layout>
+        <S.Notice>
+          <span>지역은 최소 1개,</span>
+          <span>최대 2개까지 설정 가능해요.</span>
+        </S.Notice>
+        <S.ButtonBox>
+          {locations.map((location, index) => (
+            <Button
+              key={index}
+              buttonType="rectangle"
+              buttonState="active"
+              size="M"
+              title={location}
+              iconType="multiply"
+              textAlign="left"
+              iconHandler={() => handleIconClick(index)}
+            />
+          ))}
+          {locations.length < 2 && (
+            <Button
+              buttonType="rectangle"
+              buttonState="default"
+              size="M"
+              iconType="plus"
+              onClick={() =>
+                navigate('/locationSearch', {
+                  state: {
+                    from: '/locationSetting',
+                  },
+                })
+              }
+            />
+          )}
+        </S.ButtonBox>
+      </S.Layout>
     </>
   );
 };

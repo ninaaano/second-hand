@@ -3,29 +3,33 @@ import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
 import { TabBarHome } from '@Components/common/TabBar';
+
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
-import { ProductResponseData, UserContextProps } from '@Types/index';
+import { ProductResponseData } from '@Types/index';
 
 import * as S from './style';
-import { UserContext } from '../../App';
 
 const Home = () => {
-  const { user } = useContext(UserContext as React.Context<UserContextProps>);
-
-  const JWTToken = localStorage.getItem('JWTToken');
-
+  // TODO(덴): 유저 동네 api 나오면 최초 렌더링시 동네 api로 동네 가져올지, 상태로 관리해서 가져올지 고민하기.
+  // const { user } = useContext(UserContext as React.Context<UserContextProps>);
   const navigate = useNavigate();
   const { data, status, errorMessage } = useFetch<ProductResponseData>(
-    'http://3.38.73.117:8080/api/products?page=0&size=10',
+    `${END_POINT.products}?page=0&size=10`,
   );
 
   return (
     <>
-      <NavigationBar type={'homeLayout'} title={'title1'} />
+      <NavigationBar
+        type={'homeLayout'}
+        title={'title1'}
+        towns={['도곡 1동', '강남동']}
+      />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
       {data && <ProductList itemData={data?.data.products} />}
       <S.ButtonBox>

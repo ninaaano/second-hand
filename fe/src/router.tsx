@@ -5,6 +5,7 @@ import Auth from '@Pages/Auth';
 import { Category } from '@Pages/Category';
 import ChatList from '@Pages/ChatList';
 import Home from '@Pages/Home';
+import LocationSearch from '@Pages/LocationSearch';
 import LocationSetting from '@Pages/LocationSetting';
 import Login from '@Pages/Login';
 import MyAccount from '@Pages/MyAccount';
@@ -34,12 +35,16 @@ const router = createBrowserRouter(
           element: <Registration />,
         },
         {
-          path: '/locationSetting',
-          element: <LocationSetting />,
+          path: '/locationSearch',
+          element: <LocationSearch />,
         },
         {
           index: true,
           element: <Home />,
+        },
+        {
+          path: '/locationSetting',
+          element: <LocationSetting />,
         },
         {
           path: '/sales',

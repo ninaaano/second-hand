@@ -4,6 +4,8 @@ import { Fragment, useEffect, useState } from 'react';
 
 import { palette } from '@Styles/color';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
 import { CategoryResponseData, CategoryType } from '@Types/index';
@@ -12,7 +14,7 @@ import * as S from './style';
 
 export const CategoryList = () => {
   const { data, status, errorMessage } = useFetch<CategoryResponseData>(
-    'http://3.38.73.117:8080/api/category',
+    END_POINT.category,
   );
 
   const handleCategory = (e: React.MouseEvent<HTMLDivElement>) => {

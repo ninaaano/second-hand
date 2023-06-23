@@ -16,6 +16,7 @@ interface NavBarProps {
   prevHandler?: () => void;
   rightHandler?: (e: MouseEvent<HTMLButtonElement>) => void;
   isRightActive?: boolean;
+  towns?: string[];
 }
 //TODO: layout 이름을 페어와 통일성 있게 맞추는 작업이 필요
 export const NavigationBar = ({
@@ -24,13 +25,14 @@ export const NavigationBar = ({
   center,
   prev,
   right,
+  towns,
   prevHandler,
   rightHandler,
   isRightActive,
 }: NavBarProps) => (
   <S.Layout navBarType={type as keyof typeof S.layoutType}>
     {type === 'defaultLayout' && <NavBarDefault title={title} />}
-    {type === 'homeLayout' && <NavBarHome />}
+    {type === 'homeLayout' && <NavBarHome towns={towns} />}
     {type === 'modalLayout' && (
       <NavBarModal
         prev={prev}

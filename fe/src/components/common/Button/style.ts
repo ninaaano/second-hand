@@ -30,8 +30,8 @@ export const Button = styled.button<ButtonStyleProps>`
       }
       if (size === 'L') {
         return css`
-          width: fit-content;
-          border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
+          width: 90vw;
+          border: none;
           height: 6.5vh;
           padding: 8px 16px;
           ${theme.font.fontType.subHead};
@@ -107,6 +107,7 @@ export const Button = styled.button<ButtonStyleProps>`
     ${textAlign === 'center' && `gap: 4px`};
   `}
   ${({ buttonType }) => css`
+    ${buttonType === 'circle' && 'border: none'};
     border-radius: ${buttonType === 'rectangle' ? '8px' : '50px'};
     padding: ${buttonType !== 'circle' && '8px 16px'};
   `};

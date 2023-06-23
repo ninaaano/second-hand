@@ -1,8 +1,9 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 
-import usePullToRefresh from '@Hooks/useFullToRefresh';
+import { END_POINT } from '@Constants/endpoint';
 
-import { debounce } from '@Utils/debounce';
+import usePullToRefresh from '@Hooks/useFullToRefresh';
+import useInfiniteScroll from '@Hooks/useInfiniteScroll';
 
 import { Product, ProductResponseData } from '@Types/index';
 
@@ -17,16 +18,16 @@ interface ProductListProps {
 
 export const ProductList = ({ itemData }: ProductListProps) => {
   const productListRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(1);
-  const [Products, setProducts] = useState<Product[] | undefined | null>(
-    itemData,
-  );
+  const [Products, setProducts] = useState<Product[]>(itemData);
 
   const { refreshing, distance, status, errorMessage, refreshedData } =
-    usePullToRefresh<ProductResponseData | undefined | null>(
-      'http://3.38.73.117:8080/api/products?page=0&size=20',
+    usePullToRefresh<ProductResponseData>(
+      `${END_POINT.products}?page=0&size=10`,
     );
+  const { scrolledData } = useInfiniteScroll<ProductResponseData>(
+    END_POINT.products,
+    productListRef,
+  );
 
   useEffect(() => {
     if (refreshedData) {
@@ -35,56 +36,20 @@ export const ProductList = ({ itemData }: ProductListProps) => {
   }, [refreshedData]);
 
   useEffect(() => {
-    const handleScroll = debounce(() => {
-      if (productListRef.current) {
-        const { bottom } = productListRef.current.getBoundingClientRect();
-        if (bottom / 2 <= window.innerHeight && !isLoading) {
-          loadMoreData();
-        }
-      }
-    }, 200);
-    if (!isLoading) {
-      window.addEventListener('scroll', handleScroll);
+    if (scrolledData) {
+      setProducts((prevProducts) => [
+        ...prevProducts,
+        ...scrolledData.data.products,
+      ]);
     }
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isLoading]);
-
-  const loadMoreData = async () => {
-    setIsLoading(true);
-
-    await fetch(`http://3.38.73.117:8080/api/products?page=${page}&size=10`)
-      .then((response) => response.json())
-      .then((productsData: ProductResponseData | undefined) => {
-        if (productsData !== undefined) {
-          const newData = productsData.data?.products;
-
-          setProducts((prevData) => {
-            if (prevData) {
-              const updatedData = [...prevData, ...(newData || [])];
-              return updatedData;
-            }
-            return prevData;
-          });
-          setPage((prevData) => prevData + 1);
-        }
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
+  }, [scrolledData]);
 
   return (
     <S.Layout ref={productListRef}>
       <S.TopBox />
       {refreshing && (
         <S.SpinnerBox distanceY={distance}>
-          <Spinner />
+          <Spinner isDynamic={true} />
         </S.SpinnerBox>
       )}
       {status === 'error' && <NotFound errorMessage={errorMessage} />}

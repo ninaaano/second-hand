@@ -2,6 +2,8 @@ import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
 import * as S from './style';
@@ -14,9 +16,10 @@ const Registration = () => {
   const { username, avatar, primaryLocation } = location.state;
 
   const handleLocationBtnClick = () => {
-    navigate('/locationSetting', {
+    navigate('/locationSearch', {
       state: {
         ...location.state,
+        from: '/registration',
       },
     });
   };
@@ -27,17 +30,10 @@ const Registration = () => {
 
   const handleSubmitBtnClick = async () => {
     if (!primaryLocation) return;
-
-    const JWTToken = localStorage.getItem('JWTToken');
-
     await fetchData({
-      url: `http://3.38.73.117:8080/signup`,
+      url: END_POINT.signUp,
       isGetData: true,
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${JWTToken}`,
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({
         ...primaryLocation,
       }),
@@ -61,7 +57,7 @@ const Registration = () => {
         </S.ImgBox>
         <S.NoticeBox>
           <S.UserId>{username}</S.UserId>
-          <S.Notice>님</S.Notice>
+          <S.Notice>🥕</S.Notice>
         </S.NoticeBox>
         <S.AddLocationButtonBox>
           <Button

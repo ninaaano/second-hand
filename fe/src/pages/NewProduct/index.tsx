@@ -5,6 +5,12 @@ import { TabBarSellProduct } from '@Components/common/TabBar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import useFetch from '@Hooks/useFetch';
+
+import { debounce } from '@Utils/debounce';
+
+import { Category, CategoryResponseData } from '@Types/index';
+
 import * as S from './style';
 
 export const NewProduct = () => {
