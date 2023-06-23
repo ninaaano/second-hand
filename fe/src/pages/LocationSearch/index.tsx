@@ -26,7 +26,8 @@ const initialLocationState = {
 };
 
 const LocationSearch = () => {
-  // TODO(덴): 동네 검색 api 나오면 붙이기
+  // TODO(덴): 동네 검색 api 나오면 붙이기.
+  // TODO(덴): api 붙이면서 리팩토링 하기.
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -47,6 +48,14 @@ const LocationSearch = () => {
     });
   };
 
+  const goToLocationSettingPage = (locationData: LocationData) => {
+    navigate('/locationSetting', {
+      state: {
+        locationData,
+      },
+    });
+  };
+
   const goToPreviousPage = () => {
     navigate(-1);
   };
@@ -57,7 +66,7 @@ const LocationSearch = () => {
         goToRegistrationPage(locationData);
       }
       if (location.state.from === '/locationSetting') {
-        navigate('/locationSetting');
+        goToLocationSettingPage(locationData);
       }
     }
   }, [locationData]);

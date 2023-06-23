@@ -1,13 +1,40 @@
 import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { UserContextProps } from '@Types/index';
 
 import * as S from './style';
+import { UserContext } from '../../App';
 
 const LocationSetting = () => {
   const navigate = useNavigate();
-  // TODO(덴): 유저 동네 GET, POST api 나오면 붙이기
-  const Towns = ['역삼 1동'];
+  // TODO: 유저 동네 GET, POST api 나오면 붙이기.
+  // TODO: api 붙이면서 리팩토링하기.
+  const { user } = useContext(UserContext as React.Context<UserContextProps>);
+  const primaryLocation = user?.primaryLocation.town;
+  const [locations, setLocations] = useState([primaryLocation]);
+  const location = useLocation();
+
+  const handlerGoBackButtonClick = () => {
+    navigate('/home');
+  };
+
+  useEffect(() => {
+    if (location.state) {
+      const { locationData } = location.state;
+      setLocations((prevLocation) => [...prevLocation, locationData.town]);
+    }
+  }, [location]);
+
+  const handleIconClick = (index: number) => {
+    setLocations((prevLocation) => {
+      const updatedLocations = [...prevLocation];
+      updatedLocations.splice(index, 1);
+      return updatedLocations;
+    });
+  };
 
   return (
     <>
@@ -15,13 +42,7 @@ const LocationSetting = () => {
         type="modalLayout"
         prev="닫기"
         center="동네 설정"
-        prevHandler={() =>
-          navigate('/home', {
-            state: {
-              from: '/localSetting',
-            },
-          })
-        }
+        prevHandler={handlerGoBackButtonClick}
       />
       <S.Layout>
         <S.Notice>
@@ -29,30 +50,31 @@ const LocationSetting = () => {
           <span>최대 2개까지 설정 가능해요.</span>
         </S.Notice>
         <S.ButtonBox>
-          <Button
-            buttonType="rectangle"
-            buttonState="active"
-            size="M"
-            title={Towns[0]}
-            iconType="multiply"
-            textAlign="left"
-          />
-          {Towns[1] ? (
+          {locations.map((location, index) => (
             <Button
+              key={index}
               buttonType="rectangle"
               buttonState="active"
               size="M"
-              title={Towns[1]}
+              title={location}
               iconType="multiply"
               textAlign="left"
+              iconHandler={() => handleIconClick(index)}
             />
-          ) : (
+          ))}
+          {locations.length < 2 && (
             <Button
               buttonType="rectangle"
               buttonState="default"
               size="M"
               iconType="plus"
-              onClick={() => navigate('/locationSearch')}
+              onClick={() =>
+                navigate('/locationSearch', {
+                  state: {
+                    from: '/locationSetting',
+                  },
+                })
+              }
             />
           )}
         </S.ButtonBox>
