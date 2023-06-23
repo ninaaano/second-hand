@@ -10,6 +10,12 @@ import team4.codesquad.secondhand.annotation.Login;
 import team4.codesquad.secondhand.domain.*;
 import team4.codesquad.secondhand.repository.*;
 import team4.codesquad.secondhand.service.dto.*;
+import team4.codesquad.secondhand.domain.Product;
+import team4.codesquad.secondhand.repository.ProductRepository;
+import team4.codesquad.secondhand.service.dto.ProductDTO;
+import team4.codesquad.secondhand.service.dto.ProductDetailDTO;
+import team4.codesquad.secondhand.service.dto.ProductListDTO;
+import team4.codesquad.secondhand.service.dto.ProductSearchCondition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +33,8 @@ public class ProductService {
     private final UserRepository userRepository;
     private final S3UploaderService s3UploaderService;
 
-    public ProductListDTO buildProductListDTO(Pageable pageable) {
-        Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable);
+    public ProductListDTO buildProductListDTO(Pageable pageable, ProductSearchCondition productSearchCondition) {
+        Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable, productSearchCondition);
         List<Product> products = productsWithSlice.getContent();
 
         return new ProductListDTO(products.stream()
@@ -43,12 +49,6 @@ public class ProductService {
         return new ProductDetailDTO(product);
     }
 
-    // TODO : 이미지 업로드
-    // TODO : 생성하고 ID값만 넘겨주기
-    // TODO : @CREATEAT 으로 변경하기
-    // TODO : RequestDTO에서 location값 삭제하기
-    // TODO : 컨트롤러 product -> products 로 변경하기
-    // TODO : ProductID반환하는 DTO 만들기
     @Transactional
     public ProductCreateResponseDTO createProduct(ProductRequestDTO request, @Login User user) {
         // 상품 생성을 위해 필요한 정보 추출

@@ -11,24 +11,33 @@ import team4.codesquad.secondhand.controller.dto.Message;
 import team4.codesquad.secondhand.domain.User;
 import team4.codesquad.secondhand.service.ProductService;
 import team4.codesquad.secondhand.service.dto.ProductRequestDTO;
-
 import javax.validation.Valid;
+import team4.codesquad.secondhand.service.CategoryService;
+import team4.codesquad.secondhand.service.dto.ProductSearchCondition;
+
 
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
     @GetMapping("api/products")
-    public ResponseEntity<Message> products(Pageable pageable) {
-        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT, productService.buildProductListDTO(pageable));
+    public ResponseEntity<Message> products(Pageable pageable, ProductSearchCondition productSearchCondition) {
+        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT, productService.buildProductListDTO(pageable, productSearchCondition));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @GetMapping("api/products/{productId}")
     public ResponseEntity<Message> product(@PathVariable Integer productId) {
         Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT_DETAIL, productService.increaseViewsAndRetrieveProduct(productId));
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+  
+    @GetMapping("api/products/writeForm")
+    public ResponseEntity<Message> writeProductForm(){
+        Message message = new Message(HttpStatus.OK, "판매 정보 생성", categoryService.findAll());
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
@@ -39,5 +48,6 @@ public class ProductController {
         }
         Message message = new Message(HttpStatus.OK, ResponseMessage.PRODUCT_CREATE_OK, productService.createProduct(request,user));
         return new ResponseEntity<>(message,HttpStatus.OK);
-    }
+   }
+  
 }
