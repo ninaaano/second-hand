@@ -6,7 +6,7 @@ import { palette } from '@Styles/color';
 
 import useFetch from '@Hooks/useFetch';
 
-import { CategoryResponseData } from '@Types/index';
+import { CategoryResponseData, CategoryType } from '@Types/index';
 
 import * as S from './style';
 
@@ -17,20 +17,29 @@ export const CategoryList = () => {
 
   const handleCategory = (e: React.MouseEvent<HTMLDivElement>) => {
     const categoryId = (e.target as HTMLDivElement).getAttribute('data-id');
-    sessionStorage.setItem('saveCategoryId', String(categoryId));
+    const categoryName = (e.target as HTMLDivElement).getAttribute('data-name');
+    sessionStorage.setItem(
+      'saveCategory',
+      JSON.stringify({
+        categoryId: Number(categoryId),
+        categoryName: categoryName,
+      }),
+    );
     saveCategory();
   };
 
-  const [categoryIdData, setCategoryIdData] = useState<number>();
+  const [categoryIdData, setCategoryIdData] = useState<CategoryType>();
 
   const saveCategory = () => {
-    const categoryIdData = sessionStorage.getItem('saveCategoryId');
-    setCategoryIdData(Number(categoryIdData));
+    const categoryData = sessionStorage.getItem('saveCategory');
+    if (categoryData !== null) {
+      setCategoryIdData(JSON.parse(categoryData));
+    }
   };
 
   useEffect(() => {
     saveCategory();
-  }, [categoryIdData]);
+  }, []);
 
   return (
     <S.Layout onClick={handleCategory}>
@@ -38,11 +47,18 @@ export const CategoryList = () => {
       {data &&
         data.data?.category.map((item) => (
           <Fragment key={item.categoryId}>
-            <S.CategoryBox key={item.categoryId} data-id={item.categoryId}>
-              <div data-id={item.categoryId}>{item.categoryName}</div>
-              {categoryIdData === item.categoryId && (
-                <Icon iconType="chevronDown" fill={palette.orange} />
-              )}
+            <S.CategoryBox
+              key={item.categoryId}
+              data-id={item.categoryId}
+              data-name={item.categoryName}
+            >
+              <div data-id={item.categoryId} data-name={item.categoryName}>
+                {item.categoryName}
+              </div>
+              {categoryIdData &&
+                categoryIdData.categoryId === item.categoryId && (
+                  <Icon iconType="chevronDown" fill={palette.orange} />
+                )}
             </S.CategoryBox>
             <hr />
           </Fragment>

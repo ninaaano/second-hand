@@ -9,9 +9,6 @@ export const Layout = styled.div<{ disabled: boolean }>`
   scrollbar-width: none;
   align-items: center;
 
-  ::-webkit-scrollbar {
-    display: none;
-  }
   .saveUploadImg {
     width: 7.5vw;
     height: 7vh;

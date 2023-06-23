@@ -1,7 +1,7 @@
 import * as S from '@Components/NewProduct/NewImg/style';
 import Button from '@Components/common/Button';
 import { Icon } from '@Components/common/Icon';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { palette } from '@Styles/color';
 
@@ -15,7 +15,7 @@ export const NewImg = () => {
 
   const handleIconClick = () => fileInput.current?.click();
   const imgCount = 10;
-
+  //TODO: 한단계 늦게 setImgFile에 저장됨, 이 부분 수정 필요
   const handleImgFile = () => {
     if (fileInput.current && fileInput.current.files) {
       const files = fileInput.current.files;
@@ -23,7 +23,7 @@ export const NewImg = () => {
       if (files && files.length > 0 && imgFile.length < imgCount) {
         reader.readAsDataURL(files[0]);
 
-        reader.onload = () => {
+        reader.onload = async () => {
           if (reader.result) {
             setImgFile((prevState) => [
               ...prevState,
@@ -32,6 +32,7 @@ export const NewImg = () => {
                 ImgFileName: String(reader.result),
               },
             ]);
+            sessionStorage.setItem('saveImgFile', JSON.stringify(imgFile));
           }
           setId(id + 1);
         };
@@ -41,11 +42,22 @@ export const NewImg = () => {
       setIsFullFile(true);
     }
   };
-
+  //TODO: 다른 곳에서 똑같은 함수로 많이 사용하기 때문에 함수로 제작하는게 좋음
   const handleOnRemove = (id: number) => {
     setImgFile(imgFile.filter((img) => img.ImgFileId !== id));
     setIsFullFile(false);
   };
+
+  const getImgFile = () => {
+    const imgFileData = sessionStorage.getItem('saveImgFile');
+    if (imgFileData) {
+      setImgFile(JSON.parse(imgFileData));
+    }
+  };
+
+  useEffect(() => {
+    getImgFile();
+  }, []);
 
   return (
     <S.Layout disabled={isFullFile}>
