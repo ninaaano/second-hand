@@ -5,11 +5,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import team4.codesquad.secondhand.annotation.Login;
 import team4.codesquad.secondhand.domain.*;
 import team4.codesquad.secondhand.repository.*;
 import team4.codesquad.secondhand.service.dto.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,7 @@ public class ProductService {
     private final LocationRepository locationRepository;
     private final ProductImageRepository productImageRepository;
     private final UserRepository userRepository;
+    private final S3UploaderService s3UploaderService;
 
     public ProductListDTO buildProductListDTO(Pageable pageable) {
         Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable);
@@ -47,15 +50,19 @@ public class ProductService {
     // TODO : 컨트롤러 product -> products 로 변경하기
     // TODO : ProductID반환하는 DTO 만들기
     @Transactional
-    public ProductCreateResponseDTO createProduct(ProductRequestDTO request, @Login User user){
+    public ProductCreateResponseDTO createProduct(ProductRequestDTO request, @Login User user) {
         // 상품 생성을 위해 필요한 정보 추출
         String title = request.getTitle();
         Integer price = request.getPrice();
         String contents = request.getContents();
-        List<String> productImagesUrls = request.getProductImages();
-        //List<MultipartFile> productImagesUrls = request.getProductImages();
+        List<MultipartFile> productImages = request.getProductImages();
+        if (productImages == null) {
+            throw new IllegalArgumentException("상품 이미지가 없습니다.");
+        }
+
+        List<String> productImagesUrls = getPhotosUrl(productImages);
         int categoryId = request.getCategoryId();
-        Location primaryLocation = user.getPrimaryLocation();
+        int locationId = request.getLocationId();
 
         User seller = userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
@@ -64,21 +71,33 @@ public class ProductService {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
 
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역입니다."));
+
         Product product = Product.builder()
                 .title(title)
                 .price(price)
                 .user(seller)
                 .contents(contents)
                 .category(category)
-                .location(primaryLocation)
+                .location(location)
                 .build();
 
-            // 상품 이미지 엔티티 생성 및 연관관계 설정
+        // 상품 이미지 엔티티 생성 및 연관관계 설정
         productImagesUrls.stream()
-                    .map(img -> new ProductImage(img))
-                    .forEach(pi -> product.addProductImage(pi));
+                .map(img -> new ProductImage(img))
+                .forEach(pi -> product.addProductImage(pi));
 
         return new ProductCreateResponseDTO(productRepository.save(product));
+    }
+
+    public List<String> getPhotosUrl(List<MultipartFile> multipartFiles) {
+        List<String> images = new ArrayList<>();
+        for (MultipartFile file : multipartFiles) {
+            images.add(s3UploaderService.upload(file));
+        }
+
+        return images;
     }
 
 }
