@@ -16,8 +16,7 @@ import * as S from './style';
 import { UserContext } from '../../App';
 
 const Home = () => {
-  const { user } = useContext(UserContext as React.Context<UserContextProps>);
-
+  // const { user } = useContext(UserContext as React.Context<UserContextProps>);
   const navigate = useNavigate();
   const { data, status, errorMessage } = useFetch<ProductResponseData>(
     `${END_POINT.products}?page=0&size=10`,
@@ -28,7 +27,7 @@ const Home = () => {
       <NavigationBar
         type={'homeLayout'}
         title={'title1'}
-        prev={user?.primaryLocation.town}
+        towns={['도곡 1동', '강남동']}
       />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
       {data && <ProductList itemData={data?.data.products} />}

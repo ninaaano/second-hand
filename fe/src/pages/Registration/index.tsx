@@ -16,9 +16,10 @@ const Registration = () => {
   const { username, avatar, primaryLocation } = location.state;
 
   const handleLocationBtnClick = () => {
-    navigate('/locationSetting', {
+    navigate('/locationSearch', {
       state: {
         ...location.state,
+        from: '/registration',
       },
     });
   };

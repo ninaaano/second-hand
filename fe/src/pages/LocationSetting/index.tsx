@@ -1,68 +1,62 @@
-import LocationList from '@Components/common/LocationList';
+import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
-import NotFound from '@Components/common/NotFound';
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { END_POINT } from '@Constants/endpoint';
-
-import useFetch from '@Hooks/useFetch';
-
-import { LocationData } from '@Types/index';
-
-interface LocationResponseData {
-  statusCode: string;
-  message: string;
-  data: {
-    locations: LocationData[];
-  };
-}
-
-const initialLocationState = {
-  locationId: 0,
-  district: '',
-  city: '',
-  town: '',
-};
+import * as S from './style';
 
 const LocationSetting = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const { data, status, errorMessage } = useFetch<LocationResponseData>(
-    `${END_POINT.locations}`,
-  );
-  const [locationData, setLocation] =
-    useState<LocationData>(initialLocationState);
-
-  const locations = data?.data.locations;
-
-  const goToRegistrationPage = (locationData: LocationData) => {
-    navigate('/registration', {
-      state: {
-        ...location.state,
-        primaryLocation: locationData,
-      },
-    });
-  };
-
-  const goToPreviousPage = () => {
-    navigate(-1);
-  };
-
-  useEffect(() => {
-    if (locationData.district && locationData.city && locationData.town) {
-      goToRegistrationPage(locationData);
-    }
-  }, [locationData]);
+  // 추후 비동기 처리로 변경
+  const Towns = ['역삼 1동'];
 
   return (
     <>
-      <NavigationBar type="modalSearchLayout" prevHandler={goToPreviousPage} />
-      {status === 'error' && <NotFound errorMessage={errorMessage} />}
-      {status !== 'error' && locations && (
-        <LocationList locations={locations} handleItemClick={setLocation} />
-      )}
+      <NavigationBar
+        type="modalLayout"
+        prev="닫기"
+        center="동네 설정"
+        prevHandler={() =>
+          navigate('/home', {
+            state: {
+              from: '/localSetting',
+            },
+          })
+        }
+      />
+      <S.Layout>
+        <S.Notice>
+          <span>지역은 최소 1개,</span>
+          <span>최대 2개까지 설정 가능해요.</span>
+        </S.Notice>
+        <S.ButtonBox>
+          <Button
+            buttonType="rectangle"
+            buttonState="active"
+            size="M"
+            title={Towns[0]}
+            iconType="multiply"
+            textAlign="left"
+          />
+          {Towns[1] ? (
+            <Button
+              buttonType="rectangle"
+              buttonState="active"
+              size="M"
+              title={Towns[1]}
+              iconType="multiply"
+              textAlign="left"
+            />
+          ) : (
+            <Button
+              buttonType="rectangle"
+              buttonState="default"
+              size="M"
+              iconType="plus"
+              onClick={() => navigate('/locationSearch')}
+            />
+          )}
+        </S.ButtonBox>
+      </S.Layout>
     </>
   );
 };

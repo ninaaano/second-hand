@@ -49,7 +49,7 @@ export type User = {
 export type UserContextProps = {
   user: User | undefined;
   setUserInfo: (userInfo: User) => void;
-}
+};
 
 export type CategoryResponseData = {
   statusCode: number;
