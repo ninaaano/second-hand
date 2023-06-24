@@ -26,9 +26,13 @@ final class ProfileImageButton: UIView {
         return button
     }()
     
-    var isPhotoSet: Bool = false {
+    private var profileImage: UIImage? = nil {
         didSet {
-            isPhotoSet ? setPhotoSetState() : setEmptyState()
+            guard let image = profileImage else {
+                setEmptyState()
+                return
+            }
+            setPhotoSetState(with: image)
         }
     }
     
@@ -59,9 +63,10 @@ final class ProfileImageButton: UIView {
         setRadius(constant: ProfileImageButton.viewHeight / 2)
     }
     
-    private func setPhotoSetState() {
+    private func setPhotoSetState(with image: UIImage) {
         button.backgroundColor = ColorStyle.gray500?.withAlphaComponent(0.39)
         button.tintColor = ColorStyle.white
+        photoView.image = image
     }
     
     private func setEmptyState() {
@@ -74,7 +79,6 @@ final class ProfileImageButton: UIView {
     }
     
     func setImage(image: UIImage?) {
-        photoView.image = image
-        isPhotoSet = true
+        profileImage = image
     }
 }
