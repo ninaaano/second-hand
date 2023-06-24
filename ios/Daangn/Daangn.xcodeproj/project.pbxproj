@@ -38,6 +38,8 @@
 		F4029F562A3B96F100ECEABD /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F552A3B96F100ECEABD /* LoginButton.swift */; };
 		F4029F582A3BA54400ECEABD /* TownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F572A3BA54400ECEABD /* TownButton.swift */; };
 		F4029F5A2A3BFE5500ECEABD /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4029F592A3BFE5500ECEABD /* CreateAccountViewController.swift */; };
+		F43818342A46DA8900B3FB20 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43818332A46DA8900B3FB20 /* KeychainManager.swift */; };
+		F43818362A46DAB200B3FB20 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43818352A46DAB200B3FB20 /* Auth.swift */; };
 		F47AFF652A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47AFF642A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift */; };
 		F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C12A305FAF00609856 /* AppDelegate.swift */; };
 		F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C32A305FAF00609856 /* SceneDelegate.swift */; };
@@ -86,6 +88,8 @@
 		F4029F552A3B96F100ECEABD /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		F4029F572A3BA54400ECEABD /* TownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TownButton.swift; sourceTree = "<group>"; };
 		F4029F592A3BFE5500ECEABD /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		F43818332A46DA8900B3FB20 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		F43818352A46DAB200B3FB20 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		F47AFF642A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F49F98BE2A305FAF00609856 /* Daangn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daangn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F98C12A305FAF00609856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -162,11 +166,11 @@
 			isa = PBXGroup;
 			children = (
 				F4029F202A3B54D200ECEABD /* Radius.swift */,
-				F4D525782A41C5DE00413119 /* NetworkManager.swift */,
-				F4D525822A4513F100413119 /* NetworkError.swift */,
+				F43818322A46DA7700B3FB20 /* Network */,
 				F4D5257A2A41C94100413119 /* DTO.swift */,
 				F4D525842A45173B00413119 /* JWToken.swift */,
 				F4D525862A45519B00413119 /* SignUpTempInfo.swift */,
+				F43818372A46DABA00B3FB20 /* Auth */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -215,6 +219,24 @@
 				F4029F402A3B5D6E00ECEABD /* CategoryFilterCollectionViewCell.swift */,
 			);
 			path = CategoryFilter;
+			sourceTree = "<group>";
+		};
+		F43818322A46DA7700B3FB20 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F4D525782A41C5DE00413119 /* NetworkManager.swift */,
+				F4D525822A4513F100413119 /* NetworkError.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F43818372A46DABA00B3FB20 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				F43818332A46DA8900B3FB20 /* KeychainManager.swift */,
+				F43818352A46DAB200B3FB20 /* Auth.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		F47AFF662A3DA28B00BA75A1 /* CategoryCollection */ = {
@@ -400,7 +422,9 @@
 				F4029F302A3B56D800ECEABD /* ProductStateBadge.swift in Sources */,
 				F4AEA7F42A3617D200B00B03 /* TabBarController.swift in Sources */,
 				F4029F352A3B5A8200ECEABD /* CollectionViewLayoutGenerator.swift in Sources */,
+				F43818362A46DAB200B3FB20 /* Auth.swift in Sources */,
 				F4029F4D2A3B61A400ECEABD /* SalesViewController.swift in Sources */,
+				F43818342A46DA8900B3FB20 /* KeychainManager.swift in Sources */,
 				F4D525852A45173B00413119 /* JWToken.swift in Sources */,
 				F4029F2E2A3B56D300ECEABD /* PaddedLabel.swift in Sources */,
 				F4D525832A4513F100413119 /* NetworkError.swift in Sources */,
