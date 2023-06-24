@@ -8,11 +8,30 @@
 import UIKit
 
 final class LoginButton: UIButton {
+    enum Status {
+        case login
+        case logout
+        
+        var text: String {
+            switch self {
+            case .login: return "Github으로 로그인"
+            case .logout: return "로그아웃"
+            }
+        }
+        
+        var backgroundColor: UIColor? {
+            switch self {
+            case .login: return .orange
+            case .logout: return .black
+            }
+        }
+    }
+    
     static let height: CGFloat = 52
     
     private let label: UILabel = {
         let label = UILabel()
-        label.applyStyle(font: FontStyle.subhead, color: ColorStyle.white)
+        label.applyStyle(font: FontStyle.headline, color: ColorStyle.white)
         label.textAlignment = .center
         label.text = "Github으로 로그인"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -20,16 +39,20 @@ final class LoginButton: UIButton {
         return label
     }()
     
-    var isLogined: Bool = false {
-        didSet {
-            isLogined ? setLoggedOut() : setLoggedIn()
-        }
+    let status: Status
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        return nil
     }
     
-    convenience init() {
-        self.init(frame: .zero)
+    init(status: Status) {
+        self.status = status
+        super.init(frame: .zero)
         setLayout()
-        setLoggedOut()
+        self.setRadius(radius: .roundedRectangle)
+        layer.borderColor = ColorStyle.orange?.cgColor
+        setStatus()
     }
     
     private func setLayout() {
@@ -43,16 +66,10 @@ final class LoginButton: UIButton {
         
         self.translatesAutoresizingMaskIntoConstraints = false
         self.heightAnchor.constraint(equalToConstant: Self.height).isActive = true
-        self.setRadius(radius: .roundedRectangle)
     }
     
-    private func setLoggedIn() {
-        label.text = "로그아웃"
-        backgroundColor = ColorStyle.orange
-    }
-    
-    private func setLoggedOut() {
-        label.text = "Github으로 로그인"
-        backgroundColor = ColorStyle.black
+    private func setStatus() {
+        label.text = status.text
+        backgroundColor = status.backgroundColor
     }
 }

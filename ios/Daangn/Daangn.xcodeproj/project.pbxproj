@@ -45,6 +45,13 @@
 		F49F98CE2A305FB000609856 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F49F98CC2A305FB000609856 /* LaunchScreen.storyboard */; };
 		F49F99022A309A6800609856 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F49F99012A309A6800609856 /* .swiftlint.yml */; };
 		F4AEA7F42A3617D200B00B03 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AEA7F32A3617D200B00B03 /* TabBarController.swift */; };
+		F4D525792A41C5DE00413119 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525782A41C5DE00413119 /* NetworkManager.swift */; };
+		F4D5257B2A41C94100413119 /* DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5257A2A41C94100413119 /* DTO.swift */; };
+		F4D5257E2A429E6100413119 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = F4D5257D2A429E6100413119 /* JWTDecode */; };
+		F4D525802A43E80600413119 /* APICredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5257F2A43E80600413119 /* APICredential.swift */; };
+		F4D525832A4513F100413119 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525822A4513F100413119 /* NetworkError.swift */; };
+		F4D525852A45173B00413119 /* JWToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525842A45173B00413119 /* JWToken.swift */; };
+		F4D525872A45519B00413119 /* SignUpTempInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D525862A45519B00413119 /* SignUpTempInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +95,12 @@
 		F49F98CF2A305FB000609856 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F49F99012A309A6800609856 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		F4AEA7F32A3617D200B00B03 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		F4D525782A41C5DE00413119 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		F4D5257A2A41C94100413119 /* DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTO.swift; sourceTree = "<group>"; };
+		F4D5257F2A43E80600413119 /* APICredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICredential.swift; sourceTree = "<group>"; };
+		F4D525822A4513F100413119 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		F4D525842A45173B00413119 /* JWToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWToken.swift; sourceTree = "<group>"; };
+		F4D525862A45519B00413119 /* SignUpTempInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpTempInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4D5257E2A429E6100413119 /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +135,7 @@
 			children = (
 				4FE271502A31B2060002AE35 /* Literal */,
 				F4AEA7F32A3617D200B00B03 /* TabBarController.swift */,
+				F4D525812A43EDE400413119 /* Credentials */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -147,6 +162,11 @@
 			isa = PBXGroup;
 			children = (
 				F4029F202A3B54D200ECEABD /* Radius.swift */,
+				F4D525782A41C5DE00413119 /* NetworkManager.swift */,
+				F4D525822A4513F100413119 /* NetworkError.swift */,
+				F4D5257A2A41C94100413119 /* DTO.swift */,
+				F4D525842A45173B00413119 /* JWToken.swift */,
+				F4D525862A45519B00413119 /* SignUpTempInfo.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -259,6 +279,14 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		F4D525812A43EDE400413119 /* Credentials */ = {
+			isa = PBXGroup;
+			children = (
+				F4D5257F2A43E80600413119 /* APICredential.swift */,
+			);
+			path = Credentials;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -276,6 +304,9 @@
 			dependencies = (
 			);
 			name = Daangn;
+			packageProductDependencies = (
+				F4D5257D2A429E6100413119 /* JWTDecode */,
+			);
 			productName = Daangn;
 			productReference = F49F98BE2A305FAF00609856 /* Daangn.app */;
 			productType = "com.apple.product-type.application";
@@ -304,6 +335,9 @@
 				Base,
 			);
 			mainGroup = F49F98B52A305FAF00609856;
+			packageReferences = (
+				F4D5257C2A429E6100413119 /* XCRemoteSwiftPackageReference "JWTDecode" */,
+			);
 			productRefGroup = F49F98BF2A305FAF00609856 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -357,6 +391,7 @@
 				F4029F562A3B96F100ECEABD /* LoginButton.swift in Sources */,
 				F4029F432A3B5D6E00ECEABD /* CategoryFilterCollectionViewCell.swift in Sources */,
 				F4029F582A3BA54400ECEABD /* TownButton.swift in Sources */,
+				F4D525802A43E80600413119 /* APICredential.swift in Sources */,
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
 				F4029F382A3B5B4500ECEABD /* ProductListCollectionViewCell.swift in Sources */,
 				F4029F292A3B569B00ECEABD /* ProductListImageView.swift in Sources */,
@@ -366,12 +401,15 @@
 				F4AEA7F42A3617D200B00B03 /* TabBarController.swift in Sources */,
 				F4029F352A3B5A8200ECEABD /* CollectionViewLayoutGenerator.swift in Sources */,
 				F4029F4D2A3B61A400ECEABD /* SalesViewController.swift in Sources */,
+				F4D525852A45173B00413119 /* JWToken.swift in Sources */,
 				F4029F2E2A3B56D300ECEABD /* PaddedLabel.swift in Sources */,
+				F4D525832A4513F100413119 /* NetworkError.swift in Sources */,
 				F4029F442A3B5D6E00ECEABD /* CategoryFilterCollectionView.swift in Sources */,
 				F4029F2C2A3B56CB00ECEABD /* BorderView.swift in Sources */,
 				F4029F472A3B5D9900ECEABD /* Category.swift in Sources */,
 				F4029F322A3B571300ECEABD /* ProductState.swift in Sources */,
 				F4029F3D2A3B5CE700ECEABD /* ProductListCollectionView.swift in Sources */,
+				F4D5257B2A41C94100413119 /* DTO.swift in Sources */,
 				F47AFF652A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift in Sources */,
 				F4029F272A3B557500ECEABD /* UILabel+style.swift in Sources */,
 				F4029F212A3B54D200ECEABD /* Radius.swift in Sources */,
@@ -379,6 +417,7 @@
 				F4029F542A3B904200ECEABD /* IDField.swift in Sources */,
 				F4029F392A3B5B4500ECEABD /* LoadCollectionViewCell.swift in Sources */,
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
+				F4D525792A41C5DE00413119 /* NetworkManager.swift in Sources */,
 				4F35D2672A3813FE00DE2CBA /* MyAccountViewController.swift in Sources */,
 				F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */,
 				4F35D26B2A39823200DE2CBA /* ConfigureTown.swift in Sources */,
@@ -391,6 +430,7 @@
 				F4029F522A3B812500ECEABD /* ProfileImageButton.swift in Sources */,
 				4F35D2692A38816A00DE2CBA /* CategoryViewController.swift in Sources */,
 				4F35D25F2A38139B00DE2CBA /* HomeViewController.swift in Sources */,
+				F4D525872A45519B00413119 /* SignUpTempInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,6 +638,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F4D5257C2A429E6100413119 /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F4D5257D2A429E6100413119 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4D5257C2A429E6100413119 /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			productName = JWTDecode;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F49F98B62A305FAF00609856 /* Project object */;
 }
