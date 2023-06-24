@@ -23,7 +23,9 @@ final class NetworkManager {
         do {
             result = try JSONDecoder().decode(type, from: data)
         } catch {
+#if DEBUG
             print(error)
+#endif
         }
         return result
     }
@@ -33,7 +35,9 @@ final class NetworkManager {
         do {
             json = try JSONEncoder().encode(data)
         } catch {
+#if DEBUG
             print(error)
+#endif
         }
         return json
     }
@@ -44,6 +48,11 @@ extension NetworkManager {
         guard let finalJWTResponse = decodeJson(type: Response<String>.self, fromJson: data) else {
             throw NetworkError.failToDecodeJWT
         }
+        
+#if DEBUG
+        dump(finalJWTResponse)
+#endif
+        
         guard let result = finalJWTResponse.data else {
             throw NetworkError.invalidData
         }
@@ -70,8 +79,9 @@ extension NetworkManager {
             guard let response = response as? HTTPURLResponse else {
                 throw NetworkError.noResponseOrNotHTTPResponse
             }
-            
+#if DEBUG
             print(response.statusCode)
+#endif
             
             let jwtValue = try getJWT(from: data)
             switch response.statusCode {
@@ -104,8 +114,9 @@ extension NetworkManager {
             guard let response = response as? HTTPURLResponse else {
                 throw NetworkError.noResponseOrNotHTTPResponse
             }
-            
+#if DEBUG
             print(response.statusCode)
+#endif
             
             switch response.statusCode {
             case 200:

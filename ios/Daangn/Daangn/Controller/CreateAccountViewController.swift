@@ -107,7 +107,7 @@ final class CreateAccountViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
-    @objc func save() { 
+    @objc func save() {
         Task { [weak self] in
             do {
                 let tempLocation = TempSignUpPostLocation()
@@ -115,11 +115,15 @@ final class CreateAccountViewController: UIViewController {
                                                                        data: tempLocation)
                 
                 // jwt 저장 > Notification post
+#if DEBUG
                 print(finalJWT.value)
+#endif
                 
                 self?.presentingViewController?.dismiss(animated: true)
             } catch {
+#if DEBUG
                 print(error)
+#endif
             }
         }
     }

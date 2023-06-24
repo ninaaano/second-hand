@@ -65,11 +65,15 @@ extension MyAccountViewController {
             callbackURLScheme: scheme
         ) { [weak self] callbackURL, error in
             if let error {
+#if DEBUG
                 print(error)
+#endif
                 return
             }
             guard let callbackURL else {
+#if DEBUG
                 print("no callback URL")
+#endif
                 return
             }
             
@@ -77,10 +81,15 @@ extension MyAccountViewController {
             let authCode = queryItems?.first { $0.name == "code" }?.value
             
             guard let authCode else {
+#if DEBUG
                 print("no auth code")
+#endif
                 return
             }
+            
+#if DEBUG
             print(authCode)
+#endif
             
             Task { [weak self] in
                 guard let self else { return }
@@ -90,7 +99,9 @@ extension MyAccountViewController {
                         
                     case .final:
                         await MainActor.run {
+#if DEBUG
                             print(jwt.value)
+#endif
                         }
                     case .temp:
                         let tempInfo = SignUpTempInfo(jwt: jwt)
@@ -100,7 +111,9 @@ extension MyAccountViewController {
                         self.present(navigationController, animated: true)
                     }
                 } catch {
-                    print(error)
+#if DEBUG
+                    print("no auth code")
+#endif
                 }
             }
         }
