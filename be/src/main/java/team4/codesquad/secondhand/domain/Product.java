@@ -1,7 +1,7 @@
 package team4.codesquad.secondhand.domain;
 
-import lombok.Builder;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,7 +12,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -91,6 +90,10 @@ public class Product {
     public void addProductImage(ProductImage productImage) {
         productImages.add(productImage);
         productImage.setProduct(this);
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Builder

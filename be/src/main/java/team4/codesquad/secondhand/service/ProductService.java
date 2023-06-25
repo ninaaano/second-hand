@@ -96,5 +96,12 @@ public class ProductService {
         return images;
     }
 
+    @Transactional
+    public void deleteProduct(Integer productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+        product.setDeleted(true);
+        productRepository.save(product);
+    }
 }
 
