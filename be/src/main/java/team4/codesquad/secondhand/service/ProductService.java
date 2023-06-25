@@ -51,40 +51,48 @@ public class ProductService {
 
     @Transactional
     public ProductCreateResponseDTO createProduct(ProductRequestDTO request, @Login User user) {
-        // 상품 생성을 위해 필요한 정보 추출
-        String title = request.getTitle();
-        Integer price = request.getPrice();
-        String contents = request.getContents();
-        List<MultipartFile> productImages = request.getProductImages();
-        List<String> productImagesUrls = getPhotosUrl(productImages);
-        int categoryId = request.getCategoryId();
-        int locationId = request.getLocationId();
+        User seller = getSeller(user);
+        Category category = getCategory(request.getCategoryId());
+        Location location = getLocation(request.getLocationId());
 
-        User seller = userRepository.findById(user.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+        Product product = createProductEntity(request, seller, category, location);
+        addProductImages(product, request.getProductImages());
 
-        // 상품 엔티티 생성을 위해 필요한 정보 설정
-        Category category = categoryRepository.findById(categoryId)
+        Product savedProduct = productRepository.save(product);
+        return new ProductCreateResponseDTO(savedProduct);
+    }
+
+    private User getSeller(User user) {
+        return userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+    }
+
+    private Category getCategory(Integer categoryId) {
+        return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
+    }
 
-        Location location = locationRepository.findById(locationId)
+    private Location getLocation(Integer locationId) {
+        return locationRepository.findById(locationId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역입니다."));
+    }
 
-        Product product = Product.builder()
-                .title(title)
-                .price(price)
+    private Product createProductEntity(ProductRequestDTO request, User seller, Category category, Location location) {
+        return Product.builder()
+                .title(request.getTitle())
+                .price(request.getPrice())
                 .user(seller)
-                .contents(contents)
+                .contents(request.getContents())
                 .category(category)
                 .location(location)
                 .build();
+    }
 
-        // 상품 이미지 엔티티 생성 및 연관관계 설정
+    private void addProductImages(Product product, List<MultipartFile> productImages) {
+        List<String> productImagesUrls = getPhotosUrl(productImages);
         productImagesUrls.stream()
-                .map(img -> new ProductImage(img))
-                .forEach(pi -> product.addProductImage(pi));
-
-        return new ProductCreateResponseDTO(productRepository.save(product));
+                .map(ProductImage::new)
+                .forEach(product::addProductImage);
     }
 
     public List<String> getPhotosUrl(List<MultipartFile> multipartFiles) {
