@@ -7,15 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team4.codesquad.secondhand.annotation.Login;
+import team4.codesquad.secondhand.constant.Status;
 import team4.codesquad.secondhand.domain.*;
 import team4.codesquad.secondhand.repository.*;
 import team4.codesquad.secondhand.service.dto.*;
-import team4.codesquad.secondhand.domain.Product;
-import team4.codesquad.secondhand.repository.ProductRepository;
-import team4.codesquad.secondhand.service.dto.ProductDTO;
-import team4.codesquad.secondhand.service.dto.ProductDetailDTO;
-import team4.codesquad.secondhand.service.dto.ProductListDTO;
-import team4.codesquad.secondhand.service.dto.ProductSearchCondition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +89,12 @@ public class ProductService {
         }
 
         return images;
+    }
+
+    public UserSalesProductListDTO getUserSalesProducts(User user, Status status) {
+        List<Product> byUserAndStatus = productRepository.findByUserAndStatus(user, status).orElse(new ArrayList<Product>());
+        List<UserSalesProductDTO> list = byUserAndStatus.stream().map(product -> UserSalesProductDTO.from(product)).collect(Collectors.toList());
+        return new UserSalesProductListDTO(list);
     }
 
 }
