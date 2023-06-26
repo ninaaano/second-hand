@@ -33,7 +33,10 @@ const Home = () => {
   const userLocations = data[0] as UserLocationResponseData;
 
   const towns = Object.entries(userLocations.data).map(
-    ([locationType, locationInfo]) => locationInfo.town,
+    ([locationType, locationInfo]) => {
+      console.log(locationType);
+      return locationInfo.town;
+    },
   );
 
   useEffect(() => {
