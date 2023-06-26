@@ -1,5 +1,6 @@
 import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { END_POINT } from '@Constants/endpoint';
@@ -18,7 +19,7 @@ const Registration = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { fetchData } = useFetch<AuthData>();
+  const { data, fetchData } = useFetch<AuthData>();
   const { username, avatar, primaryLocation } = location.state;
 
   const handleLocationBtnClick = () => {
@@ -45,11 +46,17 @@ const Registration = () => {
           locationId: primaryLocation.locationId,
         }),
       });
-
-      // TODO(덴): 유저 동네 api 나오면 get 요청 후 context에 저장하기.
-      navigate('/home');
     }
   };
+
+  useEffect(() => {
+    if (data && data.data) {
+      localStorage.removeItem('JWTToken');
+      const JWTToken = data.data;
+      localStorage.setItem('JWTToken', JWTToken);
+      navigate('/home');
+    }
+  }, [data]);
 
   return (
     <>

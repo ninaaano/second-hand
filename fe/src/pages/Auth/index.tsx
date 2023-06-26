@@ -3,6 +3,8 @@ import jwt_decode from 'jwt-decode';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
 import useFetch from '@Hooks/useFetch';
 
 import { User, UserContextProps } from '@Types/index';
@@ -30,7 +32,7 @@ const Auth = () => {
   useEffect(() => {
     const getToken = async () => {
       await fetchData({
-        url: `http://3.38.73.117/api/login?code=${queryCode}&clientType=fe`,
+        url: `${END_POINT.login}?code=${queryCode}&clientType=fe`,
         isGetData: true,
       });
     };
