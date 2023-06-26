@@ -109,21 +109,21 @@ final class CreateAccountViewController: UIViewController {
     
     @objc func save() {
         Task { [weak self] in
+            guard let self else { return }
             do {
                 let tempLocation = TempSignUpPostLocation()
-                let finalJWT = try await networkManager.postSignUpInfo(tempJWT: tempInfo.jwt,
-                                                                       data: tempLocation)
+                let finalJWT = try await networkManager.postSignUpInfo(tempJWT: tempInfo.jwt, data: tempLocation)
                 
-                // jwt 저장 > Notification post
-#if DEBUG
+                #if DEBUG
                 print(finalJWT.value)
-#endif
+                #endif
                 
-                self?.presentingViewController?.dismiss(animated: true)
+                AuthManager().saveToken(finalJWT)
+                self.presentingViewController?.dismiss(animated: true)
             } catch {
-#if DEBUG
+                #if DEBUG
                 print(error)
-#endif
+                #endif
             }
         }
     }
