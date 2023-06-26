@@ -22,7 +22,7 @@ public class LoginController {
     private final JwtService jwtService;
     private final OauthService oauthService;
 
-    @GetMapping("/login")
+    @GetMapping("/api/login")
     public ResponseEntity<Message> login(@RequestParam String code, @RequestParam String clientType) {
         OAuthUserInfoResponse githubUser = oauthService.getGitHubUserInfoBy(code, clientType);
 
@@ -37,7 +37,7 @@ public class LoginController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/api/signup")
     public ResponseEntity<Message> completeSignUp(@RequestBody LocationInputDTO locationInputDTO, @Login User user) {
         User signUpUser = userService.signUp(user, locationInputDTO.getLocationId());
 
