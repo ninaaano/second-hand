@@ -13,17 +13,23 @@ import { CategoryType, CategoryResponseData } from '@Types/index';
 
 import * as S from './style';
 
-export const NewTitle = () => {
+export const NewTitle = ({
+  titleProps,
+  categoryProps,
+}: {
+  titleProps: React.Dispatch<React.SetStateAction<string>>;
+  categoryProps: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   const { data } = useFetch<CategoryResponseData>(END_POINT.category);
   const navigation = useNavigate();
   const [randomCategory, setRandomCategory] = useState<CategoryType[]>([]);
   const [selectCategory, setSelectCategory] = useState<CategoryType>();
-  const [title, setTitle] = useState<string>('');
 
   const handleSaveCatgory = debounce(({ target }) => {
     const value = target.value;
-    handleSaveTitle(value);
+    sessionStorage.setItem('saveTitle', JSON.stringify(value));
     const arr = data?.data.category.sort(() => Math.random() - 0.5);
+
     if (arr) {
       const randomCategory = arr?.slice(0, 3);
       setRandomCategory(randomCategory);
@@ -31,14 +37,10 @@ export const NewTitle = () => {
     }
   }, 1000);
 
-  const handleSaveTitle = (titleValue: string) => {
-    sessionStorage.setItem('saveTitle', JSON.stringify(titleValue));
-  };
-
   const getTitle = () => {
     const titleData = sessionStorage.getItem('saveTitle');
     if (titleData) {
-      setTitle(JSON.parse(titleData));
+      titleProps(JSON.parse(titleData));
     }
   };
 
@@ -46,6 +48,7 @@ export const NewTitle = () => {
     const categoryData = sessionStorage.getItem('saveCategory');
     if (categoryData) {
       setSelectCategory(JSON.parse(categoryData));
+      categoryProps(JSON.parse(categoryData).categoryId);
     }
   };
 
@@ -66,10 +69,10 @@ export const NewTitle = () => {
         type="text"
         placeholder="글제목"
         onChange={({ target }) => {
-          setTitle(target.value);
+          titleProps(target.value);
           handleSaveCatgory({ target });
         }}
-        value={title}
+        maxLength={50}
       />
       {randomCategory.length > 0 && (
         <S.CategoryBox>
