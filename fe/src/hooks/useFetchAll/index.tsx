@@ -22,6 +22,7 @@ const useFetchAll = <T,>(urls: string[]) => {
       try {
         const JWTToken = localStorage.getItem('JWTToken');
 
+        console.log('내부', urls);
         const headers = {
           Authorization: `Bearer ${JWTToken}`,
           'Content-Type': 'application/json',
@@ -38,13 +39,7 @@ const useFetchAll = <T,>(urls: string[]) => {
         const responses = await Promise.all(requests);
 
         const responseData = await Promise.all(
-          responses.map((res) => {
-            if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
-            if (res.status === 404) throw new Error(ERROR_MESSAGE[404]);
-            if (!res.ok) throw new Error(ERROR_MESSAGE.default);
-
-            return res.json();
-          }),
+          responses.map((res) => res.json()),
         );
         console.log(responseData);
         setData(responseData);
@@ -56,7 +51,7 @@ const useFetchAll = <T,>(urls: string[]) => {
     };
 
     fetchData({ urls: urls });
-  }, [urls]);
+  }, []);
 
   return { data, status, errorMessage };
 };
