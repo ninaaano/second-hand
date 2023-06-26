@@ -53,8 +53,8 @@ public class ProductController {
     }
 
     @GetMapping("/api/products/sales")
-    public ResponseEntity<Message> userGetSalesProducts(@Login User user, @RequestParam Status status) {
-        Message message = new Message(HttpStatus.OK, ResponseMessage.USERS_SALES_PRODUCTS_READ, productService.getUserSalesProducts(user, status));
+    public ResponseEntity<Message> userGetSalesProducts(@Login User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
+        Message message = new Message(HttpStatus.OK, ResponseMessage.USERS_SALES_PRODUCTS_READ, productService.getUserSalesProducts(user, pageable, productSearchCondition));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 

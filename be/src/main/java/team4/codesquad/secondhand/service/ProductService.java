@@ -91,11 +91,15 @@ public class ProductService {
         return images;
     }
 
-    public UserSalesProductListDTO getUserSalesProducts(User user, Status status) {
-        List<Product> byUserAndStatus = productRepository.findByUserAndStatus(user, status).orElse(new ArrayList<Product>());
-        List<UserSalesProductDTO> list = byUserAndStatus.stream().map(product -> UserSalesProductDTO.from(product)).collect(Collectors.toList());
-        return new UserSalesProductListDTO(list);
-    }
+    public ProductListDTO getUserSalesProducts(User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
+        productSearchCondition.setUserId(user.getUserId());
 
+        Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable, productSearchCondition);
+        List<Product> products = productsWithSlice.getContent();
+
+        return new ProductListDTO(products.stream()
+                .map(ProductDTO::new)
+                .collect(Collectors.toList()), productsWithSlice.hasNext());
+    }
 }
 
