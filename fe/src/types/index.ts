@@ -40,14 +40,14 @@ export type LocationData = {
 };
 
 export type User = {
-  userId?: number;
-  avatar?: string;
-  username?: string;
-  towns?: string[];
+  userId: number;
+  avatar: string;
+  username: string;
+  towns: LocationData[];
 };
 
 export type UserContextProps = {
-  user: User | undefined;
+  user: User;
   setUserInfo: (updatedUserInfo: Partial<User>) => void;
 };
 

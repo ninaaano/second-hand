@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const Layout = styled.div`
   width: 100vw;
@@ -22,4 +22,25 @@ export const ButtonBox = styled.div`
   display: flex;
   justify-content: center;
   gap: 2vw;
+`;
+
+const shakeAnimation = keyframes`
+  0% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(-2px);
+  }
+`;
+
+export const AlertNotice = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5vh;
+  ${({ theme }) => theme.font.fontType.caption1};
+  animation: ${shakeAnimation} 0.1s linear;
 `;

@@ -1,37 +1,77 @@
 import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
+import useFetch from '@Hooks/useFetch';
+
+import { UserContextProps } from '@Types/index';
+
 import * as S from './style';
+import { UserContext } from '../../App';
 
 const LocationSetting = () => {
   const navigate = useNavigate();
-  // TODO(덴): 유저 동네 GET, POST api 나오면 붙이기.
-  // TODO(덴): 유저 동네 GET 요청.
-  // const { user } = useContext(UserContext as React.Context<UserContextProps>);
-  // const primaryLocation = user?.primaryLocation.town;
-  const [locations, setLocations] = useState(['강남동']);
   const location = useLocation();
+  const { user, setUserInfo } = useContext(
+    UserContext as React.Context<UserContextProps>,
+  );
+  const [isShowNotice, setIsShowNotice] = useState(false);
+  const { data, fetchData } = useFetch();
 
-  const handlerGoBackButtonClick = () => {
+  const handlerGoBackBtnClick = () => {
     navigate('/home');
+  };
+
+  const handleSubmitBtnClick = async () => {
+    if (user.towns.length < 1) return;
+
+    const [primaryLocation, secondaryLocation] = user.towns;
+
+    const locationDataToUpdate = {
+      primaryLocationId: primaryLocation.locationId,
+      ...(secondaryLocation && {
+        secondaryLocationId: secondaryLocation.locationId,
+      }),
+    };
+
+    await fetchData({
+      url: END_POINT.userLocation,
+      isGetData: true,
+      method: 'PUT',
+      body: JSON.stringify({
+        ...locationDataToUpdate,
+      }),
+    });
+  };
+
+  const handleIconClick = (index: number) => {
+    if (user.towns.length === 1) {
+      setIsShowNotice(true);
+      return;
+    }
+
+    const updatedLocations = [...user.towns];
+    updatedLocations.splice(index, 1);
+    setUserInfo({ towns: updatedLocations });
   };
 
   useEffect(() => {
     if (location.state) {
       const { locationData } = location.state;
-      setLocations((prevLocation) => [...prevLocation, locationData.town]);
+      setUserInfo({ towns: locationData });
     }
   }, [location]);
 
-  const handleIconClick = (index: number) => {
-    setLocations((prevLocation) => {
-      const updatedLocations = [...prevLocation];
-      updatedLocations.splice(index, 1);
-      return updatedLocations;
-    });
-  };
+  useEffect(() => {
+    if (data) navigate('/home');
+  }, [data]);
+
+  useEffect(() => {
+    if (isShowNotice) setTimeout(() => setIsShowNotice(false), 1000);
+  }, [isShowNotice]);
 
   return (
     <>
@@ -39,7 +79,10 @@ const LocationSetting = () => {
         type="modalLayout"
         prev="닫기"
         center="동네 설정"
-        prevHandler={handlerGoBackButtonClick}
+        right="완료"
+        prevHandler={handlerGoBackBtnClick}
+        rightHandler={handleSubmitBtnClick}
+        isRightActive={user.towns.length >= 1}
       />
       <S.Layout>
         <S.Notice>
@@ -47,19 +90,19 @@ const LocationSetting = () => {
           <span>최대 2개까지 설정 가능해요.</span>
         </S.Notice>
         <S.ButtonBox>
-          {locations.map((location, index) => (
+          {user.towns.map(({ locationId, town }, index) => (
             <Button
-              key={index}
+              key={locationId}
               buttonType="rectangle"
               buttonState="active"
               size="M"
-              title={location}
+              title={town}
               iconType="multiply"
               textAlign="left"
               iconHandler={() => handleIconClick(index)}
             />
           ))}
-          {locations.length < 2 && (
+          {user.towns.length < 2 && (
             <Button
               buttonType="rectangle"
               buttonState="default"
@@ -75,6 +118,9 @@ const LocationSetting = () => {
             />
           )}
         </S.ButtonBox>
+        {isShowNotice && (
+          <S.AlertNotice>동네는 최소 1개 이상 선택해야해요.</S.AlertNotice>
+        )}
       </S.Layout>
     </>
   );

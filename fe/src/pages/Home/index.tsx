@@ -3,7 +3,7 @@ import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
 import { TabBarHome } from '@Components/common/TabBar';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { END_POINT } from '@Constants/endpoint';
@@ -23,6 +23,12 @@ const Home = () => {
   const { user, setUserInfo } = useContext(UserContext) as UserContextProps;
   const navigate = useNavigate();
 
+  const [userLocations, setUserLocations] =
+    useState<UserLocationResponseData | null>(null);
+  const [products, setProducts] = useState<ProductResponseData | null>(null);
+
+  const towns = user.towns.map(({ town }) => town);
+
   const { data, status, errorMessage } = useFetchAll<
     UserLocationResponseData | ProductResponseData
   >([
@@ -32,23 +38,26 @@ const Home = () => {
 
   useEffect(() => {
     if (data) {
-      const userLocations = data[0] as UserLocationResponseData;
+      const userLocationsData = data[0] as UserLocationResponseData;
+      const productsData = data[1] as ProductResponseData;
 
-      const towns = Object.entries(userLocations.data).map(
-        ([locationType, locationInfo]) => {
-          console.log(locationType);
-          return locationInfo.town;
-        },
-      );
-      setUserInfo({ towns: towns });
+      setUserLocations(userLocationsData);
+      setProducts(productsData);
     }
   }, [data]);
 
-  const products = data[1] as ProductResponseData;
+  useEffect(() => {
+    if (userLocations) {
+      const towns = Object.entries(userLocations.data).map(
+        ([, locationInfo]) => locationInfo,
+      );
+      setUserInfo({ towns: towns });
+    }
+  }, [userLocations, setUserInfo]);
 
   return (
     <>
-      <NavigationBar type="homeLayout" title="title1" towns={user?.towns} />
+      <NavigationBar type="homeLayout" title="title1" towns={towns} />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
       {products && <ProductList itemData={products.data.products} />}
       <S.ButtonBox>
