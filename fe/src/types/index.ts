@@ -43,7 +43,7 @@ export type User = {
   userId?: number;
   avatar?: string;
   username?: string;
-  primaryTown?: string;
+  towns?: string[];
 };
 
 export type UserContextProps = {
