@@ -27,7 +27,7 @@ const router = createBrowserRouter(
           element: <Login />,
         },
         {
-          path: '/callback',
+          path: '/auth',
           element: <Auth />,
         },
         {
