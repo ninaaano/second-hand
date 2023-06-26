@@ -31,7 +31,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .where(product.deleted.eq(false),
                         locationEq(productSearchCondition.getLocationId()),
                         categoryEq(productSearchCondition.getCategoryId()),
-                        saleStatusEq(productSearchCondition.getSaleStatus()))
+                        saleStatusEq(productSearchCondition.getSaleStatus()),
+                        userEq(productSearchCondition.getUserId()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
@@ -67,5 +68,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             return product.status.in(List.of(Status.SALE, Status.RESERVED));
         }
         return product.status.eq(Status.valueOf(saleStatus));
+    }
+
+    private BooleanExpression userEq(Integer userId) {
+        if (userId == null) {
+            return null;
+        }
+        return product.user.userId.eq(userId);
     }
 }

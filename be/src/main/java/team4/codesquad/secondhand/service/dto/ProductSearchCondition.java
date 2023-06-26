@@ -10,4 +10,9 @@ public class ProductSearchCondition {
     private Integer locationId;
     private Integer categoryId;
     private String saleStatus;
+    private Integer userId;
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 }
