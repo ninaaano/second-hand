@@ -38,4 +38,10 @@ public class UserController {
         Message message = new Message(HttpStatus.OK, ResponseMessage.UPDATE_USER_LOCATION, userLocationInfoDTO);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
+    @GetMapping("/api/user/validateToken")
+    public ResponseEntity<Message> validateUserToken() {
+        Message message = new Message(HttpStatus.OK, ResponseMessage.VALID_USER_TOKEN, null);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
 }
