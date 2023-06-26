@@ -5,9 +5,14 @@ import { useEffect, useRef, useState } from 'react';
 
 import { palette } from '@Styles/color';
 
-import { ImgFileTye } from '@Types/index';
-export const NewImg = () => {
-  const [imgFile, setImgFile] = useState<ImgFileTye[]>([]);
+import { ImgFileType } from '@Types/index';
+
+interface imgProps {
+  productList: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+export const NewImg = ({ productList }: imgProps) => {
+  const [imgFile, setImgFile] = useState<ImgFileType[]>([]);
   const [isFullFile, setIsFullFile] = useState(false);
   const [id, setId] = useState(0);
 
@@ -32,6 +37,8 @@ export const NewImg = () => {
                 ImgFileName: String(reader.result),
               },
             ]);
+            productList(imgFile.map((file) => file.ImgFileName));
+
             sessionStorage.setItem('saveImgFile', JSON.stringify(imgFile));
           }
           setId(id + 1);
@@ -42,9 +49,11 @@ export const NewImg = () => {
       setIsFullFile(true);
     }
   };
+
   //TODO: 다른 곳에서 똑같은 함수로 많이 사용하기 때문에 함수로 제작하는게 좋음
   const handleOnRemove = (id: number) => {
     setImgFile(imgFile.filter((img) => img.ImgFileId !== id));
+    productList(imgFile.map((file) => file.ImgFileName));
     setIsFullFile(false);
   };
 

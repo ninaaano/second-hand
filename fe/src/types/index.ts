@@ -59,7 +59,7 @@ export type CategoryResponseData = {
   };
 };
 
-export type ImgFileTye = {
+export type ImgFileType = {
   ImgFileId: number;
   ImgFileName: string;
 };
