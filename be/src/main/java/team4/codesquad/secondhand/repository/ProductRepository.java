@@ -8,7 +8,7 @@ import team4.codesquad.secondhand.domain.Product;
 
 import java.util.Optional;
 
-public interface ProductRepository extends JpaRepository<Product, Integer>, ProductRepositoryCustom{
+public interface ProductRepository extends JpaRepository<Product, Integer>, ProductRepositoryCustom {
 
     @Query("SELECT p FROM Product p " +
             "LEFT JOIN FETCH p.user " +
