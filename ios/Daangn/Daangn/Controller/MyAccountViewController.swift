@@ -7,15 +7,22 @@
 
 import UIKit
 
-import AuthenticationServices
-import JWTDecode
-
 final class MyAccountViewController: UIViewController {
     private let manager = NetworkManager()
     
     private let border = BorderLine(height: 1)
     
-    private let loginButton = LoginButton(status: .login)
+    private let profileImageButton = ProfileImageButton()
+    
+    private let userNameLabel: UILabel = {
+        let label = UILabel()
+        label.applyStyle(font: FontStyle.headline, color: ColorStyle.black)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let logOutButton = LoginButton(status: .logout)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +30,7 @@ final class MyAccountViewController: UIViewController {
         view.backgroundColor = ColorStyle.white
         setLayout()
         setButtons()
+        setInfo()
     }
     
     private func setLayout() {
@@ -33,20 +41,51 @@ final class MyAccountViewController: UIViewController {
             border.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        view.addSubview(loginButton)
+        view.addSubview(profileImageButton)
         NSLayoutConstraint.activate([
-            loginButton.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
-            loginButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            loginButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            profileImageButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            profileImageButton.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 150),
+        ])
+        
+        view.addSubview(userNameLabel)
+        NSLayoutConstraint.activate([
+            userNameLabel.topAnchor.constraint(equalTo: profileImageButton.bottomAnchor, constant: 24),
+            userNameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            userNameLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+        ])
+        
+        view.addSubview(logOutButton)
+        NSLayoutConstraint.activate([
+            logOutButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            logOutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            logOutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
         ])
     }
     
     private func setButtons() {
-        loginButton.addTarget(nil, action: #selector(loginWithGithub), for: .touchUpInside)
+        profileImageButton.setAction(target: nil, #selector(selectPhoto))
+        logOutButton.addTarget(nil, action: #selector(logout), for: .touchUpInside)
+    }
+    
+    private func addObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(setInfo),
+            name: AuthManager.Notifications.loginSuccessed,
+            object: nil
+        )
     }
 }
 
 extension MyAccountViewController {
+    @objc func setInfo() {
+        guard let user = AuthManager().getUserInfo() else { return }
+        print(user.profileImageURLString)
+        let image = UIImage()
+        self.profileImageButton.setImage(image: image)
+        self.userNameLabel.text = user.userName
+    }
+    
     @objc func selectPhoto() {
         let vc = UIViewController()
         let navi = UINavigationController(rootViewController: vc)
@@ -54,80 +93,7 @@ extension MyAccountViewController {
         self.present(navi, animated: true)
     }
     
-    @objc func loginWithGithub() {
-        let clientID = "Iv1.b4d6fbb2a8c02670"
-        let scheme = "daangn"
-        
-        let githubAuthURLString = "https://github.com/login/oauth/authorize?client_id=\(clientID)"
-        guard let githubAuthURL = URL(string: githubAuthURLString) else { return }
-        let session = ASWebAuthenticationSession(
-            url: githubAuthURL,
-            callbackURLScheme: scheme
-        ) { [weak self] callbackURL, error in
-            if let error {
-#if DEBUG
-                print(error)
-#endif
-                return
-            }
-            guard let callbackURL else {
-#if DEBUG
-                print("no callback URL")
-#endif
-                return
-            }
-            
-            let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
-            let authCode = queryItems?.first { $0.name == "code" }?.value
-            
-            guard let authCode else {
-#if DEBUG
-                print("no auth code")
-#endif
-                return
-            }
-            
-#if DEBUG
-            print(authCode)
-#endif
-            
-            Task { [weak self] in
-                guard let self else { return }
-                do {
-                    let jwt = try await self.manager.requestJWT(with: authCode)
-                    switch jwt.kind {
-                        
-                    case .final:
-                        await MainActor.run {
-#if DEBUG
-                            print(jwt.value)
-#endif
-                        }
-                    case .temp:
-                        let tempInfo = SignUpTempInfo(jwt: jwt)
-                        let signupViewController = CreateAccountViewController(tempInfo: tempInfo)
-                        let navigationController = UINavigationController(rootViewController: signupViewController)
-                        navigationController.view.backgroundColor = .systemBackground
-                        self.present(navigationController, animated: true)
-                    }
-                } catch {
-#if DEBUG
-                    print("no auth code")
-#endif
-                }
-            }
-        }
-        
-        session.presentationContextProvider = self
-        session.start()
-    }
-}
-
-extension MyAccountViewController: ASWebAuthenticationPresentationContextProviding {
-    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        guard let window = view.window else {
-            fatalError("No window found in view")
-        }
-        return window
+    @objc func logout() {
+        AuthManager().logout()
     }
 }

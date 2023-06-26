@@ -45,6 +45,7 @@
 		F441BD082A4950C100702186 /* OAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD072A4950C100702186 /* OAuthProvider.swift */; };
 		F441BD0C2A49E45600702186 /* WindowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD0B2A49E45600702186 /* WindowHandler.swift */; };
 		F441BD0E2A49E69400702186 /* LoginResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD0D2A49E69400702186 /* LoginResult.swift */; };
+		F441BD102A49EE7E00702186 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD0F2A49EE7E00702186 /* UserInfo.swift */; };
 		F47AFF652A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47AFF642A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift */; };
 		F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C12A305FAF00609856 /* AppDelegate.swift */; };
 		F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C32A305FAF00609856 /* SceneDelegate.swift */; };
@@ -100,6 +101,7 @@
 		F441BD072A4950C100702186 /* OAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthProvider.swift; sourceTree = "<group>"; };
 		F441BD0B2A49E45600702186 /* WindowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowHandler.swift; sourceTree = "<group>"; };
 		F441BD0D2A49E69400702186 /* LoginResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResult.swift; sourceTree = "<group>"; };
+		F441BD0F2A49EE7E00702186 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		F47AFF642A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F49F98BE2A305FAF00609856 /* Daangn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daangn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F98C12A305FAF00609856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				F4D5257A2A41C94100413119 /* DTO.swift */,
 				F4D525842A45173B00413119 /* JWToken.swift */,
 				F4D525862A45519B00413119 /* SignUpTempInfo.swift */,
+				F441BD0F2A49EE7E00702186 /* UserInfo.swift */,
 				F43818372A46DABA00B3FB20 /* Auth */,
 			);
 			path = Common;
@@ -432,6 +435,7 @@
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
 				F4029F382A3B5B4500ECEABD /* ProductListCollectionViewCell.swift in Sources */,
 				F4029F292A3B569B00ECEABD /* ProductListImageView.swift in Sources */,
+				F441BD102A49EE7E00702186 /* UserInfo.swift in Sources */,
 				F4029F232A3B54F800ECEABD /* UIView+Radius.swift in Sources */,
 				F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */,
 				F4029F302A3B56D800ECEABD /* ProductStateBadge.swift in Sources */,

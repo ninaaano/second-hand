@@ -42,6 +42,10 @@ class AuthManager {
         postLoginSuccessNotification()
     }
     
+    func login() {
+        postLoginSuccessNotification()
+    }
+    
     func logout() {
         KeychainManager.delete(key: authKey)
         postLogoutNotification()
@@ -54,6 +58,7 @@ class AuthManager {
             do {
                 let isValidate = try await networkManager.validateJWT(token)
                 result = isValidate ? LoginResult.logined : LoginResult.loginNeeded
+                if isValidate { login() }
             } catch {
                 print(error)
                 result = .loginNeeded
@@ -61,6 +66,22 @@ class AuthManager {
         } else {
             result = .loginNeeded
         }
+        return result
+    }
+    
+    func getUserInfo() -> UserInfo? {
+        guard let token else { return nil }
+        
+        guard let userID = token.getInt(key: "userId"),
+              let userName = token.getString(key: "username"),
+              let avatar = token.getString(key: "avatar") else { return nil }
+        
+        let result = UserInfo(
+            userId: userID,
+            userName: userName,
+            profileImageURLString: avatar
+        )
+        dump(result)
         return result
     }
 }
