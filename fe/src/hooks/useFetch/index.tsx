@@ -22,45 +22,28 @@ const useFetch = <T,>(url?: string) => {
     try {
       if (!url) return;
 
-      if (localStorage.getItem('JWTToken')) {
-        const JWTToken = localStorage.getItem('JWTToken');
+      const JWTToken = localStorage.getItem('JWTToken');
 
-        const headers = {
-          Authorization: `Bearer ${JWTToken}`,
-          'Content-Type': 'application/json',
-        };
+      const headers = {
+        Authorization: `Bearer ${JWTToken}`,
+        'Content-Type': 'application/json',
+      };
 
-        const res = await fetch(url, {
-          method,
-          headers,
-          body,
-        });
-
-        if (isGetData || res.status === 302) {
-          const data = await res.json();
-          setData(data);
-        }
-
-        if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
-        if (res.status === 404) throw new Error(ERROR_MESSAGE[404]);
-
-        if (!res.ok) throw new Error(ERROR_MESSAGE.default);
-      } else {
-        const res = await fetch(url, {
-          method,
-          body,
-        });
-
-        if (isGetData || res.status === 302) {
-          const data = await res.json();
-          setData(data);
-        }
-
-        if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
-        if (res.status === 404) throw new Error(ERROR_MESSAGE[404]);
-
-        if (!res.ok) throw new Error(ERROR_MESSAGE.default);
+      const res = await fetch(url, {
+        method,
+        headers,
+        body,
+      });
+      console.log(res);
+      if (isGetData || res.status === 302) {
+        const data = await res.json();
+        setData(data);
       }
+
+      if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
+      if (res.status === 404) throw new Error(ERROR_MESSAGE[404]);
+
+      if (!res.ok) throw new Error(ERROR_MESSAGE.default);
 
       setStatus('success');
     } catch (error) {
