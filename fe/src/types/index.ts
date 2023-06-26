@@ -40,15 +40,15 @@ export type LocationData = {
 };
 
 export type User = {
-  userId: number;
-  avatar: string;
-  username: string;
-  primaryLocation?: LocationData;
+  userId?: number;
+  avatar?: string;
+  username?: string;
+  primaryTown?: string;
 };
 
 export type UserContextProps = {
   user: User | undefined;
-  setUserInfo: (userInfo: User) => void;
+  setUserInfo: (updatedUserInfo: Partial<User>) => void;
 };
 
 export type CategoryResponseData = {
@@ -62,4 +62,15 @@ export type CategoryResponseData = {
 export type ImgFileType = {
   ImgFileId: number;
   ImgFileName: string;
+};
+
+export type UserLocation = {
+  primaryLocation: LocationData;
+  secondaryLocation?: LocationData;
+};
+
+export type UserLocationResponseData = {
+  statusCode: number;
+  message: string;
+  data: UserLocation;
 };
