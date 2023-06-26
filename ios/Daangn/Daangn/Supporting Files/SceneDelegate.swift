@@ -17,28 +17,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
+    private var windowHandler: WindowHandler?
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = TabBarController()
-//        window?.rootViewController = InitialViewController()
-        window?.makeKeyAndVisible()
-//        setRootViewController()
+        
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = InitialViewController()
+        window.makeKeyAndVisible()
+        
+        self.window = window
+        self.windowHandler = WindowHandler(window: window)
+        AuthManager().logout()
+        setInitialLoginResult()
     }
-    
-    
-    private func setRootViewController() {
-//        AuthManager().logout()
+}
+
+extension SceneDelegate {
+    private func setInitialLoginResult() {
         Task { [weak self] in
-            let destination = await AuthManager().getDestination()
-            await MainActor.run {
-                switch destination {
-                case .logined:
-                    self?.window?.rootViewController = TabBarController()
-                case .loginNeeded:
-                    self?.window?.rootViewController = LoginViewController()
-                }
-            }
+            guard let self else { return }
+            let logInResult = await AuthManager().getLoginResult()
+            self.windowHandler?.loginResult = logInResult
         }
     }
 }

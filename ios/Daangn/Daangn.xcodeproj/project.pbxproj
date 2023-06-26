@@ -43,6 +43,8 @@
 		F441BD042A492D7100702186 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD032A492D7100702186 /* LoginViewController.swift */; };
 		F441BD062A49347400702186 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD052A49347400702186 /* ErrorHandler.swift */; };
 		F441BD082A4950C100702186 /* OAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD072A4950C100702186 /* OAuthProvider.swift */; };
+		F441BD0C2A49E45600702186 /* WindowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD0B2A49E45600702186 /* WindowHandler.swift */; };
+		F441BD0E2A49E69400702186 /* LoginResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD0D2A49E69400702186 /* LoginResult.swift */; };
 		F47AFF652A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47AFF642A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift */; };
 		F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C12A305FAF00609856 /* AppDelegate.swift */; };
 		F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C32A305FAF00609856 /* SceneDelegate.swift */; };
@@ -96,6 +98,8 @@
 		F441BD032A492D7100702186 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F441BD052A49347400702186 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		F441BD072A4950C100702186 /* OAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthProvider.swift; sourceTree = "<group>"; };
+		F441BD0B2A49E45600702186 /* WindowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowHandler.swift; sourceTree = "<group>"; };
+		F441BD0D2A49E69400702186 /* LoginResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResult.swift; sourceTree = "<group>"; };
 		F47AFF642A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F49F98BE2A305FAF00609856 /* Daangn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daangn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F98C12A305FAF00609856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 			children = (
 				F4029F202A3B54D200ECEABD /* Radius.swift */,
 				F441BD052A49347400702186 /* ErrorHandler.swift */,
+				F441BD0B2A49E45600702186 /* WindowHandler.swift */,
 				F43818322A46DA7700B3FB20 /* Network */,
 				F4D5257A2A41C94100413119 /* DTO.swift */,
 				F4D525842A45173B00413119 /* JWToken.swift */,
@@ -244,6 +249,7 @@
 				F43818332A46DA8900B3FB20 /* KeychainManager.swift */,
 				F43818352A46DAB200B3FB20 /* AuthManager.swift */,
 				F441BD072A4950C100702186 /* OAuthProvider.swift */,
+				F441BD0D2A49E69400702186 /* LoginResult.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -451,6 +457,7 @@
 				F4029F542A3B904200ECEABD /* IDField.swift in Sources */,
 				F4029F392A3B5B4500ECEABD /* LoadCollectionViewCell.swift in Sources */,
 				F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */,
+				F441BD0E2A49E69400702186 /* LoginResult.swift in Sources */,
 				F4D525792A41C5DE00413119 /* NetworkManager.swift in Sources */,
 				4F35D2672A3813FE00DE2CBA /* MyAccountViewController.swift in Sources */,
 				F441BD082A4950C100702186 /* OAuthProvider.swift in Sources */,
@@ -464,6 +471,7 @@
 				4FE271562A31C4820002AE35 /* FontStyle.swift in Sources */,
 				4F35D2652A3813F100DE2CBA /* ChatViewController.swift in Sources */,
 				F4029F522A3B812500ECEABD /* ProfileImageButton.swift in Sources */,
+				F441BD0C2A49E45600702186 /* WindowHandler.swift in Sources */,
 				4F35D2692A38816A00DE2CBA /* CategoryViewController.swift in Sources */,
 				4F35D25F2A38139B00DE2CBA /* HomeViewController.swift in Sources */,
 				F4D525872A45519B00413119 /* SignUpTempInfo.swift in Sources */,

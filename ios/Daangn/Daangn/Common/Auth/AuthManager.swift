@@ -13,13 +13,9 @@ class AuthManager {
         static let logout = Notification.Name("logout")
     }
     
-    let authKey = "Daangn-jwt-key"
+    private let authKey = "Daangn-jwt-key"
     
-    var networkManager: NetworkManager
-    
-    init(networkManager: NetworkManager = NetworkManager()) {
-        self.networkManager = networkManager
-    }
+    private var networkManager: NetworkManager
     
     var token: JWToken? {
         get {
@@ -37,6 +33,10 @@ class AuthManager {
         }
     }
     
+    init(networkManager: NetworkManager = NetworkManager()) {
+        self.networkManager = networkManager
+    }
+    
     func saveToken(_ token: JWToken) {
         KeychainManager.save(key: authKey, data: token.value)
         postLoginSuccessNotification()
@@ -47,7 +47,7 @@ class AuthManager {
         postLogoutNotification()
     }
     
-    func getDestination() async -> LoginResult {
+    func getLoginResult() async -> LoginResult {
         let networkManager = NetworkManager()
         var result: LoginResult
         if let token = AuthManager().token {
@@ -77,9 +77,4 @@ extension AuthManager {
             Notification(name: Self.Notifications.logout, object: nil)
         )
     }
-}
-
-enum LoginResult {
-    case loginNeeded
-    case logined
 }

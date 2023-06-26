@@ -60,11 +60,9 @@ final class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "내 계정"
         view.backgroundColor = ColorStyle.white
         setLayout()
         setButtons()
-        addObserver()
     }
     
     private func setLayout() {
@@ -100,22 +98,9 @@ final class LoginViewController: UIViewController {
     private func setButtons() {
         loginButton.addTarget(nil, action: #selector(loginWithGithub), for: .touchUpInside)
     }
-    
-    private func addObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(presentTabBarController),
-            name: AuthManager.Notifications.loginSuccessed,
-            object: nil
-        )
-    }
 }
 
 extension LoginViewController {
-    @objc func alert() {
-        ErrorHandler.alertError(NetworkError.unknownError, presentOn: self)
-    }
-    
     @objc func loginWithGithub() {
         let scheme = "daangn"
         guard let githubAuthURL = OAuthProvider.github.providerURL else { return }
@@ -162,19 +147,13 @@ extension LoginViewController {
                         self.present(navigationController, animated: true)
                     }
                 } catch {
-                    #if DEBUG
-                    print("no auth code")
-                    #endif
+                    ErrorHandler.alertError(error, presentOn: self)
                 }
             }
         }
         
         session.presentationContextProvider = self
         session.start()
-    }
-    
-    @objc func presentTabBarController() {
-        view.window?.rootViewController = TabBarController()
     }
 }
 
