@@ -18,6 +18,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3.5.2
 
+        # .env에 있던 환경변수들을 등록해주는 단계
+      - name: .env setting
+        run: |
+          echo "REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }}" >> ./fe/.env
+          echo "REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }}" >> ./fe/.env
+
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.2
         with:
