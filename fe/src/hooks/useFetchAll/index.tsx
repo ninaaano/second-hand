@@ -10,7 +10,15 @@ const useFetchAll = <T,>(urls: string[]) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async ({
+      urls,
+      method = 'GET',
+      body,
+    }: {
+      urls: string[];
+      method?: string;
+      body?: BodyInit | null | undefined;
+    }) => {
       try {
         const JWTToken = localStorage.getItem('JWTToken');
 
@@ -19,7 +27,13 @@ const useFetchAll = <T,>(urls: string[]) => {
           'Content-Type': 'application/json',
         };
 
-        const requests = urls.map((url) => fetch(url, { headers }));
+        const requests = urls.map((url) =>
+          fetch(url, {
+            method,
+            headers,
+            body,
+          }),
+        );
 
         const responses = await Promise.all(requests);
 
@@ -32,7 +46,7 @@ const useFetchAll = <T,>(urls: string[]) => {
             return res.json();
           }),
         );
-
+        console.log(responseData);
         setData(responseData);
         setStatus('success');
       } catch (error) {
@@ -41,7 +55,7 @@ const useFetchAll = <T,>(urls: string[]) => {
       }
     };
 
-    fetchData();
+    fetchData({ urls: urls });
   }, [urls]);
 
   return { data, status, errorMessage };
