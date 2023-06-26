@@ -3,8 +3,7 @@ import Button from '@Components/common/Button';
 import * as S from './style';
 
 const Login = () => {
-  const githubURL =
-    'https://github.com/login/oauth/authorize?client_id=Iv1.b2c72e9d29d91862';
+  const githubURL = `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}`;
 
   const gitHubLoginHandler = () => {
     window.location.href = githubURL;
