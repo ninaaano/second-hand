@@ -10,10 +10,14 @@ import { User, UserContextProps } from './types';
 export const UserContext = createContext<UserContextProps | null>(null);
 
 const App = () => {
-  const [user, setUser] = useState<User | undefined>();
+  const [user, setUser] = useState<User>();
 
-  const setUserInfo = (user: User | undefined) => {
-    setUser(user);
+  const setUserInfo = (updatedUserInfo: Partial<User>) => {
+    const userInfo = (prevUserInfo: User | undefined): User | undefined => ({
+      ...prevUserInfo,
+      ...updatedUserInfo,
+    });
+    setUser(userInfo);
   };
 
   return (

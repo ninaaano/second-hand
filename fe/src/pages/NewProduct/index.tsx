@@ -9,6 +9,11 @@ import * as S from './style';
 
 export const NewProduct = () => {
   const [price, setPrice] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [contentes, setContents] = useState<string>('');
+  const [productImages, setProductImages] = useState<string[]>([]);
+  const [categoryId, setCategoryId] = useState<number>(0);
+
   const handelSavePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     sessionStorage.setItem('savePrice', JSON.stringify(value));
@@ -28,10 +33,10 @@ export const NewProduct = () => {
       <S.ContentBox>
         <div className="empty" />
         <S.SaveImgBox>
-          <NewImg />
+          <NewImg productList={setProductImages} />
         </S.SaveImgBox>
         <hr />
-        <NewTitle />
+        <NewTitle titleProps={setTitle} categoryProps={setCategoryId} />
         <hr />
         <S.PriceBox>
           <label htmlFor="priceBox">￦</label>
@@ -48,7 +53,13 @@ export const NewProduct = () => {
         </S.PriceBox>
         <hr />
         <S.DetailBox>
-          <textarea placeholder="역삼 1동에 올릴 게시물 내용을 작성해주세요.(판매금지 물품은 게시가 제한될 수 있어요.)" />
+          <textarea
+            placeholder="역삼 1동에 올릴 게시물 내용을 작성해주세요.(판매금지 물품은 게시가 제한될 수 있어요.)"
+            value={contentes}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setContents(e.target.value)
+            }
+          />
         </S.DetailBox>
       </S.ContentBox>
       <TabBarSellProduct currentLocation="역삼1동" />

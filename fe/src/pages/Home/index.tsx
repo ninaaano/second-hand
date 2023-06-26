@@ -3,39 +3,50 @@ import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
 import { TabBarHome } from '@Components/common/TabBar';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { END_POINT } from '@Constants/endpoint';
 
-import useFetch from '@Hooks/useFetch';
+import useFetchAll from '@Hooks/useFetchAll';
 
-import { ProductResponseData, UserContextProps } from '@Types/index';
+import {
+  ProductResponseData,
+  UserContextProps,
+  UserLocationResponseData,
+} from '@Types/index';
 
 import * as S from './style';
 import { UserContext } from '../../App';
 
 const Home = () => {
-  // TODO(덴): 유저 동네 api 나오면 최초 렌더링시 동네 api로 동네 가져올지, 상태로 관리해서 가져올지 고민하기.
-  // TODO(덴): api 붙이면서 리팩토링하기
-  const { user } = useContext(UserContext as React.Context<UserContextProps>);
+  const { setUserInfo } = useContext(UserContext) as UserContextProps;
   const navigate = useNavigate();
 
-  const { data, status, errorMessage } = useFetch<ProductResponseData>(
+  const { data, status, errorMessage } = useFetchAll<
+    UserLocationResponseData | ProductResponseData
+  >([
+    `${END_POINT.userLocation}?page=0&size=10`,
     `${END_POINT.products}?page=0&size=10`,
+  ]);
+
+  const userLocations = data[0] as UserLocationResponseData;
+
+  const towns = Object.entries(userLocations.data).map(
+    ([locationType, locationInfo]) => locationInfo.town,
   );
+
+  useEffect(() => {
+    setUserInfo({ primaryTown: towns[0] });
+  }, [towns]);
+
+  const products = data[1] as ProductResponseData;
 
   return (
     <>
-      {user && (
-        <NavigationBar
-          type={'homeLayout'}
-          title={'title1'}
-          towns={['강남동']}
-        />
-      )}
+      <NavigationBar type="homeLayout" title="title1" towns={towns} />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
-      {data && <ProductList itemData={data?.data.products} />}
+      {products && <ProductList itemData={products.data.products} />}
       <S.ButtonBox>
         <Button
           buttonType="circle"
