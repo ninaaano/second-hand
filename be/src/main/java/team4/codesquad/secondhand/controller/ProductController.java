@@ -23,25 +23,25 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
 
-    @GetMapping("api/products")
+    @GetMapping("/api/products")
     public ResponseEntity<Message> products(Pageable pageable, ProductSearchCondition productSearchCondition) {
         Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT, productService.buildProductListDTO(pageable, productSearchCondition));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @GetMapping("api/products/{productId}")
+    @GetMapping("/api/products/{productId}")
     public ResponseEntity<Message> product(@PathVariable Integer productId) {
         Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT_DETAIL, productService.increaseViewsAndRetrieveProduct(productId));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
   
-    @GetMapping("api/products/writeForm")
+    @GetMapping("/api/products/writeForm")
     public ResponseEntity<Message> writeProductForm(){
         Message message = new Message(HttpStatus.OK, "판매 정보 생성", categoryService.findAll());
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @PostMapping("api/products")
+    @PostMapping("/api/products")
     public ResponseEntity<Message> save(@ModelAttribute @Valid ProductRequestDTO request,@Login User user) {
         if (request.getProductImages() == null) {
             throw new IllegalArgumentException("상품 이미지가 없습니다.");

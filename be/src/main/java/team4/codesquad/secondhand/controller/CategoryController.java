@@ -17,7 +17,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @GetMapping("api/category")
+    @GetMapping("/api/category")
     public ResponseEntity<Message> category() {
         CategoryListDTO allCategory = categoryService.findAll();
         Message message = new Message(HttpStatus.OK, ResponseMessage.READ_CATEGORY, allCategory);

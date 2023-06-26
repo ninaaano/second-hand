@@ -7,6 +7,7 @@ import team4.codesquad.secondhand.domain.Location;
 import team4.codesquad.secondhand.domain.User;
 import team4.codesquad.secondhand.repository.LocationRepository;
 import team4.codesquad.secondhand.repository.UserRepository;
+import team4.codesquad.secondhand.service.dto.UserLocationInfoDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -27,9 +28,45 @@ public class UserService {
             throw new IllegalArgumentException("이미 존재하는 회원이므로 중복 회원가입 불가");
         }
 
-        Location primaryLocation = locationRepository.findById(locationId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역 정보 입력"));
-        user.setPrimaryLocation(primaryLocation);
+        modifyUserPrimaryLocation(locationId, user);
         return userRepository.save(user);
+    }
+
+    public UserLocationInfoDTO findLocationInfo(User user) {
+        User savedUser = findBy(user.getUserId());
+
+        return new UserLocationInfoDTO(savedUser.getPrimaryLocation(), savedUser.getSecondaryLocation());
+    }
+
+    @Transactional
+    public UserLocationInfoDTO updateLocationInfo(User user, Integer primaryLocationId, Integer secondaryLocationId) {
+        User savedUser = findBy(user.getUserId());
+
+        modifyUserPrimaryLocation(primaryLocationId, savedUser);
+        modifyUserSecondaryLocation(secondaryLocationId, savedUser);
+
+        return new UserLocationInfoDTO(savedUser);
+    }
+
+    private User findBy(Integer userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
+    }
+
+    private void modifyUserPrimaryLocation(Integer primaryLocationId, User savedUser) {
+        Location primaryLocation = locationRepository.findById(primaryLocationId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역 정보 입력"));
+        savedUser.setPrimaryLocation(primaryLocation);
+    }
+
+    private void modifyUserSecondaryLocation(Integer secondaryLocationId, User savedUser) {
+        if (secondaryLocationId == null) {
+            savedUser.setSecondaryLocation(null);
+            return;
+        }
+
+        Location secondaryLocation = locationRepository.findById(secondaryLocationId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역 정보 입력"));
+        savedUser.setSecondaryLocation(secondaryLocation);
     }
 }
