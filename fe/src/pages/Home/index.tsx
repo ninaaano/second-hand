@@ -40,7 +40,9 @@ const Home = () => {
   );
 
   useEffect(() => {
-    setUserInfo({ primaryTown: towns[0] });
+    if (towns) {
+      setUserInfo({ primaryTown: towns[0] });
+    }
   }, [towns]);
 
   const products = data[1] as ProductResponseData;
