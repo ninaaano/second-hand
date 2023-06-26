@@ -51,12 +51,21 @@ public class ProductController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @PatchMapping("/api/products/{productId}")
+    @DeleteMapping("/api/products/{productId}")
     public ResponseEntity<String> delete(@Login User user, @PathVariable Integer productId) {
         if (productId == null) {
-            return new ResponseEntity<>("상품 ID가 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("상품 ID가 유효하지 않습니다.");
         }
         productService.deleteProduct(productId);
-        return new ResponseEntity<>(ResponseMessage.DELETE_PRODUCT, HttpStatus.OK);
+        return new ResponseEntity<>(ResponseMessage.DELETE_PRODUCT_OK, HttpStatus.OK);
+    }
+
+    @PutMapping("/api/products/{productId}")
+    public ResponseEntity<Message> update(@Login User user, @PathVariable Integer productId, @ModelAttribute ProductRequestDTO request) {
+        if (productId == null) {
+            throw new IllegalArgumentException("상품 ID가 유효하지 않습니다.");
+        }
+        Message message = new Message(HttpStatus.OK, ResponseMessage.UPDATE_PRODUCT_OK, productService.updateProduct(user, productId, request));
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

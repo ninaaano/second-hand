@@ -6,11 +6,11 @@ import team4.codesquad.secondhand.domain.Product;
 
 @Getter
 @NoArgsConstructor
-public class ProductCreateResponseDTO {
+public class ProductResponseIdDTO {
 
     private Integer productId;
 
-    public ProductCreateResponseDTO(Product product) {
+    public ProductResponseIdDTO(Product product) {
         this.productId = product.getProductId();
     }
 }

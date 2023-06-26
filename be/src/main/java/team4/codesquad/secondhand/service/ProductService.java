@@ -50,7 +50,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductCreateResponseDTO createProduct(ProductRequestDTO request, @Login User user) {
+    public ProductResponseIdDTO createProduct(ProductRequestDTO request, @Login User user) {
         User seller = getSeller(user);
         Category category = getCategory(request.getCategoryId());
         Location location = getLocation(request.getLocationId());
@@ -59,7 +59,7 @@ public class ProductService {
         addProductImages(product, request.getProductImages());
 
         Product savedProduct = productRepository.save(product);
-        return new ProductCreateResponseDTO(savedProduct);
+        return new ProductResponseIdDTO(savedProduct);
     }
 
     private User getSeller(User user) {
@@ -89,6 +89,11 @@ public class ProductService {
     }
 
     private void addProductImages(Product product, List<MultipartFile> productImages) {
+        // 새로운 이미지가 없으면 기존 이미지를 유지
+        if (productImages == null || productImages.isEmpty()) {
+            return;
+        }
+
         List<String> productImagesUrls = getPhotosUrl(productImages);
         productImagesUrls.stream()
                 .map(ProductImage::new)
@@ -111,5 +116,20 @@ public class ProductService {
         product.setDeleted(true);
         productRepository.save(product);
     }
+
+    @Transactional
+    public ProductResponseIdDTO updateProduct(User seller, Integer productId, ProductRequestDTO request) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+
+        Category category = getCategory(request.getCategoryId());
+        Location location = getLocation(request.getLocationId());
+
+        addProductImages(product, request.getProductImages());
+        product.updateProduct(request.getTitle(), request.getContents(), request.getPrice(), location, category);
+
+        return new ProductResponseIdDTO(product);
+    }
+
 }
 

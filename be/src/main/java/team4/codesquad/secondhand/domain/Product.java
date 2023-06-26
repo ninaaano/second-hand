@@ -1,9 +1,6 @@
 package team4.codesquad.secondhand.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import team4.codesquad.secondhand.constant.Status;
@@ -108,4 +105,13 @@ public class Product {
         this.category = category;
         this.user = user;
     }
+
+    public void updateProduct(String title, String contents, Integer price, Location location, Category category) {
+        this.title = title;
+        this.contents = contents;
+        this.price = price;
+        this.location = location;
+        this.category = category;
+    }
+
 }
