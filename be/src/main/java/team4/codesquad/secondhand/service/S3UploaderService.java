@@ -47,7 +47,7 @@ public class S3UploaderService {
     }
 
     private String generateS3FileUrl(String s3FileName) {
-        return amazonS3.getUrl(s3Properties.getS3().getBucket(), s3FileName).toString();
+        return amazonS3.getUrl(s3Properties.getS3().getBucket() + filePath, s3FileName).toString();
     }
 
 }

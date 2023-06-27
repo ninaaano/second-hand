@@ -13,6 +13,7 @@ public abstract class ResponseMessage {
     public static final String UPDATE_USER_LOCATION = "로그인한 유저의 지역 목록 수정 성공";
     public static final String DELETE_PRODUCT_OK = "상품 삭제 성공";
     public static final String UPDATE_PRODUCT_OK = "상품 수정 성공";
-
+    public static final String USERS_SALES_PRODUCTS_READ = "로그인한 유저의 상품 판매 목록 조회 성공";
+    public static final String VALID_USER_TOKEN = "유효한 액세스 토큰";
 
 }

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team4.codesquad.secondhand.annotation.Login;
 import team4.codesquad.secondhand.constant.ResponseMessage;
+import team4.codesquad.secondhand.constant.Status;
 import team4.codesquad.secondhand.controller.dto.Message;
 import team4.codesquad.secondhand.domain.User;
 import team4.codesquad.secondhand.service.CategoryService;
@@ -68,4 +69,11 @@ public class ProductController {
         Message message = new Message(HttpStatus.OK, ResponseMessage.UPDATE_PRODUCT_OK, productService.updateProduct(user, productId, request));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+  
+    @GetMapping("/api/products/sales")
+    public ResponseEntity<Message> userGetSalesProducts(@Login User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
+        Message message = new Message(HttpStatus.OK, ResponseMessage.USERS_SALES_PRODUCTS_READ, productService.getUserSalesProducts(user, pageable, productSearchCondition));
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
 }

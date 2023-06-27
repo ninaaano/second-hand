@@ -38,7 +38,7 @@ class ProductServiceTest {
     void buildProductListDTO() {
         // given
         Pageable pageable = PageRequest.of(0, 5);
-        ProductSearchCondition productSearchCondition = new ProductSearchCondition(null, null, null);
+        ProductSearchCondition productSearchCondition = new ProductSearchCondition(null, null, null, null);
         Location mockLocation = new Location(1, "모킹시", "모킹구", "모킹동");
         Category mockCategory = new Category(1, "모킹카테고리");
         User mockUser = new User(1, "mockAvatar.jpg", "mockUsername");
