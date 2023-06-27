@@ -35,7 +35,9 @@ class WindowHandler {
                 with: window,
                 duration: 0.3,
                 options: [.transitionCrossDissolve]
-            ) { self.window.rootViewController = destinationViewController }
+            ) {
+                self.window.rootViewController = destinationViewController
+            }
         }
     }
     

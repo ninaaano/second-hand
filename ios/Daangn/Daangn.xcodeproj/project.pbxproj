@@ -46,6 +46,7 @@
 		F441BD0C2A49E45600702186 /* WindowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD0B2A49E45600702186 /* WindowHandler.swift */; };
 		F441BD0E2A49E69400702186 /* LoginResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD0D2A49E69400702186 /* LoginResult.swift */; };
 		F441BD102A49EE7E00702186 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD0F2A49EE7E00702186 /* UserInfo.swift */; };
+		F441BD122A4A623400702186 /* UIAlertController+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = F441BD112A4A623400702186 /* UIAlertController+init.swift */; };
 		F47AFF652A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47AFF642A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift */; };
 		F49F98C22A305FAF00609856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C12A305FAF00609856 /* AppDelegate.swift */; };
 		F49F98C42A305FAF00609856 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F98C32A305FAF00609856 /* SceneDelegate.swift */; };
@@ -102,6 +103,7 @@
 		F441BD0B2A49E45600702186 /* WindowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowHandler.swift; sourceTree = "<group>"; };
 		F441BD0D2A49E69400702186 /* LoginResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResult.swift; sourceTree = "<group>"; };
 		F441BD0F2A49EE7E00702186 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		F441BD112A4A623400702186 /* UIAlertController+init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+init.swift"; sourceTree = "<group>"; };
 		F47AFF642A3C8AAB00BA75A1 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F49F98BE2A305FAF00609856 /* Daangn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daangn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49F98C12A305FAF00609856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			children = (
 				F4029F222A3B54F800ECEABD /* UIView+Radius.swift */,
 				F4029F262A3B557500ECEABD /* UILabel+style.swift */,
+				F441BD112A4A623400702186 /* UIAlertController+init.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				4F35D2692A38816A00DE2CBA /* CategoryViewController.swift in Sources */,
 				4F35D25F2A38139B00DE2CBA /* HomeViewController.swift in Sources */,
 				F4D525872A45519B00413119 /* SignUpTempInfo.swift in Sources */,
+				F441BD122A4A623400702186 /* UIAlertController+init.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

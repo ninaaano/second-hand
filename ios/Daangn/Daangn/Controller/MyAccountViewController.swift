@@ -66,15 +66,6 @@ final class MyAccountViewController: UIViewController {
         profileImageButton.setAction(target: nil, #selector(selectPhoto))
         logOutButton.addTarget(nil, action: #selector(logout), for: .touchUpInside)
     }
-    
-    private func addObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(setInfo),
-            name: AuthManager.Notifications.loginSuccessed,
-            object: nil
-        )
-    }
 }
 
 extension MyAccountViewController {
@@ -94,6 +85,13 @@ extension MyAccountViewController {
     }
     
     @objc func logout() {
-        AuthManager().logout()
+        let title = "알림"
+        let message = "정말 로그아웃하시겠어요?"
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            okAction: { _ in AuthManager().logout() }
+        )
+        self.present(alert, animated: true)
     }
 }

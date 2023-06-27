@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window = window
         self.windowHandler = WindowHandler(window: window)
-        AuthManager().logout()
+//        AuthManager().logout()
         setInitialLoginResult()
     }
 }
