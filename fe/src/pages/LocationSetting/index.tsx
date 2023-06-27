@@ -7,7 +7,7 @@ import { END_POINT } from '@Constants/endpoint';
 
 import useFetch from '@Hooks/useFetch';
 
-import { UserContextProps } from '@Types/index';
+import { UserContextProps, UserLocationResponseData } from '@Types/index';
 
 import * as S from './style';
 import { UserContext } from '../../App';
@@ -19,15 +19,13 @@ const LocationSetting = () => {
     UserContext as React.Context<UserContextProps>,
   );
   const [isShowNotice, setIsShowNotice] = useState(false);
-  const { data, fetchData } = useFetch();
+  const { fetchData } = useFetch<UserLocationResponseData>();
 
   const handlerGoBackBtnClick = () => {
     navigate('/home');
   };
 
-  const handleSubmitBtnClick = async () => {
-    if (user.towns.length < 1) return;
-
+  const updateUserLocation = async () => {
     const [primaryLocation, secondaryLocation] = user.towns;
 
     const locationDataToUpdate = {
@@ -61,17 +59,17 @@ const LocationSetting = () => {
   useEffect(() => {
     if (location.state) {
       const { locationData } = location.state;
-      setUserInfo({ towns: locationData });
+      setUserInfo({ towns: [...user.towns, locationData] });
     }
   }, [location]);
 
   useEffect(() => {
-    if (data) navigate('/home');
-  }, [data]);
-
-  useEffect(() => {
     if (isShowNotice) setTimeout(() => setIsShowNotice(false), 1000);
   }, [isShowNotice]);
+
+  useEffect(() => {
+    updateUserLocation();
+  }, [user]);
 
   return (
     <>
@@ -81,7 +79,6 @@ const LocationSetting = () => {
         center="동네 설정"
         right="완료"
         prevHandler={handlerGoBackBtnClick}
-        rightHandler={handleSubmitBtnClick}
         isRightActive={user.towns.length >= 1}
       />
       <S.Layout>

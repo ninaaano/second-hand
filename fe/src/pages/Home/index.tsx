@@ -8,9 +8,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { END_POINT } from '@Constants/endpoint';
 
-import useFetchAll from '@Hooks/useFetchAll';
+import useFetch from '@Hooks/useFetch';
 
 import {
+  LocationData,
+  Product,
   ProductResponseData,
   UserContextProps,
   UserLocationResponseData,
@@ -20,53 +22,81 @@ import * as S from './style';
 import { UserContext } from '../../App';
 
 const Home = () => {
-  const { user, setUserInfo } = useContext(UserContext) as UserContextProps;
   const navigate = useNavigate();
+  const { user, setUserInfo } = useContext(UserContext) as UserContextProps;
 
-  const [userLocations, setUserLocations] =
-    useState<UserLocationResponseData | null>(null);
-  const [products, setProducts] = useState<ProductResponseData | null>(null);
+  const [userLocations, setUserLocations] = useState<LocationData[]>([]);
+  const [products, setProducts] = useState<Product[] | null>(null);
+  const [targetTownIndex, setTargetTownIndex] = useState(0);
+
+  const { data, status, errorMessage, fetchData } = useFetch<
+    UserLocationResponseData | ProductResponseData
+  >(`${END_POINT.userLocation}`);
 
   const towns = user.towns.map(({ town }) => town);
 
-  const { data, status, errorMessage } = useFetchAll<
-    UserLocationResponseData | ProductResponseData
-  >([
-    `${END_POINT.userLocation}?page=0&size=10`,
-    `${END_POINT.products}?page=0&size=10`,
-  ]);
+  const getProduct = async (locationId: number) => {
+    await fetchData({
+      url: `${END_POINT.products}?page=0&size=10&locationId=${locationId}`,
+      isGetData: true,
+    });
+  };
+
+  const handleModalClick = (townIndex: number) => {
+    if (towns.length === 1) return;
+    if (userLocations) {
+      setTargetTownIndex(townIndex);
+      setUserLocations([...userLocations]);
+      setUserInfo({ towns: [...userLocations] });
+    }
+  };
 
   useEffect(() => {
     if (data) {
-      const userLocationsData = data[0] as UserLocationResponseData;
-      const productsData = data[1] as ProductResponseData;
+      if (!userLocations.length) {
+        const userLocationsData = data as UserLocationResponseData;
+        const towns = Object.entries(userLocationsData.data)
+          .map(([, locationInfo]) => locationInfo)
+          .filter((locationInfo) => {
+            if (locationInfo) return locationInfo.town;
+          });
 
-      setUserLocations(userLocationsData);
-      setProducts(productsData);
+        setUserInfo({ towns: towns });
+        setUserLocations(towns);
+      }
     }
   }, [data]);
 
   useEffect(() => {
-    if (userLocations) {
-      const towns = Object.entries(userLocations.data).map(
-        ([, locationInfo]) => locationInfo,
-      );
-      setUserInfo({ towns: towns });
+    if (data && userLocations.length) {
+      const productsData = data as ProductResponseData;
+      setProducts(productsData.data.products);
     }
-  }, [userLocations, setUserInfo]);
+  }, [data]);
+
+  useEffect(() => {
+    if (userLocations.length) {
+      getProduct(userLocations[targetTownIndex].locationId);
+    }
+  }, [userLocations]);
 
   return (
     <>
-      <NavigationBar type="homeLayout" title="title1" towns={towns} />
+      <NavigationBar
+        type="homeLayout"
+        title="title1"
+        towns={targetTownIndex === 0 ? towns : towns.reverse()}
+        modalHanlder={handleModalClick}
+      />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
-      {products && <ProductList itemData={products.data.products} />}
+      {products && <ProductList key={products.length} itemData={products} />}
       <S.ButtonBox>
         <Button
           buttonType="circle"
           buttonState="active"
           size="L"
           iconType="plus"
-          onClick={() => navigate('/newproudct')}
+          onClick={() => navigate('/newproduct')}
         />
       </S.ButtonBox>
       <TabBarHome currentPage="home" />
