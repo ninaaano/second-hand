@@ -39,7 +39,7 @@ const useFetch = <T,>(url?: string) => {
         headers,
         body,
       });
-      console.log(res);
+
       if (isGetData || res.status === 302) {
         const data = await res.json();
         setData(data);

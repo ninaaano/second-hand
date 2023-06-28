@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { END_POINT } from '@Constants/endpoint';
 
-import usePullToRefresh from '@Hooks/useFullToRefresh';
 import useInfiniteScroll from '@Hooks/useInfiniteScroll';
+import usePullToRefresh from '@Hooks/usePullToRefresh';
 
 import { Product, ProductResponseData } from '@Types/index';
 
