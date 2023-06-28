@@ -38,7 +38,6 @@ export const NewImg = ({ productList }: imgProps) => {
               },
             ]);
             productList(imgFile.map((file) => file.ImgFileName));
-
             sessionStorage.setItem('saveImgFile', JSON.stringify(imgFile));
           }
           setId(id + 1);

@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { END_POINT } from '@Constants/endpoint';
 
@@ -19,7 +20,7 @@ interface ProductListProps {
 export const ProductList = ({ itemData }: ProductListProps) => {
   const productListRef = useRef<HTMLDivElement>(null);
   const [Products, setProducts] = useState<Product[]>(itemData);
-
+  const navigate = useNavigate();
   const { refreshing, distance, status, errorMessage, refreshedData } =
     usePullToRefresh<ProductResponseData>(
       `${END_POINT.products}?page=0&size=10`,
@@ -69,6 +70,7 @@ export const ProductList = ({ itemData }: ProductListProps) => {
               status={product.status}
               isCategory={true}
               isCount={true}
+              onClick={() => navigate(`/productDetail/${product.productId}`)}
             />
             <hr />
           </Fragment>

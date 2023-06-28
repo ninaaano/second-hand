@@ -5,6 +5,12 @@ import { TabBarSellProduct } from '@Components/common/TabBar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { END_POINT } from '@Constants/endpoint';
+
+import useFetch from '@Hooks/useFetch';
+
+import { SaleResponseData } from '@Types/index';
+
 import * as S from './style';
 
 export const NewProduct = () => {
@@ -13,10 +19,25 @@ export const NewProduct = () => {
   const [contentes, setContents] = useState<string>('');
   const [productImages, setProductImages] = useState<string[]>([]);
   const [categoryId, setCategoryId] = useState<number>(0);
-
+  const { data, fetchData } = useFetch<SaleResponseData>();
   const handelSavePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     sessionStorage.setItem('savePrice', JSON.stringify(value));
+  };
+  const handlePost = async () => {
+    await fetchData({
+      url: END_POINT.products,
+      isGetData: true,
+      method: 'POST',
+      body: JSON.stringify({
+        title: title,
+        price: price,
+        contentes: contentes,
+        productImages: productImages,
+        categoryId: categoryId,
+        locationId: 1,
+      }),
+    });
   };
 
   const navigation = useNavigate();
@@ -29,6 +50,7 @@ export const NewProduct = () => {
         center="내 물건 팔기"
         right="완료"
         prevHandler={() => navigation(-1)}
+        rightHandler={handlePost}
       />
       <S.ContentBox>
         <div className="empty" />
