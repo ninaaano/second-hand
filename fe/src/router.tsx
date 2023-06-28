@@ -11,6 +11,7 @@ import LocationSetting from '@Pages/LocationSetting';
 import Login from '@Pages/Login';
 import MyAccount from '@Pages/MyAccount';
 import { NewProduct } from '@Pages/NewProduct';
+import { ProductDetail } from '@Pages/ProductDetail';
 import Registration from '@Pages/Registration';
 import SalesList from '@Pages/SalesList';
 import WishList from '@Pages/WishList';
@@ -74,6 +75,10 @@ const router = createBrowserRouter(
         {
           path: '/category',
           element: <Category />,
+        },
+        {
+          path: '/productDetail/:id',
+          element: <ProductDetail />,
         },
       ],
     },
