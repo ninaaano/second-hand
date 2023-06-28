@@ -51,12 +51,7 @@ export const NavigationBar = ({
       <NavBarModalSearch prevHandler={prevHandler} />
     )}
     {type === 'backBtnLayout' && (
-      <NavBarBackBtn
-        prev={prev}
-        center={center}
-        right={right}
-        prevHandler={prevHandler}
-      />
+      <NavBarBackBtn prev={prev} center={center} prevHandler={prevHandler} />
     )}
     {type === 'segmentPickerLayout' && <NavBarSegmentPicker title={center} />}
   </S.Layout>
