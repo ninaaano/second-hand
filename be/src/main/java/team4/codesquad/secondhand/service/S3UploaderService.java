@@ -10,8 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import team4.codesquad.secondhand.configuration.S3Properties;
 
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.util.UUID;
 
 @Service
@@ -21,13 +19,12 @@ public class S3UploaderService {
 
     private final AmazonS3 amazonS3;
     private final S3Properties s3Properties;
-    private static final String DIRECTORY_SEPARATOR = "/";
 
     @Value("${aws.bucketFolderPath}")
     private String filePath;
 
     public String upload(MultipartFile multipartFile) {
-        String s3FileName = generateS3FileName(multipartFile.getOriginalFilename());
+        String s3FileName = generateS3FileName();
         ObjectMetadata objMeta = createObjectMetadata(multipartFile);
 
         try {
@@ -38,8 +35,8 @@ public class S3UploaderService {
         }
     }
 
-    private String generateS3FileName(String originalFilename) {
-        return UUID.randomUUID() + "-" + originalFilename;
+    private String generateS3FileName() {
+        return UUID.randomUUID().toString();
     }
 
     private ObjectMetadata createObjectMetadata(MultipartFile multipartFile) {
@@ -67,10 +64,7 @@ public class S3UploaderService {
 
     public String extractFileNameFromUrl(String url) {
         try {
-            URL imageUrl = new URL(url);
-            String path = imageUrl.getPath();
-            String decodedPath = URLDecoder.decode(path, "UTF-8");
-            String[] pathSegments = decodedPath.split("/");
+            String[] pathSegments = url.split("/");
             String fileName = pathSegments[pathSegments.length - 1];
             return fileName;
         } catch (Exception e) {

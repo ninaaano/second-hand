@@ -83,7 +83,6 @@ public class ProductService {
     }
 
     private void addProductImages(Product product, List<MultipartFile> productImages) {
-        // 멀티파트 파일을 String으로 변환해서 S3에 업로드하는 부분
         List<String> productImagesUrls = getPhotosUrl(productImages);
 
         productImagesUrls.stream()
@@ -122,45 +121,50 @@ public class ProductService {
         return new ProductResponseIdDTO(product);
     }
 
-    public void updateProductImages(Product product, List<MultipartFile> productImages){
-        // 새로운 이미지가 없으면 기존 이미지를 유지
+    public void updateProductImages(Product product, List<MultipartFile> productImages) {
         if (productImages == null || productImages.isEmpty()) {
             return;
         }
 
-        // 원래 가지고 있던 파일
-        List<ProductImage> originalImages = new ArrayList<>(product.getProductImages());
+        List<String> newImageUrls = getPhotosUrl(productImages);
+        List<ProductImage> existingImages = product.getProductImages();
 
-        List<String> existingImageUrls = originalImages.stream()
+        List<String> existingImageUrls = getExistingImageUrls(existingImages);
+
+        List<ProductImage> imagesToDelete = findImagesToDelete(existingImages, newImageUrls);
+
+        deleteImages(product, imagesToDelete);
+
+        addNewImages(product, newImageUrls, existingImageUrls);
+    }
+
+    private List<String> getExistingImageUrls(List<ProductImage> existingImages) {
+        return existingImages.stream()
                 .map(ProductImage::getImageUrl)
                 .collect(Collectors.toList());
+    }
 
-        // 새로 추가되는 파일 추가 후 url 반환
-        List<String> newImages = getPhotosUrl(productImages).stream()
-                .distinct()
+    private List<ProductImage> findImagesToDelete(List<ProductImage> existingImages, List<String> newImageUrls) {
+        return existingImages.stream()
+                .filter(image -> !newImageUrls.contains(image.getImageUrl()))
                 .collect(Collectors.toList());
+    }
 
-        List<ProductImage> copiedImages = new ArrayList<>(originalImages);
+    private void deleteImages(Product product, List<ProductImage> imagesToDelete) {
+        for (ProductImage image : imagesToDelete) {
+            product.removeProductImage(image);
+            s3UploaderService.delete(image.getImageUrl());
+            productImageRepository.delete(image);
+        }
+    }
 
-        copiedImages.removeIf(existingImage -> {
-            String existingImageUrl = existingImage.getImageUrl();
-            boolean isDuplicate = newImages.contains(existingImageUrl);
-            if(!isDuplicate){
-                product.removeProductImage(existingImage);
-                s3UploaderService.delete(existingImageUrl);
-                productImageRepository.delete(existingImage); // 이미지 엔티티 삭제
-            }
-            return isDuplicate;
-        });
-
-        // 새로운 이미지 URL들을 순회하면서 이미지를 추가
-        for (String newImageUrl : newImages) {
+    private void addNewImages(Product product, List<String> newImageUrls, List<String> existingImageUrls) {
+        for (String newImageUrl : newImageUrls) {
             if (!existingImageUrls.contains(newImageUrl)) {
                 ProductImage newImage = new ProductImage(newImageUrl);
                 product.addProductImage(newImage);
             }
         }
-
     }
 
     public ProductListDTO getUserSalesProducts(User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
