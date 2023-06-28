@@ -10,29 +10,38 @@ const useFetchAll = <T,>(urls: string[]) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async ({
+      urls,
+      method = 'GET',
+      body,
+    }: {
+      urls: string[];
+      method?: string;
+      body?: BodyInit | null | undefined;
+    }) => {
       try {
         const JWTToken = localStorage.getItem('JWTToken');
 
+        console.log('내부', urls);
         const headers = {
           Authorization: `Bearer ${JWTToken}`,
           'Content-Type': 'application/json',
         };
 
-        const requests = urls.map((url) => fetch(url, { headers }));
+        const requests = urls.map((url) =>
+          fetch(url, {
+            method,
+            headers,
+            body,
+          }),
+        );
 
         const responses = await Promise.all(requests);
 
         const responseData = await Promise.all(
-          responses.map((res) => {
-            if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
-            if (res.status === 404) throw new Error(ERROR_MESSAGE[404]);
-            if (!res.ok) throw new Error(ERROR_MESSAGE.default);
-
-            return res.json();
-          }),
+          responses.map((res) => res.json()),
         );
-
+        console.log(responseData);
         setData(responseData);
         setStatus('success');
       } catch (error) {
@@ -41,8 +50,8 @@ const useFetchAll = <T,>(urls: string[]) => {
       }
     };
 
-    fetchData();
-  }, [urls]);
+    fetchData({ urls: urls });
+  }, []);
 
   return { data, status, errorMessage };
 };

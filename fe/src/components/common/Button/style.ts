@@ -48,8 +48,8 @@ export const Button = styled.button<ButtonStyleProps>`
       }
       if (size === 'M') {
         return css`
-          width: 28px;
-          height: 28px;
+          width: 35px;
+          height: 35px;
         `;
       }
       if (size === 'L') {
@@ -71,9 +71,15 @@ export const Button = styled.button<ButtonStyleProps>`
       }
       if (size === 'M') {
         return css`
+          text-align: initial;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          display: flex;
+          align-items: flex-start;
+          min-height: 4vh;
           width: fit-content;
-          border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
-          height: 4vh;
+          border: none;
+          max-width: 70vw;
           ${theme.font.fontType.callOut};
         `;
       }

@@ -3,7 +3,8 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Auth from '@Pages/Auth';
 import { Category } from '@Pages/Category';
-import ChatList from '@Pages/ChatList';
+import Chat from '@Pages/Chat';
+import ChatRoom from '@Pages/ChatRoom';
 import Home from '@Pages/Home';
 import LocationSearch from '@Pages/LocationSearch';
 import LocationSetting from '@Pages/LocationSetting';
@@ -56,8 +57,12 @@ const router = createBrowserRouter(
           element: <WishList />,
         },
         {
-          path: '/chat',
-          element: <ChatList />,
+          path: '/Chat',
+          element: <Chat />,
+        },
+        {
+          path: '/chatRoom/:id',
+          element: <ChatRoom />,
         },
         {
           path: '/account',

@@ -32,6 +32,23 @@ export type ProductResponseData = {
   };
 };
 
+export type Chat = {
+  chatId: number;
+  profileImage: string;
+  timeStamp: number;
+  user: string;
+  description: string;
+  productImage: string;
+};
+
+export type ChatResponseData = {
+  statusCode: number;
+  message: string;
+  data: {
+    chats: Chat[];
+  };
+};
+
 export type LocationData = {
   locationId: number;
   district: string;
@@ -40,14 +57,14 @@ export type LocationData = {
 };
 
 export type User = {
-  userId?: number;
-  avatar?: string;
-  username?: string;
-  primaryTown?: string;
+  userId: number;
+  avatar: string;
+  username: string;
+  towns: LocationData[];
 };
 
 export type UserContextProps = {
-  user: User | undefined;
+  user: User;
   setUserInfo: (updatedUserInfo: Partial<User>) => void;
 };
 

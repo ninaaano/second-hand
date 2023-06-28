@@ -19,7 +19,9 @@ export const NewProduct = () => {
   const [contentes, setContents] = useState<string>('');
   const [productImages, setProductImages] = useState<string[]>([]);
   const [categoryId, setCategoryId] = useState<number>(0);
+
   const { data, fetchData } = useFetch<SaleResponseData>();
+
   const handelSavePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     sessionStorage.setItem('savePrice', JSON.stringify(value));
