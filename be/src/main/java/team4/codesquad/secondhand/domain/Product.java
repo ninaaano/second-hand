@@ -119,4 +119,7 @@ public class Product {
         this.category = category;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

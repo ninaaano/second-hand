@@ -7,13 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team4.codesquad.secondhand.annotation.Login;
 import team4.codesquad.secondhand.constant.ResponseMessage;
-import team4.codesquad.secondhand.constant.Status;
 import team4.codesquad.secondhand.controller.dto.Message;
 import team4.codesquad.secondhand.domain.User;
 import team4.codesquad.secondhand.service.CategoryService;
 import team4.codesquad.secondhand.service.ProductService;
 import team4.codesquad.secondhand.service.dto.ProductRequestDTO;
 import team4.codesquad.secondhand.service.dto.ProductSearchCondition;
+import team4.codesquad.secondhand.service.dto.ProductStatusUpdate;
 
 import javax.validation.Valid;
 
@@ -74,6 +74,12 @@ public class ProductController {
     public ResponseEntity<Message> userGetSalesProducts(@Login User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
         Message message = new Message(HttpStatus.OK, ResponseMessage.USERS_SALES_PRODUCTS_READ, productService.getUserSalesProducts(user, pageable, productSearchCondition));
         return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @PutMapping("/api/products/{productId}/status")
+    public ResponseEntity<String> updateProductStatus(@Login User user, @PathVariable Integer productId, @RequestBody ProductStatusUpdate request) {
+        productService.updateProductStatus(productId,request.getStatus());
+        return new ResponseEntity<>(ResponseMessage.UPDATE_PRODUCT_STATUS_OK, HttpStatus.OK);
     }
 
 }

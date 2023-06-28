@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team4.codesquad.secondhand.annotation.Login;
+import team4.codesquad.secondhand.constant.Status;
 import team4.codesquad.secondhand.domain.*;
 import team4.codesquad.secondhand.repository.*;
 import team4.codesquad.secondhand.service.dto.*;
@@ -178,5 +179,13 @@ public class ProductService {
                 .collect(Collectors.toList()), productsWithSlice.hasNext());
     }
 
+    @Transactional
+    public void updateProductStatus(Integer productId, Status request) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+
+        product.setStatus(request);
+        productRepository.updateStatus(productId, request);
+    }
 }
 
