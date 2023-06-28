@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import team4.codesquad.secondhand.configuration.S3Properties;
 
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.UUID;
 
 @Service
@@ -19,6 +21,7 @@ public class S3UploaderService {
 
     private final AmazonS3 amazonS3;
     private final S3Properties s3Properties;
+    private static final String DIRECTORY_SEPARATOR = "/";
 
     @Value("${aws.bucketFolderPath}")
     private String filePath;
@@ -50,4 +53,28 @@ public class S3UploaderService {
         return amazonS3.getUrl(s3Properties.getS3().getBucket() + filePath, s3FileName).toString();
     }
 
+    // TODO : S3 오브젝트 삭제 deleteObject(bucketName, key)
+    public void delete(String s3FileName) {
+        String bucketName = s3Properties.getS3().getBucket();
+        String fileName = extractFileNameFromUrl(s3FileName);
+        boolean isObjectExist = amazonS3.doesObjectExist(bucketName, "image/"+fileName);
+        if(isObjectExist) {
+            amazonS3.deleteObject(bucketName, "image/"+fileName);
+        }else {
+            throw new IllegalStateException("File not found: " + "image/"+fileName);
+        }
+    }
+
+    public String extractFileNameFromUrl(String url) {
+        try {
+            URL imageUrl = new URL(url);
+            String path = imageUrl.getPath();
+            String decodedPath = URLDecoder.decode(path, "UTF-8");
+            String[] pathSegments = decodedPath.split("/");
+            String fileName = pathSegments[pathSegments.length - 1];
+            return fileName;
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to extract file name from URL", e);
+        }
+    }
 }

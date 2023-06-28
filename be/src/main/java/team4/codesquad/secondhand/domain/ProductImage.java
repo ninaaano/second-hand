@@ -1,7 +1,5 @@
 package team4.codesquad.secondhand.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +27,11 @@ public class ProductImage {
     public void setProduct(Product product) {
         this.product = product;
         product.getProductImages().add(this);
+    }
+
+    public void removeProduct(Product product){
+        this.product = product;
+        product.getProductImages().remove(this);
     }
 
 }

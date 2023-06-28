@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team4.codesquad.secondhand.annotation.Login;
-import team4.codesquad.secondhand.constant.Status;
 import team4.codesquad.secondhand.domain.*;
 import team4.codesquad.secondhand.repository.*;
 import team4.codesquad.secondhand.service.dto.*;
@@ -84,12 +83,9 @@ public class ProductService {
     }
 
     private void addProductImages(Product product, List<MultipartFile> productImages) {
-        // 새로운 이미지가 없으면 기존 이미지를 유지
-        if (productImages == null || productImages.isEmpty()) {
-            return;
-        }
-
+        // 멀티파트 파일을 String으로 변환해서 S3에 업로드하는 부분
         List<String> productImagesUrls = getPhotosUrl(productImages);
+
         productImagesUrls.stream()
                 .map(ProductImage::new)
                 .forEach(product::addProductImage);
@@ -120,10 +116,51 @@ public class ProductService {
         Category category = getCategory(request.getCategoryId());
         Location location = getLocation(request.getLocationId());
 
-        addProductImages(product, request.getProductImages());
+        updateProductImages(product, request.getProductImages());
         product.updateProduct(request.getTitle(), request.getContents(), request.getPrice(), location, category);
 
         return new ProductResponseIdDTO(product);
+    }
+
+    public void updateProductImages(Product product, List<MultipartFile> productImages){
+        // 새로운 이미지가 없으면 기존 이미지를 유지
+        if (productImages == null || productImages.isEmpty()) {
+            return;
+        }
+
+        // 원래 가지고 있던 파일
+        List<ProductImage> originalImages = new ArrayList<>(product.getProductImages());
+
+        List<String> existingImageUrls = originalImages.stream()
+                .map(ProductImage::getImageUrl)
+                .collect(Collectors.toList());
+
+        // 새로 추가되는 파일 추가 후 url 반환
+        List<String> newImages = getPhotosUrl(productImages).stream()
+                .distinct()
+                .collect(Collectors.toList());
+
+        List<ProductImage> copiedImages = new ArrayList<>(originalImages);
+
+        copiedImages.removeIf(existingImage -> {
+            String existingImageUrl = existingImage.getImageUrl();
+            boolean isDuplicate = newImages.contains(existingImageUrl);
+            if(!isDuplicate){
+                product.removeProductImage(existingImage);
+                s3UploaderService.delete(existingImageUrl);
+                productImageRepository.delete(existingImage); // 이미지 엔티티 삭제
+            }
+            return isDuplicate;
+        });
+
+        // 새로운 이미지 URL들을 순회하면서 이미지를 추가
+        for (String newImageUrl : newImages) {
+            if (!existingImageUrls.contains(newImageUrl)) {
+                ProductImage newImage = new ProductImage(newImageUrl);
+                product.addProductImage(newImage);
+            }
+        }
+
     }
 
     public ProductListDTO getUserSalesProducts(User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
@@ -136,6 +173,6 @@ public class ProductService {
                 .map(ProductDTO::new)
                 .collect(Collectors.toList()), productsWithSlice.hasNext());
     }
-  
+
 }
 
