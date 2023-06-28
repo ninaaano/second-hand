@@ -59,11 +59,46 @@ export type CategoryResponseData = {
   };
 };
 
+export type SaleResponseData = {
+  title: string;
+  price: number;
+  contents: string;
+  productImages: string[];
+  categoryId: number;
+  locationId: number;
+};
+
 export type ImgFileType = {
   ImgFileId: number;
   ImgFileName: string;
 };
 
+export type ProductDetailResponseData = {
+  statusCode: number;
+  message: string;
+  data: ProductDetail;
+};
+
+export type ProductDetail = {
+  productId: number;
+  sellerId: string;
+  title: string;
+  contents: string;
+  price: number;
+  createdAt: string;
+  status: string;
+  watchlistCounts: number;
+  chatroomCounts: number;
+  images: ProductDetailImg[];
+  category: string;
+  views: number;
+};
+
+export type ProductDetailImg = {
+  productImageId: number;
+  imageUrl: string;
+};
+  
 export type UserLocation = {
   primaryLocation: LocationData;
   secondaryLocation?: LocationData;

@@ -21,6 +21,7 @@ interface ProductItemProps {
   status: string;
   isCategory: boolean;
   isCount: boolean;
+  onClick?: () => void;
 }
 
 export const ProductItem = ({
@@ -35,6 +36,7 @@ export const ProductItem = ({
   status,
   isCategory,
   isCount,
+  onClick,
 }: ProductItemProps) => {
   const [heart, setHeart] = useState(false);
 
@@ -47,7 +49,7 @@ export const ProductItem = ({
   };
 
   return (
-    <S.Layout>
+    <S.Layout onClick={onClick}>
       <S.ImgBox>
         <img src={imageUrl} />
       </S.ImgBox>
