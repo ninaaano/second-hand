@@ -21,4 +21,9 @@ public class Watchlist {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Watchlist(Product product, User user) {
+        this.product = product;
+        this.user = user;
+    }
 }
