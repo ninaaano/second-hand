@@ -46,10 +46,20 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDetailDTO increaseViewsAndRetrieveProduct(Integer productId) {
+    public ProductDetailDTO increaseViewsAndRetrieveProduct(User user, Integer productId) {
+        User savedUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+
         Product product = productRepository.findBy(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품정보 조회"));
         productRepository.countViews(productId);
-        return new ProductDetailDTO(product);
+
+        ProductDetailDTO productDetailDTO = new ProductDetailDTO(product);
+
+        if (watchlistRepository.existsByUserAndProduct(savedUser, product)) {
+            productDetailDTO.setWatchlist();
+        }
+
+        return productDetailDTO;
     }
 
     @Transactional
