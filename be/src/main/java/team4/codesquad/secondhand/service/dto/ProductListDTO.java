@@ -29,4 +29,8 @@ public class ProductListDTO {
             }
         });
     }
+
+    public void setAllProductsToWatchlist() {
+        products.forEach(ProductDTO::setWatchlist);
+    }
 }

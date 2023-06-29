@@ -8,7 +8,7 @@ import team4.codesquad.secondhand.domain.Watchlist;
 import java.util.List;
 import java.util.Optional;
 
-public interface WatchlistRepository extends JpaRepository<Watchlist, Integer> {
+public interface WatchlistRepository extends JpaRepository<Watchlist, Integer>, WatchlistRepositoryCustom {
 
     Boolean existsByUserAndProduct(User user, Product product);
 
