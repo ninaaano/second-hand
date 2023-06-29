@@ -64,7 +64,7 @@ class ProductServiceTest {
                 .willReturn(mockSlice);
 
         // when
-        ProductListDTO productListDTO = productService.buildProductListDTO(pageable, productSearchCondition);
+        ProductListDTO productListDTO = productService.buildProductListDTO(new User(), pageable, productSearchCondition);
 
         // then
         assertThat(productListDTO.getProducts().size()).isEqualTo(pageable.getPageSize());

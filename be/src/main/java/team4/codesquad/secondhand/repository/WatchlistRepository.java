@@ -5,6 +5,7 @@ import team4.codesquad.secondhand.domain.Product;
 import team4.codesquad.secondhand.domain.User;
 import team4.codesquad.secondhand.domain.Watchlist;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface WatchlistRepository extends JpaRepository<Watchlist, Integer> {
@@ -12,4 +13,6 @@ public interface WatchlistRepository extends JpaRepository<Watchlist, Integer> {
     Boolean existsByUserAndProduct(User user, Product product);
 
     Optional<Watchlist> findByUserAndProduct(User user, Product product);
+
+    List<Watchlist> findByUserAndProductIn(User user, List<Product> products);
 }

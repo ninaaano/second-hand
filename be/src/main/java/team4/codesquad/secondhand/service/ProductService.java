@@ -12,7 +12,9 @@ import team4.codesquad.secondhand.repository.*;
 import team4.codesquad.secondhand.service.dto.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,13 +29,20 @@ public class ProductService {
     private final S3UploaderService s3UploaderService;
     private final WatchlistRepository watchlistRepository;
 
-    public ProductListDTO buildProductListDTO(Pageable pageable, ProductSearchCondition productSearchCondition) {
+    public ProductListDTO buildProductListDTO(User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
         Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable, productSearchCondition);
         List<Product> products = productsWithSlice.getContent();
 
+        User savedUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+
+        Queue<WatchlistDTO> watchlistDTOs = watchlistRepository.findByUserAndProductIn(savedUser, products).stream()
+                .map(WatchlistDTO::new)
+                .collect(Collectors.toCollection(LinkedList::new));
+
         return new ProductListDTO(products.stream()
                 .map(ProductDTO::new)
-                .collect(Collectors.toList()), productsWithSlice.hasNext());
+                .collect(Collectors.toList()), productsWithSlice.hasNext(), watchlistDTOs);
     }
 
     @Transactional
