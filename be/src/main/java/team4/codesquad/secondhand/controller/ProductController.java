@@ -26,14 +26,14 @@ public class ProductController {
     private final CategoryService categoryService;
 
     @GetMapping("/api/products")
-    public ResponseEntity<Message> products(Pageable pageable, ProductSearchCondition productSearchCondition) {
-        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT, productService.buildProductListDTO(pageable, productSearchCondition));
+    public ResponseEntity<Message> products(@Login User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
+        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT, productService.buildProductListDTO(user, pageable, productSearchCondition));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @GetMapping("/api/products/{productId}")
-    public ResponseEntity<Message> product(@PathVariable Integer productId) {
-        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT_DETAIL, productService.increaseViewsAndRetrieveProduct(productId));
+    public ResponseEntity<Message> product(@Login User user, @PathVariable Integer productId) {
+        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT_DETAIL, productService.increaseViewsAndRetrieveProduct(user, productId));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
