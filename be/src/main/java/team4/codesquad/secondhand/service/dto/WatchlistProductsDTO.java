@@ -1,7 +1,6 @@
 package team4.codesquad.secondhand.service.dto;
 
 import lombok.Getter;
-import team4.codesquad.secondhand.domain.Category;
 import team4.codesquad.secondhand.domain.Watchlist;
 
 import java.util.List;

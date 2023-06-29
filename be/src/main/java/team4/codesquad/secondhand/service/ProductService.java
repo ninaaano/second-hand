@@ -36,7 +36,8 @@ public class ProductService {
         User savedUser = userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
 
-        Queue<WatchlistDTO> watchlistDTOs = watchlistRepository.findByUserAndProductIn(savedUser, products).stream()
+        Queue<WatchlistDTO> watchlistDTOs = watchlistRepository.findByUserAndProductInOrderByProduct(savedUser, products)
+                .stream()
                 .map(WatchlistDTO::new)
                 .collect(Collectors.toCollection(LinkedList::new));
 
