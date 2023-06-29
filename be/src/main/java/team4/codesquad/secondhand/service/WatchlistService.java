@@ -5,16 +5,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team4.codesquad.secondhand.domain.Category;
 import team4.codesquad.secondhand.domain.Product;
 import team4.codesquad.secondhand.domain.User;
 import team4.codesquad.secondhand.domain.Watchlist;
+import team4.codesquad.secondhand.repository.CategoryRepository;
 import team4.codesquad.secondhand.repository.ProductRepository;
 import team4.codesquad.secondhand.repository.UserRepository;
 import team4.codesquad.secondhand.repository.WatchlistRepository;
-import team4.codesquad.secondhand.service.dto.ProductDTO;
-import team4.codesquad.secondhand.service.dto.ProductListDTO;
-import team4.codesquad.secondhand.service.dto.WatchlistDTO;
-import team4.codesquad.secondhand.service.dto.WatchlistSearchCondition;
+import team4.codesquad.secondhand.service.dto.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +26,7 @@ public class WatchlistService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final WatchlistRepository watchlistRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional
     public WatchlistDTO createWatchlist(Integer productId, User user) {
@@ -60,7 +60,7 @@ public class WatchlistService {
         return savedWatchlist.getWatchlistId() + "번 관심 목록 삭제 완료";
     }
 
-    public ProductListDTO buildWatchlistProductListDTO(User user, Pageable pageable, WatchlistSearchCondition watchlistSearchCondition) {
+    public WatchlistProductsDTO buildWatchlistProductListDTO(User user, Pageable pageable, WatchlistSearchCondition watchlistSearchCondition) {
         User savedUser = userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
         watchlistSearchCondition.setUserId(savedUser);
@@ -68,13 +68,15 @@ public class WatchlistService {
         Slice<Watchlist> sliceWithWatchlist = watchlistRepository.findFilteredWatchlist(pageable, watchlistSearchCondition);
         List<Watchlist> watchlists = sliceWithWatchlist.getContent();
 
-        List<ProductDTO> products = watchlists.stream()
-                .map(w -> new ProductDTO(w.getProduct()))
-                .collect(Collectors.toList());
+        return new WatchlistProductsDTO(watchlists, sliceWithWatchlist.hasNext());
+    }
 
-        ProductListDTO productListDTO = new ProductListDTO(products, sliceWithWatchlist.hasNext());
-        productListDTO.setAllProductsToWatchlist();
+    public CategoryListDTO buildWatchlistAllCategoryDTO(User user) {
+        User savedUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
 
-        return productListDTO;
+        return new CategoryListDTO(categoryRepository.findAllCategoriesByUserWatchlist(savedUser).stream()
+                .map(CategoryDTO::new)
+                .collect(Collectors.toList()));
     }
 }

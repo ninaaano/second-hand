@@ -1,6 +1,7 @@
 package team4.codesquad.secondhand.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +36,16 @@ public class WatchlistController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @GetMapping("/api/products/watchlist")
+    @GetMapping("/api/watchlist")
     public ResponseEntity<Message> showWatchlistProducts(@Login User user, Pageable pageable, WatchlistSearchCondition watchlistSearchCondition) {
         Message message = new Message(HttpStatus.OK, ResponseMessage.READ_WATCHLIST, watchlistService.buildWatchlistProductListDTO(user, pageable, watchlistSearchCondition));
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/watchlist/category")
+    public ResponseEntity<Message> showAllCategoriesInUserWatchlist(@Login User user) {
+        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_WATCHLIST_CATEGORY, watchlistService.buildWatchlistAllCategoryDTO(user));
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

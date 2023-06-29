@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
-import team4.codesquad.secondhand.domain.QLocation;
-import team4.codesquad.secondhand.domain.QUser;
 import team4.codesquad.secondhand.domain.Watchlist;
 import team4.codesquad.secondhand.service.dto.WatchlistSearchCondition;
 

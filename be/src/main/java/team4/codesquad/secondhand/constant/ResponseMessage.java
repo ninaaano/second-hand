@@ -16,6 +16,7 @@ public abstract class ResponseMessage {
     public static final String CREATE_WATCHLIST = "관심 목록 추가 성공";
     public static final String DELETE_WATCHLIST = "관심 목록 삭제 성공";
     public static final String READ_WATCHLIST = "관심 목록 조회 성공";
+    public static final String READ_WATCHLIST_CATEGORY = "관심 목록의 모든 카테고리 조회 성공";
 
 
 }
