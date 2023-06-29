@@ -30,7 +30,7 @@ public class WatchlistService {
 
     @Transactional
     public WatchlistDTO createWatchlist(Integer productId, User user) {
-        Product product = productRepository.findById(productId)
+        Product product = productRepository.findBy(productId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품정보 조회"));
 
         User savedUser = userRepository.findById(user.getUserId())
@@ -38,6 +38,10 @@ public class WatchlistService {
 
         if (watchlistRepository.existsByUserAndProduct(user, product)) {
             throw new IllegalArgumentException("이미 관심등록된 상품");
+        }
+
+        if (product.getUser().equals(savedUser)) {
+            throw new IllegalArgumentException("자신의 판매상품은 관심등록할 수 없음");
         }
 
         Watchlist watchlist = watchlistRepository.save(new Watchlist(product, savedUser));
