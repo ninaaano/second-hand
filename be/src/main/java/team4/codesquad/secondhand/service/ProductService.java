@@ -38,17 +38,17 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDetailDTO increaseViewsAndRetrieveProduct(Integer productId) {
-        Product product = productRepository.findBy(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품정보 조회"));
+    public ProductDetailDTO getProductInfomationAndIncreaseView(Integer productId) {
+        Product product = findProductByProductId(productId);
         productRepository.countViews(productId);
         return new ProductDetailDTO(product);
     }
 
     @Transactional
     public ProductResponseIdDTO createProduct(ProductRequestDTO request, @Login User user) {
-        User seller = getSeller(user);
-        Category category = getCategory(request.getCategoryId());
-        Location location = getLocation(request.getLocationId());
+        User seller = findUserByUserId(user);
+        Category category = findCategoryByCategoryId(request.getCategoryId());
+        Location location = findLocationByLocationId(request.getLocationId());
 
         Product product = createProductEntity(request, seller, category, location);
         addProductImages(product, request.getProductImages());
@@ -57,19 +57,24 @@ public class ProductService {
         return new ProductResponseIdDTO(savedProduct);
     }
 
-    private User getSeller(User user) {
+    private User findUserByUserId(User user) {
         return userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
     }
 
-    private Category getCategory(Integer categoryId) {
+    private Category findCategoryByCategoryId(Integer categoryId) {
         return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
     }
 
-    private Location getLocation(Integer locationId) {
+    private Location findLocationByLocationId(Integer locationId) {
         return locationRepository.findById(locationId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역입니다."));
+    }
+
+    private Product findProductByProductId(Integer productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
     }
 
     private Product createProductEntity(ProductRequestDTO request, User seller, Category category, Location location) {
@@ -84,14 +89,14 @@ public class ProductService {
     }
 
     private void addProductImages(Product product, List<MultipartFile> productImages) {
-        List<String> productImagesUrls = getPhotosUrl(productImages);
+        List<String> productImagesUrls = s3UploadAndConverter(productImages);
 
         productImagesUrls.stream()
                 .map(ProductImage::new)
                 .forEach(product::addProductImage);
     }
 
-    public List<String> getPhotosUrl(List<MultipartFile> multipartFiles) {
+    public List<String> s3UploadAndConverter(List<MultipartFile> multipartFiles) {
         List<String> images = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
             images.add(s3UploaderService.upload(file));
@@ -102,19 +107,16 @@ public class ProductService {
 
     @Transactional
     public void deleteProduct(Integer productId) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+        Product product = findProductByProductId(productId);
         product.setDeleted(true);
         productRepository.save(product);
     }
 
     @Transactional
-    public ProductResponseIdDTO updateProduct(User seller, Integer productId, ProductRequestDTO request) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
-
-        Category category = getCategory(request.getCategoryId());
-        Location location = getLocation(request.getLocationId());
+    public ProductResponseIdDTO updateProduct(Integer productId, ProductRequestDTO request) {
+        Product product = findProductByProductId(productId);
+        Category category = findCategoryByCategoryId(request.getCategoryId());
+        Location location = findLocationByLocationId(request.getLocationId());
 
         updateProductImages(product, request.getProductImages());
         product.updateProduct(request.getTitle(), request.getContents(), request.getPrice(), location, category);
@@ -127,7 +129,7 @@ public class ProductService {
             return;
         }
 
-        List<String> newImageUrls = getPhotosUrl(productImages);
+        List<String> newImageUrls = s3UploadAndConverter(productImages);
         List<ProductImage> existingImages = product.getProductImages();
 
         List<String> existingImageUrls = getExistingImageUrls(existingImages);
@@ -181,9 +183,7 @@ public class ProductService {
 
     @Transactional
     public void updateProductStatus(Integer productId, Status request) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
-
+        Product product = findProductByProductId(productId);
         product.setStatus(request);
         productRepository.updateStatus(productId, request);
     }

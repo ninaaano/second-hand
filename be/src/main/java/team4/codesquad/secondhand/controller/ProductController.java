@@ -33,7 +33,7 @@ public class ProductController {
 
     @GetMapping("/api/products/{productId}")
     public ResponseEntity<Message> product(@PathVariable Integer productId) {
-        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT_DETAIL, productService.increaseViewsAndRetrieveProduct(productId));
+        Message message = new Message(HttpStatus.OK, ResponseMessage.READ_PRODUCT_DETAIL, productService.getProductInfomationAndIncreaseView(productId));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
@@ -66,10 +66,10 @@ public class ProductController {
         if (productId == null) {
             throw new IllegalArgumentException("상품 ID가 유효하지 않습니다.");
         }
-        Message message = new Message(HttpStatus.OK, ResponseMessage.UPDATE_PRODUCT_OK, productService.updateProduct(user, productId, request));
+        Message message = new Message(HttpStatus.OK, ResponseMessage.UPDATE_PRODUCT_OK, productService.updateProduct(productId, request));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
-  
+
     @GetMapping("/api/products/sales")
     public ResponseEntity<Message> userGetSalesProducts(@Login User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
         Message message = new Message(HttpStatus.OK, ResponseMessage.USERS_SALES_PRODUCTS_READ, productService.getUserSalesProducts(user, pageable, productSearchCondition));
@@ -78,7 +78,10 @@ public class ProductController {
 
     @PutMapping("/api/products/{productId}/status")
     public ResponseEntity<String> updateProductStatus(@Login User user, @PathVariable Integer productId, @RequestBody ProductStatusUpdate request) {
-        productService.updateProductStatus(productId,request.getStatus());
+        if (productId == null) {
+            throw new IllegalArgumentException("상품 ID가 유효하지 않습니다.");
+        }
+        productService.updateProductStatus(productId, request.getStatus());
         return new ResponseEntity<>(ResponseMessage.UPDATE_PRODUCT_STATUS_OK, HttpStatus.OK);
     }
 
