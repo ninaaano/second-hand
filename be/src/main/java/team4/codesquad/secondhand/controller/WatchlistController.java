@@ -3,6 +3,7 @@ package team4.codesquad.secondhand.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,4 +28,10 @@ public class WatchlistController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    @DeleteMapping("/api/products/{productId}/watchlist")
+    public ResponseEntity<Message> deleteProductFromWatchlist(@PathVariable Integer productId, @Login User user) {
+        Message message = new Message(HttpStatus.OK, ResponseMessage.DELETE_WATCHLIST, watchlistService.deleteWatchlist(productId, user));
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
 }

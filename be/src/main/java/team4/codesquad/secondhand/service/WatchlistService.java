@@ -11,6 +11,8 @@ import team4.codesquad.secondhand.repository.UserRepository;
 import team4.codesquad.secondhand.repository.WatchlistRepository;
 import team4.codesquad.secondhand.service.dto.WatchlistDTO;
 
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -34,5 +36,21 @@ public class WatchlistService {
 
         Watchlist watchlist = watchlistRepository.save(new Watchlist(product, savedUser));
         return new WatchlistDTO(watchlist);
+    }
+
+    @Transactional
+    public String deleteWatchlist(Integer productId, User user) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품정보 조회"));
+
+        User savedUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
+
+        Watchlist savedWatchlist = watchlistRepository.findByUserAndProduct(savedUser, product)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 관심 목록"));
+
+        watchlistRepository.delete(savedWatchlist);
+
+        return savedWatchlist.getWatchlistId() + "번 관심 목록 삭제 완료";
     }
 }
