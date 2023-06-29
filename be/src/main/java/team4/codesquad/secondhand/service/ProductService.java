@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team4.codesquad.secondhand.annotation.Login;
-import team4.codesquad.secondhand.constant.Status;
 import team4.codesquad.secondhand.domain.*;
 import team4.codesquad.secondhand.repository.*;
 import team4.codesquad.secondhand.service.dto.*;
@@ -24,9 +23,9 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
-    private final ProductImageRepository productImageRepository;
     private final UserRepository userRepository;
     private final S3UploaderService s3UploaderService;
+    private final WatchlistRepository watchlistRepository;
 
     public ProductListDTO buildProductListDTO(Pageable pageable, ProductSearchCondition productSearchCondition) {
         Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable, productSearchCondition);
@@ -92,7 +91,9 @@ public class ProductService {
     }
 
     public ProductListDTO getUserSalesProducts(User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
-        productSearchCondition.setUserId(user.getUserId());
+        User savedUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+        productSearchCondition.setUserId(savedUser.getUserId());
 
         Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable, productSearchCondition);
         List<Product> products = productsWithSlice.getContent();
