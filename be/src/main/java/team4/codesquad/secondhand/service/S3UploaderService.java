@@ -21,12 +21,13 @@ public class S3UploaderService {
     private final S3Properties s3Properties;
 
     @Value("${aws.bucketFolderPath}")
-    private final String filePath;
+    private String filePath;
     private static final String KEY_PATH = "image/";
-    private final String bucket = s3Properties.getS3().getBucket();
+
 
     public String upload(MultipartFile multipartFile) {
         String s3FileName = generateS3FileName();
+        String bucket = s3Properties.getS3().getBucket();
         ObjectMetadata objMeta = createObjectMetadata(multipartFile);
 
         try {
@@ -49,12 +50,15 @@ public class S3UploaderService {
     }
 
     private String generateS3FileUrl(String s3FileName) {
+        String bucket = s3Properties.getS3().getBucket();
         return amazonS3.getUrl(bucket + filePath, s3FileName).toString();
     }
 
     public void delete(String s3FileName) {
         String fileName = extractFileNameFromUrl(s3FileName);
         String keyName = KEY_PATH + fileName;
+        String bucket = s3Properties.getS3().getBucket();
+
         boolean isObjectExist = amazonS3.doesObjectExist(bucket, keyName);
         if (isObjectExist) {
             amazonS3.deleteObject(bucket, keyName);
