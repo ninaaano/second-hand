@@ -115,7 +115,7 @@ export type ProductDetailImg = {
   productImageId: number;
   imageUrl: string;
 };
-  
+
 export type UserLocation = {
   primaryLocation: LocationData;
   secondaryLocation?: LocationData;
@@ -125,4 +125,9 @@ export type UserLocationResponseData = {
   statusCode: number;
   message: string;
   data: UserLocation;
+};
+
+export type UploadFile = {
+  imgFile: string;
+  originFile: FileList;
 };

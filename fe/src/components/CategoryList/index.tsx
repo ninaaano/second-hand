@@ -29,14 +29,11 @@ export const CategoryList = () => {
     );
     saveCategory();
   };
-
   const [categoryIdData, setCategoryIdData] = useState<CategoryType>();
 
   const saveCategory = () => {
     const categoryData = sessionStorage.getItem('saveCategory');
-    if (categoryData !== null) {
-      setCategoryIdData(JSON.parse(categoryData));
-    }
+    if (categoryData !== null) setCategoryIdData(JSON.parse(categoryData));
   };
 
   useEffect(() => {

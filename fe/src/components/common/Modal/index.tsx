@@ -6,8 +6,14 @@ interface ModalProps {
   stateRef: React.RefObject<HTMLDivElement>;
   titleList: string[];
   buttonTitle: string;
+  onClick: () => void;
 }
-export const Modal = ({ stateRef, titleList, buttonTitle }: ModalProps) => (
+export const Modal = ({
+  stateRef,
+  titleList,
+  buttonTitle,
+  onClick,
+}: ModalProps) => (
   <S.Layout ref={stateRef}>
     <S.ModifyBox>
       {titleList &&
@@ -22,6 +28,7 @@ export const Modal = ({ stateRef, titleList, buttonTitle }: ModalProps) => (
       buttonState="active"
       size="L"
       title={buttonTitle}
+      onClick={onClick}
     />
   </S.Layout>
 );

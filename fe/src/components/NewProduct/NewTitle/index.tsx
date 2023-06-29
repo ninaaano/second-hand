@@ -7,35 +7,31 @@ import { END_POINT } from '@Constants/endpoint';
 
 import useFetch from '@Hooks/useFetch';
 
-import { debounce } from '@Utils/debounce';
-
 import { CategoryType, CategoryResponseData } from '@Types/index';
 
 import * as S from './style';
 
-export const NewTitle = ({
-  titleProps,
-  categoryProps,
-}: {
+interface NewTitleProps {
   titleProps: React.Dispatch<React.SetStateAction<string>>;
-  categoryProps: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+  titleValueProps: string;
+}
+
+export const NewTitle = ({ titleProps, titleValueProps }: NewTitleProps) => {
   const { data } = useFetch<CategoryResponseData>(END_POINT.category);
   const navigation = useNavigate();
   const [randomCategory, setRandomCategory] = useState<CategoryType[]>([]);
   const [selectCategory, setSelectCategory] = useState<CategoryType>();
 
-  const handleSaveCatgory = debounce(({ target }) => {
-    const value = target.value;
-    sessionStorage.setItem('saveTitle', JSON.stringify(value));
-    const arr = data?.data.category.sort(() => Math.random() - 0.5);
+  const handleRandomCategory = () => {
+    if (randomCategory.length <= 0) {
+      const arr = data?.data.category.sort(() => Math.random() - 0.5);
 
-    if (arr) {
-      const randomCategory = arr?.slice(0, 3);
-      setRandomCategory(randomCategory);
-      sessionStorage.setItem('randomCategory', JSON.stringify(randomCategory));
+      if (arr) {
+        const randomCategory = arr?.slice(0, 3);
+        setRandomCategory(randomCategory);
+      }
     }
-  }, 1000);
+  };
 
   const getTitle = () => {
     const titleData = sessionStorage.getItem('saveTitle');
@@ -45,10 +41,25 @@ export const NewTitle = ({
   };
 
   const getCategory = () => {
-    const categoryData = sessionStorage.getItem('saveCategory');
-    if (categoryData) {
-      setSelectCategory(JSON.parse(categoryData));
-      categoryProps(JSON.parse(categoryData).categoryId);
+    const pickCategoryData = sessionStorage.getItem('saveCategory');
+    if (pickCategoryData) {
+      setSelectCategory(() => {
+        const pickData = JSON.parse(pickCategoryData);
+        return pickData;
+      });
+    }
+  };
+
+  const getCategoryList = () => {
+    console.log('se', selectCategory);
+    if (selectCategory) {
+      const isPickInRandom = randomCategory.some(
+        (category) => category.categoryId === selectCategory.categoryId,
+      );
+      if (!isPickInRandom) {
+        console.log('pickRandom', isPickInRandom);
+        setRandomCategory((prevData) => [selectCategory, ...prevData]);
+      }
     }
   };
 
@@ -57,10 +68,30 @@ export const NewTitle = ({
     if (categoryData) setRandomCategory(JSON.parse(categoryData));
   };
 
+  const handleSaveDetail = () => {
+    if (titleValueProps.length) {
+      sessionStorage.setItem('saveTitle', JSON.stringify(titleValueProps));
+    }
+    if (randomCategory.length) {
+      sessionStorage.setItem('randomCategory', JSON.stringify(randomCategory));
+    }
+
+    if (selectCategory !== undefined) {
+      sessionStorage.setItem('saveCategory', JSON.stringify(selectCategory));
+    }
+  };
+
+  useEffect(() => {
+    getRandomCategory();
+    getCategoryList();
+    if (selectCategory !== undefined) {
+      sessionStorage.setItem('saveCategory', JSON.stringify(selectCategory));
+    }
+  }, [selectCategory]);
+
   useEffect(() => {
     getTitle();
     getCategory();
-    getRandomCategory();
   }, []);
 
   return (
@@ -68,36 +99,42 @@ export const NewTitle = ({
       <input
         type="text"
         placeholder="글제목"
-        onChange={({ target }) => {
-          titleProps(target.value);
-          handleSaveCatgory({ target });
+        onChange={(e) => {
+          titleProps(e.target.value);
+          handleRandomCategory();
         }}
         maxLength={50}
+        value={titleValueProps}
       />
       {randomCategory.length > 0 && (
         <S.CategoryBox>
           <S.CategoryBtnBox>
-            {selectCategory && (
-              <Button
-                buttonType="ellipse"
-                buttonState="active"
-                size="S"
-                title={selectCategory.categoryName}
-              />
-            )}
             {randomCategory.map((category) => (
               <Button
                 key={category.categoryId}
                 buttonType="ellipse"
-                buttonState="default"
+                buttonState={
+                  selectCategory?.categoryId === category.categoryId
+                    ? 'active'
+                    : 'default'
+                }
                 size="S"
                 title={category.categoryName}
+                onClick={() =>
+                  setSelectCategory({
+                    categoryId: category.categoryId,
+                    categoryName: category.categoryName,
+                  })
+                }
               />
             ))}
           </S.CategoryBtnBox>
           <Icon
             iconType="chevronRight"
-            onClick={() => navigation('/category')}
+            onClick={() => {
+              handleSaveDetail();
+              navigation('/category');
+            }}
           />
         </S.CategoryBox>
       )}
