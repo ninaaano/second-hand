@@ -39,9 +39,4 @@ export const layoutType = {
     background: ${({ theme }) => theme.color.palette.white};
     border-bottom: 1px solid ${({ theme }) => theme.color.palette.gray500};
   `,
-  segmentPickerLayout: css`
-    height: 10vh;
-    background: ${({ theme }) => theme.color.palette.white};
-    border: 1px solid ${({ theme }) => theme.color.palette.gray200};
-  `,
 };

@@ -51,13 +51,11 @@ export const NewTitle = ({ titleProps, titleValueProps }: NewTitleProps) => {
   };
 
   const getCategoryList = () => {
-    console.log('se', selectCategory);
     if (selectCategory) {
       const isPickInRandom = randomCategory.some(
         (category) => category.categoryId === selectCategory.categoryId,
       );
       if (!isPickInRandom) {
-        console.log('pickRandom', isPickInRandom);
         setRandomCategory((prevData) => [selectCategory, ...prevData]);
       }
     }

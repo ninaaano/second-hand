@@ -5,7 +5,6 @@ import { NavBarBackBtn } from './NavBarBackBtn';
 import { NavBarHome } from './NavBarHome';
 import { NavBarModal } from './NavBarModal';
 import { NavBarModalSearch } from './NavBarModalSearch';
-import { NavBarSegmentPicker } from './NavBarSegmentPicker';
 import * as S from './style';
 interface NavBarProps {
   type: string;
@@ -53,6 +52,5 @@ export const NavigationBar = ({
     {type === 'backBtnLayout' && (
       <NavBarBackBtn prev={prev} center={center} prevHandler={prevHandler} />
     )}
-    {type === 'segmentPickerLayout' && <NavBarSegmentPicker title={center} />}
   </S.Layout>
 );

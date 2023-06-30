@@ -21,9 +21,8 @@ export const NewProduct = () => {
   const [contentes, setContents] = useState<string>('');
   const [productImages, setProductImages] = useState<File[]>([]);
   const [categoryId, setCategoryId] = useState<number>(0);
-  const formData = new FormData();
 
-  console.log('user', user);
+  const formData = new FormData();
 
   const { fetchData } = useFetch<SaleResponseData>();
 
