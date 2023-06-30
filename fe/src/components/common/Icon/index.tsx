@@ -9,7 +9,7 @@ interface IconProps {
   width?: number;
   height?: number;
   fill?: string;
-  onClick?: () => void;
+  onClick?: () => void | undefined;
 }
 
 export const Icon = ({

@@ -19,7 +19,7 @@ export const layoutType = {
   defaultLayout: css`
     height: 8vh;
     background: ${({ theme }) => theme.color.colors.neutralBackgroundBlur};
-    border: 1px solid ${({ theme }) => theme.color.palette.gray200};
+    border-bottom: 1px solid ${({ theme }) => theme.color.palette.gray300};
   `,
   homeLayout: css`
     height: 8vh;
@@ -37,11 +37,6 @@ export const layoutType = {
   backBtnLayout: css`
     height: 8vh;
     background: ${({ theme }) => theme.color.palette.white};
-    border: 1px solid ${({ theme }) => theme.color.palette.gray200};
-  `,
-  segmentPickerLayout: css`
-    height: 10vh;
-    background: ${({ theme }) => theme.color.palette.white};
-    border: 1px solid ${({ theme }) => theme.color.palette.gray200};
+    border-bottom: 1px solid ${({ theme }) => theme.color.palette.gray300};
   `,
 };

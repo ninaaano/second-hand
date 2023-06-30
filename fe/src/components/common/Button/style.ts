@@ -14,6 +14,7 @@ export const Button = styled.button<ButtonStyleProps>`
         return css`
           width: fit-content;
           border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
+          border-radius: 8px;
           height: 4vh;
           padding: 8px 16px;
           ${theme.font.fontType.caption1};
@@ -23,6 +24,7 @@ export const Button = styled.button<ButtonStyleProps>`
         return css`
           width: 177.5px;
           border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
+          border-radius: 8px;
           height: 5.5vh;
           padding: 8px 16px;
           ${theme.font.fontType.callOut};
@@ -32,6 +34,7 @@ export const Button = styled.button<ButtonStyleProps>`
         return css`
           width: 90vw;
           border: none;
+          border-radius: 8px;
           height: 6.5vh;
           padding: 8px 16px;
           ${theme.font.fontType.subHead};
@@ -43,13 +46,15 @@ export const Button = styled.button<ButtonStyleProps>`
         return css`
           width: 20px;
           height: 20px;
+          border-radius: 50px;
           ${theme.font.fontType.caption1};
         `;
       }
       if (size === 'M') {
         return css`
-          width: 28px;
-          height: 28px;
+          width: 35px;
+          height: 35px;
+          border-radius: 50px;
         `;
       }
       if (size === 'L') {
@@ -57,6 +62,7 @@ export const Button = styled.button<ButtonStyleProps>`
           width: 56px;
           height: 56px;
           ${theme.font.fontType.headLine};
+          border-radius: 50px;
         `;
       }
     }
@@ -64,16 +70,24 @@ export const Button = styled.button<ButtonStyleProps>`
       if (size === 'S') {
         return css`
           width: fit-content;
-          border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
+          border: none;
+          border-radius: 50px;
           height: 3.5vh;
           ${theme.font.fontType.caption1};
         `;
       }
       if (size === 'M') {
         return css`
+          text-align: initial;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          display: flex;
+          align-items: flex-start;
+          min-height: 4vh;
           width: fit-content;
-          border: 1px solid ${({ theme }) => theme.color.colors.neutralOverlay};
-          height: 4vh;
+          border: none;
+          border-radius: 18px;
+          max-width: 70vw;
           ${theme.font.fontType.callOut};
         `;
       }
@@ -108,7 +122,6 @@ export const Button = styled.button<ButtonStyleProps>`
   `}
   ${({ buttonType }) => css`
     ${buttonType === 'circle' && 'border: none'};
-    border-radius: ${buttonType === 'rectangle' ? '8px' : '50px'};
-    padding: ${buttonType !== 'circle' && '8px 16px'};
+    padding: ${buttonType !== 'circle' && '8px 10px'};
   `};
 `;

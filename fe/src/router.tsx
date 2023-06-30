@@ -3,13 +3,15 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Auth from '@Pages/Auth';
 import { Category } from '@Pages/Category';
-import ChatList from '@Pages/ChatList';
+import Chat from '@Pages/Chat';
+import ChatRoom from '@Pages/ChatRoom';
 import Home from '@Pages/Home';
 import LocationSearch from '@Pages/LocationSearch';
 import LocationSetting from '@Pages/LocationSetting';
 import Login from '@Pages/Login';
 import MyAccount from '@Pages/MyAccount';
 import { NewProduct } from '@Pages/NewProduct';
+import { ProductDetail } from '@Pages/ProductDetail';
 import Registration from '@Pages/Registration';
 import SalesList from '@Pages/SalesList';
 import WishList from '@Pages/WishList';
@@ -55,20 +57,28 @@ const router = createBrowserRouter(
           element: <WishList />,
         },
         {
-          path: '/chat',
-          element: <ChatList />,
+          path: '/Chat',
+          element: <Chat />,
+        },
+        {
+          path: '/chatRoom/:id',
+          element: <ChatRoom />,
         },
         {
           path: '/account',
           element: <MyAccount />,
         },
         {
-          path: '/newproudct',
+          path: '/newproduct',
           element: <NewProduct />,
         },
         {
           path: '/category',
           element: <Category />,
+        },
+        {
+          path: '/productDetail/:id',
+          element: <ProductDetail />,
         },
       ],
     },

@@ -4,8 +4,18 @@ import useFetch from '@Hooks/useFetch';
 
 import { debounce } from '@Utils/debounce';
 
-const useInfiniteScroll = <T,>(URL: string, target: RefObject<HTMLElement>) => {
-  const [scrolledData, setScrolledData] = useState<T | null>();
+interface useInfiniteScrollProps {
+  URL: string;
+  locationId?: number;
+  target: RefObject<HTMLElement>;
+}
+
+const useInfiniteScroll = <T,>({
+  URL,
+  locationId,
+  target,
+}: useInfiniteScrollProps) => {
+  const [scrolledData, setScrolledData] = useState<T>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const { data, fetchData } = useFetch<T>();
@@ -14,7 +24,9 @@ const useInfiniteScroll = <T,>(URL: string, target: RefObject<HTMLElement>) => {
     setIsLoading(true);
 
     await fetchData({
-      url: `${URL}?page=${page}&size=10`,
+      url: `${URL}?page=${page}&size=10${
+        locationId && `&locationId=${locationId}`
+      }`,
       isGetData: true,
     });
 

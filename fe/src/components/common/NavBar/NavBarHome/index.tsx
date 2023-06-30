@@ -6,9 +6,10 @@ import { Icon } from '../../Icon';
 
 interface NavBarHomeProps {
   towns?: string[];
+  modalHanlder?: (key: number) => void;
 }
 
-export const NavBarHome = ({ towns }: NavBarHomeProps) => {
+export const NavBarHome = ({ towns, modalHanlder }: NavBarHomeProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const DropDownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -45,7 +46,19 @@ export const NavBarHome = ({ towns }: NavBarHomeProps) => {
       </S.AddressBox>
       {isOpen && (
         <S.DropDown onClick={handleDropDownClick}>
-          {towns && towns.map((town) => <S.Town key={town}>{town}</S.Town>)}
+          {towns &&
+            modalHanlder &&
+            towns.map((town, index) => (
+              <S.Town
+                key={town}
+                onClick={() => {
+                  modalHanlder(index);
+                  setIsOpen(false);
+                }}
+              >
+                {town}
+              </S.Town>
+            ))}
           <S.TownSetting onClick={() => navigate('/locationSetting')}>
             내 동네 설정하기
           </S.TownSetting>
