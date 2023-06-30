@@ -12,25 +12,25 @@ const useFetch = <T,>(url?: string) => {
     url,
     isGetData = false,
     method = 'GET',
-    contentsType = 'application/json',
+    contentsType = { 'Content-Type': 'application/json' },
     body,
   }: {
     url?: string;
     isGetData: boolean;
     method?: string;
-    contentsType?: string;
+    contentsType?: object;
     body?: BodyInit | null | undefined;
   }) => {
     try {
       if (!url) return;
 
       const JWTToken = localStorage.getItem('JWTToken');
-
+      console.log(contentsType);
       const headers = {
         Authorization: `Bearer ${JWTToken}`,
-        'contents-type': contentsType,
+        ...contentsType,
       };
-
+      console.log(headers);
       const res = await fetch(url, {
         method,
         headers,
