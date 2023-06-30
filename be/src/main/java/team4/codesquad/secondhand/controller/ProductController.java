@@ -14,8 +14,10 @@ import team4.codesquad.secondhand.service.ProductService;
 import team4.codesquad.secondhand.service.dto.ProductRequestDTO;
 import team4.codesquad.secondhand.service.dto.ProductSearchCondition;
 import team4.codesquad.secondhand.service.dto.ProductStatusUpdate;
+import team4.codesquad.secondhand.service.dto.ProductUpdateRequestDTO;
 
 import javax.validation.Valid;
+import java.util.Collections;
 
 
 @RestController
@@ -62,10 +64,19 @@ public class ProductController {
     }
 
     @PutMapping("/api/products/{productId}")
-    public ResponseEntity<Message> update(@Login User user, @PathVariable Integer productId, @ModelAttribute ProductRequestDTO request) {
+    public ResponseEntity<Message> update(@Login User user, @PathVariable Integer productId, @ModelAttribute ProductUpdateRequestDTO request) {
         if (productId == null) {
             throw new IllegalArgumentException("상품 ID가 유효하지 않습니다.");
         }
+
+        if (request.getNewProductImages() != null && request.getNewProductImages().size() + request.getOriginalImages().size() > 10) {
+            throw new IllegalArgumentException("사진은 10장만 등록가능합니다.");
+        }
+
+        if (request.getNewProductImages() == null) {
+            request.setNewProductImages(Collections.emptyList());
+        }
+
         Message message = new Message(HttpStatus.OK, ResponseMessage.UPDATE_PRODUCT_OK, productService.updateProduct(productId, request));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
@@ -77,12 +88,12 @@ public class ProductController {
     }
 
     @PutMapping("/api/products/{productId}/status")
-    public ResponseEntity<String> updateProductStatus(@Login User user, @PathVariable Integer productId, @RequestBody ProductStatusUpdate request) {
+    public ResponseEntity<Message> updateProductStatus(@Login User user, @PathVariable Integer productId, @RequestBody ProductStatusUpdate request) {
         if (productId == null) {
             throw new IllegalArgumentException("상품 ID가 유효하지 않습니다.");
         }
-        productService.updateProductStatus(productId, request.getStatus());
-        return new ResponseEntity<>(ResponseMessage.UPDATE_PRODUCT_STATUS_OK, HttpStatus.OK);
+        Message message = new Message(HttpStatus.OK, ResponseMessage.UPDATE_PRODUCT_STATUS_OK, productService.updateProductStatus(productId, request.getStatus()));
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 }

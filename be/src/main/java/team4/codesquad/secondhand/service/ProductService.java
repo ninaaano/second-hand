@@ -91,9 +91,10 @@ public class ProductService {
     private void addProductImages(Product product, List<MultipartFile> productImages) {
         List<String> productImagesUrls = s3UploadAndConverter(productImages);
 
-        productImagesUrls.stream()
-                .map(ProductImage::new)
-                .forEach(product::addProductImage);
+        for (String imageUrl : productImagesUrls) {
+            ProductImage productImage = new ProductImage(imageUrl);
+            product.addProductImage(productImage);
+        }
     }
 
     public List<String> s3UploadAndConverter(List<MultipartFile> multipartFiles) {
@@ -101,7 +102,6 @@ public class ProductService {
         for (MultipartFile file : multipartFiles) {
             images.add(s3UploaderService.upload(file));
         }
-
         return images;
     }
 
@@ -110,64 +110,6 @@ public class ProductService {
         Product product = findProductByProductId(productId);
         product.setDeleted(true);
         productRepository.save(product);
-    }
-
-    @Transactional
-    public ProductResponseIdDTO updateProduct(Integer productId, ProductRequestDTO request) {
-        Product product = findProductByProductId(productId);
-        Category category = findCategoryByCategoryId(request.getCategoryId());
-        Location location = findLocationByLocationId(request.getLocationId());
-
-        updateProductImages(product, request.getProductImages());
-        product.updateProduct(request.getTitle(), request.getContents(), request.getPrice(), location, category);
-
-        return new ProductResponseIdDTO(product);
-    }
-
-    public void updateProductImages(Product product, List<MultipartFile> productImages) {
-        if (productImages == null || productImages.isEmpty()) {
-            return;
-        }
-
-        List<String> newImageUrls = s3UploadAndConverter(productImages);
-        List<ProductImage> existingImages = product.getProductImages();
-
-        List<String> existingImageUrls = getExistingImageUrls(existingImages);
-
-        List<ProductImage> imagesToDelete = findImagesToDelete(existingImages, newImageUrls);
-
-        deleteImages(product, imagesToDelete);
-
-        addNewImages(product, newImageUrls, existingImageUrls);
-    }
-
-    private List<String> getExistingImageUrls(List<ProductImage> existingImages) {
-        return existingImages.stream()
-                .map(ProductImage::getImageUrl)
-                .collect(Collectors.toList());
-    }
-
-    private List<ProductImage> findImagesToDelete(List<ProductImage> existingImages, List<String> newImageUrls) {
-        return existingImages.stream()
-                .filter(image -> !newImageUrls.contains(image.getImageUrl()))
-                .collect(Collectors.toList());
-    }
-
-    private void deleteImages(Product product, List<ProductImage> imagesToDelete) {
-        for (ProductImage image : imagesToDelete) {
-            product.removeProductImage(image);
-            s3UploaderService.delete(image.getImageUrl());
-            productImageRepository.delete(image);
-        }
-    }
-
-    private void addNewImages(Product product, List<String> newImageUrls, List<String> existingImageUrls) {
-        for (String newImageUrl : newImageUrls) {
-            if (!existingImageUrls.contains(newImageUrl)) {
-                ProductImage newImage = new ProductImage(newImageUrl);
-                product.addProductImage(newImage);
-            }
-        }
     }
 
     public ProductListDTO getUserSalesProducts(User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
@@ -182,10 +124,50 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProductStatus(Integer productId, Status request) {
+    public ProductResponseIdDTO updateProductStatus(Integer productId, Status request) {
         Product product = findProductByProductId(productId);
         product.setStatus(request);
         productRepository.updateStatus(productId, request);
+        return new ProductResponseIdDTO(product);
+    }
+
+    @Transactional
+    public ProductResponseIdDTO updateProduct(Integer productId, ProductUpdateRequestDTO request) {
+
+        Product product = findProductByProductId(productId);
+        Category category = findCategoryByCategoryId(request.getCategoryId());
+        Location location = findLocationByLocationId(request.getLocationId());
+        product.updateProduct(request.getTitle(), request.getContents(), request.getPrice(), location, category);
+
+        // 기존 이미지와 넘어온 이미지 비교
+        List<String> updateOriginalImages = request.getOriginalImages();
+        List<String> productImages = getExistingImageUrls(product.getProductImages());
+
+        // 원래 있던 이미지에서 빠진 이미지를 찾아냄
+        List<String> removeImages = pickUpRemoveProductImages(productImages, updateOriginalImages);
+
+        // 레파지토리에서 이미지 삭제, S3에서 빠진 이미지 파일 삭제
+        for (String deletedImage : removeImages) {
+            productImageRepository.deleteByProductIdAndImageUrl(productId, deletedImage);
+            s3UploaderService.delete(deletedImage);
+        }
+
+        // 새로운 이미지 파일 추가
+        addProductImages(product, request.getNewProductImages());
+
+        return new ProductResponseIdDTO(product);
+    }
+
+    private List<String> pickUpRemoveProductImages(List<String> originImage, List<String> updateImage) {
+        return originImage.stream()
+                .filter(image -> !updateImage.contains(image))
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getExistingImageUrls(List<ProductImage> existingImages) {
+        return existingImages.stream()
+                .map(ProductImage::getImageUrl)
+                .collect(Collectors.toList());
     }
 }
 

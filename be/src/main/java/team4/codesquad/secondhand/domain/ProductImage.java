@@ -29,9 +29,4 @@ public class ProductImage {
         product.getProductImages().add(this);
     }
 
-    public void removeProduct(Product product){
-        this.product = product;
-        product.getProductImages().remove(this);
-    }
-
 }

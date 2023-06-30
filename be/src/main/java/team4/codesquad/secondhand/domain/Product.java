@@ -89,11 +89,6 @@ public class Product {
         productImage.setProduct(this);
     }
 
-    public void removeProductImage(ProductImage productImage) {
-        productImages.remove(productImage);
-        productImage.removeProduct(this);
-    }
-
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
