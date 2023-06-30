@@ -24,7 +24,9 @@ const useInfiniteScroll = <T,>({
     setIsLoading(true);
 
     await fetchData({
-      url: `${URL}?page=${page}&size=10&locationId=${locationId}`,
+      url: `${URL}?page=${page}&size=10${
+        locationId && `&locationId=${locationId}`
+      }`,
       isGetData: true,
     });
 

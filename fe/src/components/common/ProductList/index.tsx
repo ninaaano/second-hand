@@ -15,7 +15,7 @@ import { Spinner } from '../Spinner/style';
 
 interface ProductListProps {
   itemData: Product[];
-  targetLocationId: number;
+  targetLocationId?: number;
 }
 
 export const ProductList = ({
@@ -29,11 +29,13 @@ export const ProductList = ({
 
   const { refreshing, distance, status, errorMessage, refreshedData } =
     usePullToRefresh<ProductResponseData>(
-      `${END_POINT.products}?page=0&size=10&locationId=${targetLocationId}`,
+      `${END_POINT.products}?page=0&size=10${
+        targetLocationId && `&locationId=${targetLocationId}`
+      }`,
     );
   const { scrolledData } = useInfiniteScroll<ProductResponseData>({
     URL: END_POINT.products,
-    locationId: targetLocationId,
+    ...(targetLocationId && { locationId: targetLocationId }),
     target: productListRef,
   });
 

@@ -1,7 +1,7 @@
 import * as S from '@Components/NewProduct/NewImg/style';
 import Button from '@Components/common/Button';
 import { Icon } from '@Components/common/Icon';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { palette } from '@Styles/color';
 

@@ -12,11 +12,13 @@ const useFetch = <T,>(url?: string) => {
     url,
     isGetData = false,
     method = 'GET',
+    contentsType = 'application/json',
     body,
   }: {
     url?: string;
     isGetData: boolean;
     method?: string;
+    contentsType?: string;
     body?: BodyInit | null | undefined;
   }) => {
     try {
@@ -26,8 +28,7 @@ const useFetch = <T,>(url?: string) => {
 
       const headers = {
         Authorization: `Bearer ${JWTToken}`,
-        // 'Content-Type': 'application/json',
-        'contents-type': 'multipart-formdata',
+        'contents-type': contentsType,
       };
 
       const res = await fetch(url, {
