@@ -15,20 +15,27 @@ import { Spinner } from '../Spinner/style';
 
 interface ProductListProps {
   itemData: Product[];
+  targetLocationId: number;
 }
 
-export const ProductList = ({ itemData }: ProductListProps) => {
+export const ProductList = ({
+  itemData,
+  targetLocationId,
+}: ProductListProps) => {
+  const navigate = useNavigate();
+
   const productListRef = useRef<HTMLDivElement>(null);
   const [Products, setProducts] = useState<Product[]>(itemData);
-  const navigate = useNavigate();
+
   const { refreshing, distance, status, errorMessage, refreshedData } =
     usePullToRefresh<ProductResponseData>(
-      `${END_POINT.products}?page=0&size=10`,
+      `${END_POINT.products}?page=0&size=10&locationId=${targetLocationId}`,
     );
-  const { scrolledData } = useInfiniteScroll<ProductResponseData>(
-    END_POINT.products,
-    productListRef,
-  );
+  const { scrolledData } = useInfiniteScroll<ProductResponseData>({
+    URL: END_POINT.products,
+    locationId: targetLocationId,
+    target: productListRef,
+  });
 
   useEffect(() => {
     if (refreshedData) {
@@ -68,9 +75,16 @@ export const ProductList = ({ itemData }: ProductListProps) => {
               watchlistCounts={product.watchlistCounts}
               chatroomCounts={product.chatroomCounts}
               status={product.status}
+              isWatchList={product.watchlist}
               isCategory={true}
               isCount={true}
-              onClick={() => navigate(`/productDetail/${product.productId}`)}
+              onClick={() =>
+                navigate(`/productDetail/${product.productId}`, {
+                  state: {
+                    counts: product.watchlistCounts,
+                  },
+                })
+              }
             />
             <hr />
           </Fragment>
