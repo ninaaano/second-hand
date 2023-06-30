@@ -22,7 +22,6 @@ const useFetchAll = <T,>(urls: string[]) => {
       try {
         const JWTToken = localStorage.getItem('JWTToken');
 
-        console.log('내부', urls);
         const headers = {
           Authorization: `Bearer ${JWTToken}`,
           'Content-Type': 'application/json',
@@ -41,7 +40,6 @@ const useFetchAll = <T,>(urls: string[]) => {
         const responseData = await Promise.all(
           responses.map((res) => res.json()),
         );
-        console.log(responseData);
         setData(responseData);
         setStatus('success');
       } catch (error) {

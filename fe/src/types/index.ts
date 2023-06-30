@@ -115,7 +115,7 @@ export type ProductDetailImg = {
   productImageId: number;
   imageUrl: string;
 };
-  
+
 export type UserLocation = {
   primaryLocation: LocationData;
   secondaryLocation?: LocationData;
@@ -125,4 +125,37 @@ export type UserLocationResponseData = {
   statusCode: number;
   message: string;
   data: UserLocation;
+};
+
+export type UploadFile = {
+  imgFile: string;
+  originFile: FileList;
+};
+
+export type SalesListResponseData = {
+  statusCode: number;
+  message: string;
+  data: {
+    products: SaleProductList[];
+  };
+};
+
+export type SaleProductList = {
+  productId: number;
+  title: string;
+  price: number;
+  createdAt: string;
+  status: string;
+  location: {
+    locationId: number;
+    district: string;
+    city: string;
+    town: string;
+  };
+  watchlistCounts: number;
+  chatroomCounts: number;
+  mainImage: {
+    productImageId: number;
+    imageUrl: string;
+  };
 };

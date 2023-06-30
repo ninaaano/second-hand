@@ -32,7 +32,6 @@ export const ProductDetail = () => {
 
   const handleProductDetail = () => {
     setIsActiv(true);
-    console.log('변경', isActiv);
   };
 
   const handleProductDetailClick = (
@@ -87,6 +86,7 @@ export const ProductDetail = () => {
             stateRef={DimmedRef}
             titleList={['게시글 수정', '삭제']}
             buttonTitle={'취소'}
+            onClick={() => setIsActiv(false)}
           />
         )}
         {isActivSaleModal && (
@@ -94,6 +94,7 @@ export const ProductDetail = () => {
             stateRef={StateRef}
             titleList={['판매중', '예약중', '판매완료']}
             buttonTitle={'취소'}
+            onClick={() => setIsActiv(false)}
           />
         )}
         {data?.data && <ProductDetailImg detailData={data?.data} />}

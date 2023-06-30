@@ -69,7 +69,7 @@ const router = createBrowserRouter(
           element: <MyAccount />,
         },
         {
-          path: '/newproudct',
+          path: '/newproduct',
           element: <NewProduct />,
         },
         {

@@ -1,27 +1,30 @@
-import { useState } from 'react';
-
 import * as S from './style';
 interface PickerProps {
   leftLabel: string;
   RightLabel: string;
+  isActiveSetValue: React.Dispatch<React.SetStateAction<boolean>>;
+  isActiveValue: boolean;
 }
 
-export const NavBarPicker = ({ leftLabel, RightLabel }: PickerProps) => {
-  const [isLeft, setIsLeft] = useState(true);
-
+export const NavBarPicker = ({
+  leftLabel,
+  RightLabel,
+  isActiveSetValue,
+  isActiveValue,
+}: PickerProps) => {
   const handleChange = () => {
-    if (isLeft) {
-      setIsLeft(false);
+    if (isActiveValue) {
+      isActiveSetValue(false);
     } else {
-      setIsLeft(true);
+      isActiveSetValue(true);
     }
   };
   return (
     <S.Layout>
-      <S.LeftBox isLeft={isLeft} onClick={handleChange}>
+      <S.LeftBox isLeft={isActiveValue} onClick={handleChange}>
         {leftLabel}
       </S.LeftBox>
-      <S.RightBox isLeft={isLeft} onClick={handleChange}>
+      <S.RightBox isLeft={isActiveValue} onClick={handleChange}>
         {RightLabel}
       </S.RightBox>
     </S.Layout>
