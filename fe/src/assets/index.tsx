@@ -15,6 +15,8 @@ import { ReactComponent as innerHeart } from './innerHeart.svg';
 import { ReactComponent as keyboard } from './keyboard.svg';
 import { ReactComponent as line } from './line.svg';
 import { ReactComponent as multiply } from './multiply.svg';
+import { ReactComponent as myBubbleTail } from './myBubbleTail.svg';
+import { ReactComponent as oppositeBubbleTail } from './oppositeBubbleTail.svg';
 import { ReactComponent as plus } from './plus.svg';
 import { ReactComponent as sales } from './sales.svg';
 import { ReactComponent as search } from './search.svg';
@@ -41,4 +43,6 @@ export default {
   innerHeart,
   githubLogo,
   dot,
+  oppositeBubbleTail,
+  myBubbleTail,
 };

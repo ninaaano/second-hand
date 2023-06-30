@@ -13,11 +13,7 @@ import { Chat, ChatResponseData } from '@Types/index';
 
 import * as S from './style';
 
-interface ChatListProps {
-  itemData?: Chat[];
-}
-
-const ChatList = ({ itemData }: ChatListProps) => {
+const ChatList = () => {
   const navigate = useNavigate();
   const productListRef = useRef<HTMLDivElement>(null);
   const [Products, setProducts] = useState<Chat[]>([
@@ -35,10 +31,10 @@ const ChatList = ({ itemData }: ChatListProps) => {
 
   const { refreshing, distance, status, errorMessage, refreshedData } =
     usePullToRefresh<ChatResponseData>(`${END_POINT.products}?page=0&size=10`);
-  const { scrolledData } = useInfiniteScroll<ChatResponseData>(
-    END_POINT.products,
-    productListRef,
-  );
+  const { scrolledData } = useInfiniteScroll<ChatResponseData>({
+    URL: END_POINT.products,
+    target: productListRef,
+  });
 
   const handleItemClick = (chatId: number) => {
     navigate(`/chatRoom/${chatId}`);

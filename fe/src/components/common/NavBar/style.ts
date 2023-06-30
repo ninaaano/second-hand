@@ -19,7 +19,7 @@ export const layoutType = {
   defaultLayout: css`
     height: 8vh;
     background: ${({ theme }) => theme.color.colors.neutralBackgroundBlur};
-    border-bottom: 1px solid ${({ theme }) => theme.color.palette.gray500};
+    border-bottom: 1px solid ${({ theme }) => theme.color.palette.gray300};
   `,
   homeLayout: css`
     height: 8vh;
@@ -37,6 +37,6 @@ export const layoutType = {
   backBtnLayout: css`
     height: 8vh;
     background: ${({ theme }) => theme.color.palette.white};
-    border-bottom: 1px solid ${({ theme }) => theme.color.palette.gray500};
+    border-bottom: 1px solid ${({ theme }) => theme.color.palette.gray300};
   `,
 };

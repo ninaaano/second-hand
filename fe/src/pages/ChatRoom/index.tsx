@@ -1,13 +1,16 @@
-import Button from '@Components/common/Button';
+import ChatBubble from '@Components/ChatRoom/ChatBubble';
 import { NavigationBar } from '@Components/common/NavBar';
 import { TabBarChat } from '@Components/common/TabBar';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './style';
 
 const ChatRoom = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+
+  const [formValue, setFormValue] = useState('');
+  const [myChats, setMyChats] = useState<string[]>([]);
 
   const handleBackBtnClick = () => {
     // TODO: 분기처리하기
@@ -31,24 +34,17 @@ const ChatRoom = () => {
       </S.Product>
       <S.TopBox />
       <S.ChatBox>
-        <S.OpponentChatBubble>
-          <Button
-            buttonType="ellipse"
-            buttonState="default"
-            size="M"
-            title="안녕하세요 궁금한 점이 있어서 챗드려요."
-          />
-        </S.OpponentChatBubble>
-        <S.MyChatBubble>
-          <Button
-            buttonType="ellipse"
-            buttonState="active"
-            size="M"
-            title="네 안녕하세요!."
-          />
-        </S.MyChatBubble>
+        {myChats.length > 0 &&
+          myChats.map((chat, index) => (
+            <ChatBubble key={index} type="my" title={chat} />
+          ))}
       </S.ChatBox>
-      <TabBarChat />
+      <S.BottomBox />
+      <TabBarChat
+        formValue={formValue}
+        setFormValue={setFormValue}
+        handleChatSubmit={setMyChats}
+      />
     </>
   );
 };

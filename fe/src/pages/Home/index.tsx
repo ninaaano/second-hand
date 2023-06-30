@@ -52,18 +52,16 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (data) {
-      if (!userLocations.length) {
-        const userLocationsData = data as UserLocationResponseData;
-        const towns = Object.entries(userLocationsData.data)
-          .map(([, locationInfo]) => locationInfo)
-          .filter((locationInfo) => {
-            if (locationInfo) return locationInfo.town;
-          });
+    if (data && !userLocations.length) {
+      const userLocationsData = data as UserLocationResponseData;
+      const towns = Object.entries(userLocationsData.data)
+        .map(([, locationInfo]) => locationInfo)
+        .filter((locationInfo) => {
+          if (locationInfo) return locationInfo.town;
+        });
 
-        setUserInfo({ towns: towns });
-        setUserLocations(towns);
-      }
+      setUserInfo({ towns: towns });
+      setUserLocations(towns);
     }
   }, [data]);
 
@@ -89,7 +87,13 @@ const Home = () => {
         modalHanlder={handleModalClick}
       />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
-      {products && <ProductList key={products.length} itemData={products} />}
+      {products && (
+        <ProductList
+          key={products.length}
+          itemData={products}
+          targetLocationId={userLocations[targetTownIndex].locationId}
+        />
+      )}
       <S.ButtonBox>
         <Button
           buttonType="circle"

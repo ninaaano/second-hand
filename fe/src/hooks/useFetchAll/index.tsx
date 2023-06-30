@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ERROR_MESSAGE } from '@Constants/index';
 
 const useFetchAll = <T,>(urls: string[]) => {
-  const [data, setData] = useState<T[]>([]);
+  const [datas, setDatas] = useState<T[]>([]);
   const [status, setStatus] = useState<'loading' | 'error' | 'success'>(
     'loading',
   );
@@ -40,7 +40,9 @@ const useFetchAll = <T,>(urls: string[]) => {
         const responseData = await Promise.all(
           responses.map((res) => res.json()),
         );
-        setData(responseData);
+
+        setDatas(responseData);
+
         setStatus('success');
       } catch (error) {
         setStatus('error');
@@ -51,7 +53,7 @@ const useFetchAll = <T,>(urls: string[]) => {
     fetchData({ urls: urls });
   }, []);
 
-  return { data, status, errorMessage };
+  return { datas, status, errorMessage };
 };
 
 export default useFetchAll;

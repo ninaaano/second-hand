@@ -5,7 +5,7 @@ import { Icon } from '@Components/common/Icon';
 import { Modal } from '@Components/common/Modal';
 import { TabBarProductDetail } from '@Components/common/TabBar';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { END_POINT } from '@Constants/endpoint';
 
@@ -18,13 +18,21 @@ import { ProductDetailResponseData } from '@Types/index';
 import * as S from './style';
 
 export const ProductDetail = () => {
+  const location = useLocation();
+
   const { id } = useParams();
-  const { data } = useFetch<ProductDetailResponseData>(
+  const { data, fetchData } = useFetch<ProductDetailResponseData>(
     `${END_POINT.products}/${id}`,
   );
 
   const [isActiv, setIsActiv] = useState<boolean>(false);
   const [isActivSaleModal, setIsActiveSaleModal] = useState<boolean>(false);
+
+  const currentWatchList = data?.data.watchlist as boolean;
+
+  const [isWatchList, setIsWatchList] = useState<boolean>(currentWatchList);
+  const [watchCount, setWatchCount] = useState<number>(location.state.counts);
+
   const DimmedRef = useRef<HTMLDivElement>(null);
   const StateRef = useRef<HTMLDivElement>(null);
 
@@ -52,6 +60,31 @@ export const ProductDetail = () => {
         return '파악불가';
     }
   };
+
+  const changeWatchList = async (method: string) => {
+    await fetchData({
+      url: `${END_POINT.products}/${id}/watchlist`,
+      isGetData: false,
+      method,
+    });
+  };
+
+  useEffect(() => {
+    if (isWatchList && watchCount === 0) {
+      setWatchCount((prevCount) => prevCount + 1);
+    } else if (watchCount > 0) {
+      setWatchCount((prevCount) =>
+        isWatchList ? prevCount + 1 : prevCount - 1,
+      );
+    }
+  }, [isWatchList]);
+
+  useEffect(() => {
+    if (data) {
+      setIsWatchList(data.data.watchlist);
+      setWatchCount(data.data.watchlistCounts);
+    }
+  }, [data]);
 
   useEffect(() => {
     const handleClickSaleOutside = ({ target }: MouseEvent) => {
@@ -140,8 +173,20 @@ export const ProductDetail = () => {
             onClick={() => setIsActiveSaleModal(true)}
           />
         </S.BtnBox>
-        {data?.data && <ProductDetailContent detailData={data?.data} />}
-        {data?.data && <TabBarProductDetail price={data?.data.price} />}
+        {data?.data && (
+          <ProductDetailContent
+            detailData={data?.data}
+            watchCount={watchCount}
+          />
+        )}
+        {data?.data && (
+          <TabBarProductDetail
+            price={data?.data.price}
+            isWatchList={isWatchList}
+            setIsWatchList={setIsWatchList}
+            changeWatchList={changeWatchList}
+          />
+        )}
       </S.Layout>
     </>
   );

@@ -35,21 +35,31 @@ const useFetch = <T,>(url?: string) => {
         headers,
         body,
       });
+      const data = await res.json();
 
       if (isGetData || res.status === 302) {
-        const data = await res.json();
         setData(data);
       }
 
       if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
-      if (res.status === 404) throw new Error(ERROR_MESSAGE[404]);
+      if (res.status === 404) {
+        if (data.message === '토큰 시간 만료') {
+          localStorage.removeItem('JWTToken');
+          throw new Error(ERROR_MESSAGE.timeOut);
+        }
+        throw new Error(ERROR_MESSAGE[404]);
+      }
 
-      if (!res.ok) throw new Error(ERROR_MESSAGE.default);
+      if (!res.ok) {
+        throw new Error(ERROR_MESSAGE.default);
+      }
 
       setStatus('success');
     } catch (error) {
-      setStatus('error');
-      if (error instanceof Error) setErrorMessage(ERROR_MESSAGE.default);
+      if (error instanceof Error) {
+        setStatus('error');
+        setErrorMessage(error.message);
+      }
     }
   };
   useEffect(() => {

@@ -1,16 +1,35 @@
 import Button from '@Components/common/Button';
+import TextInput from '@Components/common/TextInput';
 
 import * as S from './style';
 
-const TabBarChat = () => (
+interface TabBarChatProps {
+  formValue: string;
+  setFormValue: React.Dispatch<React.SetStateAction<string>>;
+  handleChatSubmit: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const TabBarChat = ({
+  formValue,
+  setFormValue,
+  handleChatSubmit,
+}: TabBarChatProps) => (
   <S.Box>
     <S.SendField>
-      <S.Input placeholder="내용을 입력하세요" />
+      <TextInput
+        value={formValue}
+        setValue={setFormValue}
+        handleChatSubmit={handleChatSubmit}
+      />
       <Button
         buttonType="circle"
         buttonState="active"
         size="M"
         iconType="arrowUp"
+        onClick={() => {
+          setFormValue('');
+          handleChatSubmit((prevChats) => [...prevChats, formValue]);
+        }}
       />
     </S.SendField>
   </S.Box>

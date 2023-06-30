@@ -19,6 +19,7 @@ interface ProductItemProps {
   watchlistCounts: number;
   chatroomCounts: number;
   status: string;
+  isWatchList: boolean;
   isCategory: boolean;
   isCount: boolean;
   onClick?: () => void;
@@ -34,11 +35,12 @@ export const ProductItem = ({
   watchlistCounts,
   chatroomCounts,
   status,
+  isWatchList,
   isCategory,
   isCount,
   onClick,
 }: ProductItemProps) => {
-  const [heart, setHeart] = useState(false);
+  const [heart, setHeart] = useState(isWatchList);
 
   const handleFill = () => {
     if (heart) {
