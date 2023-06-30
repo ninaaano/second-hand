@@ -50,7 +50,7 @@ export const NewProduct = () => {
       isGetData: true,
       method: 'POST',
       body: formData,
-      contentsType: 'multipart-formdata',
+      contentsType: { 'contents-type': 'multipart-formdata' },
     });
   };
 
