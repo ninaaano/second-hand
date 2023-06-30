@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team4.codesquad.secondhand.annotation.Login;
-import team4.codesquad.secondhand.constant.Status;
 import team4.codesquad.secondhand.domain.*;
 import team4.codesquad.secondhand.repository.*;
 import team4.codesquad.secondhand.service.dto.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,24 +25,42 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
-    private final ProductImageRepository productImageRepository;
     private final UserRepository userRepository;
     private final S3UploaderService s3UploaderService;
+    private final WatchlistRepository watchlistRepository;
 
-    public ProductListDTO buildProductListDTO(Pageable pageable, ProductSearchCondition productSearchCondition) {
+    public ProductListDTO buildProductListDTO(User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
         Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable, productSearchCondition);
         List<Product> products = productsWithSlice.getContent();
 
+        User savedUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+
+        Queue<WatchlistDTO> watchlistDTOs = watchlistRepository.findByUserAndProductInOrderByProduct(savedUser, products)
+                .stream()
+                .map(WatchlistDTO::new)
+                .collect(Collectors.toCollection(LinkedList::new));
+
         return new ProductListDTO(products.stream()
                 .map(ProductDTO::new)
-                .collect(Collectors.toList()), productsWithSlice.hasNext());
+                .collect(Collectors.toList()), productsWithSlice.hasNext(), watchlistDTOs);
     }
 
     @Transactional
-    public ProductDetailDTO getProductInfomationAndIncreaseView(Integer productId) {
-        Product product = findProductByProductId(productId);
+    public ProductDetailDTO increaseViewsAndRetrieveProduct(User user, Integer productId) {
+        User savedUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+
+        Product product = productRepository.findBy(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품정보 조회"));
         productRepository.countViews(productId);
-        return new ProductDetailDTO(product);
+
+        ProductDetailDTO productDetailDTO = new ProductDetailDTO(product);
+
+        if (watchlistRepository.existsByUserAndProduct(savedUser, product)) {
+            productDetailDTO.setWatchlist();
+        }
+
+        return productDetailDTO;
     }
 
     @Transactional
@@ -113,7 +132,9 @@ public class ProductService {
     }
 
     public ProductListDTO getUserSalesProducts(User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
-        productSearchCondition.setUserId(user.getUserId());
+        User savedUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+        productSearchCondition.setUserId(savedUser.getUserId());
 
         Slice<Product> productsWithSlice = productRepository.findFilteredProducts(pageable, productSearchCondition);
         List<Product> products = productsWithSlice.getContent();

@@ -24,6 +24,7 @@ public class ProductDetailDTO {
     private final String category;
     private final Integer views;
     private final int location;
+    private boolean isWatchlist = false;
 
     public ProductDetailDTO(Product product) {
         this.productId = product.getProductId();
@@ -43,4 +44,7 @@ public class ProductDetailDTO {
         this.location = product.getDetailedLocationId();
     }
 
+    public void setWatchlist() {
+        isWatchlist = true;
+    }
 }

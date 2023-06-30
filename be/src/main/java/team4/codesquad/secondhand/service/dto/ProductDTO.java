@@ -19,6 +19,7 @@ public class ProductDTO {
     private final int watchlistCounts;
     private final int chatroomCounts;
     private final ProductImageDTO mainImage;
+    private boolean isWatchlist = false;
 
     public ProductDTO(Product product) {
         this.productId = product.getProductId();
@@ -30,5 +31,9 @@ public class ProductDTO {
         this.watchlistCounts = product.calculateWatchlistCount();
         this.chatroomCounts = product.calculateChatroomCount();
         this.mainImage = new ProductImageDTO(product.findMainProductImage());
+    }
+
+    public void setWatchlist() {
+        isWatchlist = true;
     }
 }
