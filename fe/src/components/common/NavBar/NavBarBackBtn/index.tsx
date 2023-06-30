@@ -16,6 +16,6 @@ export const NavBarBackBtn = ({ prev, center, prevHandler }: BackBtnProps) => (
       <span>{prev}</span>
     </S.IconBox>
     <div>{center}</div>
-    <Icon iconType="dots" width={30} />
+    <Icon iconType="ellipsis" fill="black" width={20} />
   </S.Layout>
 );

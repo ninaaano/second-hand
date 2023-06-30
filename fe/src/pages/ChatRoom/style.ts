@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Product = styled.div`
   display: flex;
@@ -11,6 +11,8 @@ export const Product = styled.div`
   width: 100vw;
   border-bottom: 1px solid ${({ theme }) => theme.color.palette.gray500};
   padding: 10px 0px 10px 20px;
+  background: ${({ theme }) => theme.color.palette.white};
+  z-index: 1;
 `;
 
 export const ProductBody = styled.div`
@@ -54,28 +56,6 @@ export const ChatBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5vh;
-  height: 50vh;
+  height: auto;
   padding: 5px 10px;
-`;
-
-export const OpponentChatBubble = styled.div`
-  display: flex;
-
-  &:before {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: -10px;
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 10px solid #f0f0f0;
-    transform: rotate(-45deg);
-  }
-`;
-
-export const MyChatBubble = styled.div`
-  display: flex;
-  justify-content: flex-end;
 `;
