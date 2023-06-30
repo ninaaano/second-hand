@@ -26,7 +26,8 @@ const useFetch = <T,>(url?: string) => {
 
       const headers = {
         Authorization: `Bearer ${JWTToken}`,
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
+        'contents-type': 'multipart-formdata',
       };
 
       const res = await fetch(url, {

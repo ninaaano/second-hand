@@ -5,42 +5,31 @@ import { useEffect, useRef, useState } from 'react';
 
 import { palette } from '@Styles/color';
 
-import { ImgFileType } from '@Types/index';
-
-interface imgProps {
-  productList: React.Dispatch<React.SetStateAction<string[]>>;
+interface ImgProps {
+  originFile: React.Dispatch<React.SetStateAction<File[]>>;
+  originFileValue: File[];
 }
 
-export const NewImg = ({ productList }: imgProps) => {
-  const [imgFile, setImgFile] = useState<ImgFileType[]>([]);
+export const NewImg = ({ originFile, originFileValue }: ImgProps) => {
+  const [imgFile, setImgFile] = useState<string[]>([]);
   const [isFullFile, setIsFullFile] = useState(false);
-  const [id, setId] = useState(0);
-
   const fileInput = useRef<HTMLInputElement | null>(null);
 
   const handleIconClick = () => fileInput.current?.click();
   const imgCount = 10;
-  //TODO: 한단계 늦게 setImgFile에 저장됨, 이 부분 수정 필요
+
   const handleImgFile = () => {
     if (fileInput.current && fileInput.current.files) {
       const files = fileInput.current.files;
       const reader: FileReader = new FileReader();
+
       if (files && files.length > 0 && imgFile.length < imgCount) {
         reader.readAsDataURL(files[0]);
-
-        reader.onload = async () => {
+        reader.onload = () => {
           if (reader.result) {
-            setImgFile((prevState) => [
-              ...prevState,
-              {
-                ImgFileId: id,
-                ImgFileName: String(reader.result),
-              },
-            ]);
-            productList(imgFile.map((file) => file.ImgFileName));
-            sessionStorage.setItem('saveImgFile', JSON.stringify(imgFile));
+            originFile((prevData) => [...prevData, files[0]]);
+            setImgFile((prevState) => [...prevState, String(reader.result)]);
           }
-          setId(id + 1);
         };
       }
     }
@@ -49,23 +38,13 @@ export const NewImg = ({ productList }: imgProps) => {
     }
   };
 
-  //TODO: 다른 곳에서 똑같은 함수로 많이 사용하기 때문에 함수로 제작하는게 좋음
   const handleOnRemove = (id: number) => {
-    setImgFile(imgFile.filter((img) => img.ImgFileId !== id));
-    productList(imgFile.map((file) => file.ImgFileName));
+    const removeId = imgFile.filter((_, index) => index !== id);
+    const removeOrigin = originFileValue.filter((_, index) => index !== id);
+    setImgFile(removeId);
+    originFile(removeOrigin);
     setIsFullFile(false);
   };
-
-  const getImgFile = () => {
-    const imgFileData = sessionStorage.getItem('saveImgFile');
-    if (imgFileData) {
-      setImgFile(JSON.parse(imgFileData));
-    }
-  };
-
-  useEffect(() => {
-    getImgFile();
-  }, []);
 
   return (
     <S.Layout disabled={isFullFile}>
@@ -87,18 +66,19 @@ export const NewImg = ({ productList }: imgProps) => {
         onChange={handleImgFile}
         style={{ display: 'none' }}
         accept="image/png, image/jpeg"
+        multiple
       />
 
       <S.ImgBox>
         {imgFile &&
           imgFile.length > 0 &&
           imgFile.map(
-            (url, index) =>
+            (url, id) =>
               url && (
-                <S.CancelImagBox key={url.ImgFileId}>
+                <S.CancelImagBox key={id}>
                   <S.SaveImgBox>
-                    <img src={url.ImgFileName} className="uploadImg" />
-                    {index === 0 && <S.TextBox>대표 사진</S.TextBox>}
+                    <img src={url} className="uploadImg" />
+                    {id === 0 && <S.TextBox>대표 사진</S.TextBox>}
                   </S.SaveImgBox>
                   <S.ButtonBox>
                     <Button
@@ -106,7 +86,7 @@ export const NewImg = ({ productList }: imgProps) => {
                       buttonState="active"
                       size="M"
                       iconType="multiply"
-                      onClick={() => handleOnRemove(url.ImgFileId)}
+                      onClick={() => handleOnRemove(id)}
                     />
                   </S.ButtonBox>
                 </S.CancelImagBox>

@@ -40,7 +40,9 @@ const useFetchAll = <T,>(urls: string[]) => {
         const responseData = await Promise.all(
           responses.map((res) => res.json()),
         );
+
         setDatas(responseData);
+
         setStatus('success');
       } catch (error) {
         setStatus('error');

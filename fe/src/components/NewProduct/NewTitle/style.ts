@@ -19,6 +19,7 @@ export const CategoryBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  overflow: auto;
 `;
 export const CategoryBtnBox = styled.div`
   display: flex;

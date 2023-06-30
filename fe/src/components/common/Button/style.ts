@@ -122,6 +122,6 @@ export const Button = styled.button<ButtonStyleProps>`
   `}
   ${({ buttonType }) => css`
     ${buttonType === 'circle' && 'border: none'};
-    padding: ${buttonType !== 'circle' && '8px 16px'};
+    padding: ${buttonType !== 'circle' && '8px 10px'};
   `};
 `;
