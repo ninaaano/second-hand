@@ -3,6 +3,8 @@ export const END_POINT = {
   locations: `${process.env.REACT_APP_BASE_URL}/api/locations`,
   userLocation: `${process.env.REACT_APP_BASE_URL}/api/user/locations`,
   category: `${process.env.REACT_APP_BASE_URL}/api/category`,
+  watchlist: `${process.env.REACT_APP_BASE_URL}/api/watchlist`,
+  watchlistCategory: `${process.env.REACT_APP_BASE_URL}/api/watchlist/category`,
   sale: `${process.env.REACT_APP_BASE_URL}/api/product`,
   oAuth: `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}`,
   login: `${process.env.REACT_APP_BASE_URL}/api/login`,

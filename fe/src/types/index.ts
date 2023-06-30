@@ -11,6 +11,7 @@ export type Product = {
     city: string;
     town: string;
   };
+  watchlist: boolean;
   watchlistCounts: number;
   chatroomCounts: number;
   mainImage: {
@@ -104,6 +105,7 @@ export type ProductDetail = {
   price: number;
   createdAt: string;
   status: string;
+  watchlist: boolean;
   watchlistCounts: number;
   chatroomCounts: number;
   images: ProductDetailImg[];
@@ -115,7 +117,7 @@ export type ProductDetailImg = {
   productImageId: number;
   imageUrl: string;
 };
-  
+
 export type UserLocation = {
   primaryLocation: LocationData;
   secondaryLocation?: LocationData;
