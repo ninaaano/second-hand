@@ -32,6 +32,7 @@ public class WatchlistRepositoryImpl implements WatchlistRepositoryCustom{
                 .join(watchlist.user, user).fetchJoin()
                 .where(watchlist.user.userId.eq(watchlistSearchCondition.getUserId()),
                         categoryEq(watchlistSearchCondition.getCategoryId()))
+                .orderBy(watchlist.watchlistId.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();

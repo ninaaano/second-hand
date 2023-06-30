@@ -33,6 +33,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         categoryEq(productSearchCondition.getCategoryId()),
                         saleStatusEq(productSearchCondition.getSaleStatus()),
                         userEq(productSearchCondition.getUserId()))
+                .orderBy(product.productId.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
