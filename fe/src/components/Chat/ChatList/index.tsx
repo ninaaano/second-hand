@@ -13,11 +13,7 @@ import { Chat, ChatResponseData } from '@Types/index';
 
 import * as S from './style';
 
-interface ChatListProps {
-  itemData?: Chat[];
-}
-
-const ChatList = ({ itemData }: ChatListProps) => {
+const ChatList = () => {
   const navigate = useNavigate();
   const productListRef = useRef<HTMLDivElement>(null);
   const [Products, setProducts] = useState<Chat[]>([

@@ -1,6 +1,5 @@
 import Button from '@Components/common/Button';
 import TextInput from '@Components/common/TextInput';
-import { useState } from 'react';
 
 import * as S from './style';
 

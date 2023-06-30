@@ -15,5 +15,3 @@ export const ChatBubbleTail = styled.div`
   right: -6px;
   bottom: -6px;
 `;
-
-// ㄴ

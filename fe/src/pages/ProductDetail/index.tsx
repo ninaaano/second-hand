@@ -5,12 +5,7 @@ import { Icon } from '@Components/common/Icon';
 import { Modal } from '@Components/common/Modal';
 import { TabBarProductDetail } from '@Components/common/TabBar';
 import { useEffect, useRef, useState } from 'react';
-import {
-  useLoaderData,
-  useLocation,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { END_POINT } from '@Constants/endpoint';
 
