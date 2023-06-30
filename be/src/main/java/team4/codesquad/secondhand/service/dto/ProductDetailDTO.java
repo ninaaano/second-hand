@@ -3,7 +3,6 @@ package team4.codesquad.secondhand.service.dto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import team4.codesquad.secondhand.domain.Product;
-import team4.codesquad.secondhand.domain.ProductImage;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +15,7 @@ public class ProductDetailDTO {
     private final String sellerId;
     private final String title;
     private final String contents;
-    private final int price;
+    private final Integer price;
     private final LocalDateTime createdAt;
     private final String status;
     private final int watchlistCounts;

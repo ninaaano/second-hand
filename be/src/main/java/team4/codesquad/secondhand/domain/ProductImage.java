@@ -1,7 +1,5 @@
 package team4.codesquad.secondhand.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

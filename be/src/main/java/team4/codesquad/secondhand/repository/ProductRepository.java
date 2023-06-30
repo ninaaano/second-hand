@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import team4.codesquad.secondhand.constant.Status;
 import team4.codesquad.secondhand.domain.Product;
 
 import java.util.Optional;
@@ -19,4 +20,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, Prod
     @Modifying
     @Query("UPDATE Product p set p.views = p.views + 1 WHERE p.productId = :productId")
     int countViews(@Param("productId") Integer productId);
+
+    @Modifying
+    @Query("update Product p set p.status = :status where p.productId = :productId")
+    void updateStatus(Integer productId, Status status);
 }

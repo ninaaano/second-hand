@@ -64,50 +64,71 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductCreateResponseDTO createProduct(ProductRequestDTO request, @Login User user) {
-        // 상품 생성을 위해 필요한 정보 추출
-        String title = request.getTitle();
-        Integer price = request.getPrice();
-        String contents = request.getContents();
-        List<MultipartFile> productImages = request.getProductImages();
-        List<String> productImagesUrls = getPhotosUrl(productImages);
-        int categoryId = request.getCategoryId();
-        int locationId = request.getLocationId();
+    public ProductResponseIdDTO createProduct(ProductRequestDTO request, @Login User user) {
+        User seller = findUserByUserId(user);
+        Category category = findCategoryByCategoryId(request.getCategoryId());
+        Location location = findLocationByLocationId(request.getLocationId());
 
-        User seller = userRepository.findById(user.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+        Product product = createProductEntity(request, seller, category, location);
+        addProductImages(product, request.getProductImages());
 
-        // 상품 엔티티 생성을 위해 필요한 정보 설정
-        Category category = categoryRepository.findById(categoryId)
+        Product savedProduct = productRepository.save(product);
+        return new ProductResponseIdDTO(savedProduct);
+    }
+
+    private User findUserByUserId(User user) {
+        return userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+    }
+
+    private Category findCategoryByCategoryId(Integer categoryId) {
+        return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
+    }
 
-        Location location = locationRepository.findById(locationId)
+    private Location findLocationByLocationId(Integer locationId) {
+        return locationRepository.findById(locationId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역입니다."));
+    }
 
-        Product product = Product.builder()
-                .title(title)
-                .price(price)
+    private Product findProductByProductId(Integer productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+    }
+
+    private Product createProductEntity(ProductRequestDTO request, User seller, Category category, Location location) {
+        return Product.builder()
+                .title(request.getTitle())
+                .price(request.getPrice())
                 .user(seller)
-                .contents(contents)
+                .contents(request.getContents())
                 .category(category)
                 .location(location)
                 .build();
-
-        // 상품 이미지 엔티티 생성 및 연관관계 설정
-        productImagesUrls.stream()
-                .map(img -> new ProductImage(img))
-                .forEach(pi -> product.addProductImage(pi));
-
-        return new ProductCreateResponseDTO(productRepository.save(product));
     }
 
-    public List<String> getPhotosUrl(List<MultipartFile> multipartFiles) {
+    private void addProductImages(Product product, List<MultipartFile> productImages) {
+        List<String> productImagesUrls = s3UploadAndConverter(productImages);
+
+        for (String imageUrl : productImagesUrls) {
+            ProductImage productImage = new ProductImage(imageUrl);
+            product.addProductImage(productImage);
+        }
+    }
+
+    public List<String> s3UploadAndConverter(List<MultipartFile> multipartFiles) {
         List<String> images = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
             images.add(s3UploaderService.upload(file));
         }
-
         return images;
+    }
+
+    @Transactional
+    public void deleteProduct(Integer productId) {
+        Product product = findProductByProductId(productId);
+        product.setDeleted(true);
+        productRepository.save(product);
     }
 
     public ProductListDTO getUserSalesProducts(User user, Pageable pageable, ProductSearchCondition productSearchCondition) {
@@ -121,6 +142,53 @@ public class ProductService {
         return new ProductListDTO(products.stream()
                 .map(ProductDTO::new)
                 .collect(Collectors.toList()), productsWithSlice.hasNext());
+    }
+
+    @Transactional
+    public ProductResponseIdDTO updateProductStatus(Integer productId, Status request) {
+        Product product = findProductByProductId(productId);
+        product.setStatus(request);
+        productRepository.updateStatus(productId, request);
+        return new ProductResponseIdDTO(product);
+    }
+
+    @Transactional
+    public ProductResponseIdDTO updateProduct(Integer productId, ProductUpdateRequestDTO request) {
+
+        Product product = findProductByProductId(productId);
+        Category category = findCategoryByCategoryId(request.getCategoryId());
+        Location location = findLocationByLocationId(request.getLocationId());
+        product.updateProduct(request.getTitle(), request.getContents(), request.getPrice(), location, category);
+
+        // 기존 이미지와 넘어온 이미지 비교
+        List<String> updateOriginalImages = request.getOriginalImages();
+        List<String> productImages = getExistingImageUrls(product.getProductImages());
+
+        // 원래 있던 이미지에서 빠진 이미지를 찾아냄
+        List<String> removeImages = pickUpRemoveProductImages(productImages, updateOriginalImages);
+
+        // 레파지토리에서 이미지 삭제, S3에서 빠진 이미지 파일 삭제
+        for (String deletedImage : removeImages) {
+            productImageRepository.deleteByProductIdAndImageUrl(productId, deletedImage);
+            s3UploaderService.delete(deletedImage);
+        }
+
+        // 새로운 이미지 파일 추가
+        addProductImages(product, request.getNewProductImages());
+
+        return new ProductResponseIdDTO(product);
+    }
+
+    private List<String> pickUpRemoveProductImages(List<String> originImage, List<String> updateImage) {
+        return originImage.stream()
+                .filter(image -> !updateImage.contains(image))
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getExistingImageUrls(List<ProductImage> existingImages) {
+        return existingImages.stream()
+                .map(ProductImage::getImageUrl)
+                .collect(Collectors.toList());
     }
 }
 

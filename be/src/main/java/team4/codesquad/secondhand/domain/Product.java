@@ -1,9 +1,6 @@
 package team4.codesquad.secondhand.domain;
 
-import lombok.Builder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import team4.codesquad.secondhand.constant.Status;
@@ -12,7 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -93,6 +89,10 @@ public class Product {
         productImage.setProduct(this);
     }
 
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     @Builder
     public Product(String title, String contents, Integer price, Location location, Category category, User user) {
         this.title = title;
@@ -104,5 +104,17 @@ public class Product {
         this.location = location;
         this.category = category;
         this.user = user;
+    }
+
+    public void updateProduct(String title, String contents, Integer price, Location location, Category category) {
+        this.title = title;
+        this.contents = contents;
+        this.price = price;
+        this.location = location;
+        this.category = category;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

@@ -22,21 +22,24 @@ public class S3UploaderService {
 
     @Value("${aws.bucketFolderPath}")
     private String filePath;
+    private static final String KEY_PATH = "image/";
+
 
     public String upload(MultipartFile multipartFile) {
-        String s3FileName = generateS3FileName(multipartFile.getOriginalFilename());
+        String s3FileName = generateS3FileName();
+        String bucket = s3Properties.getS3().getBucket();
         ObjectMetadata objMeta = createObjectMetadata(multipartFile);
 
         try {
-            amazonS3.putObject(s3Properties.getS3().getBucket() + filePath, s3FileName, multipartFile.getInputStream(), objMeta);
+            amazonS3.putObject(bucket + filePath, s3FileName, multipartFile.getInputStream(), objMeta);
             return generateS3FileUrl(s3FileName);
         } catch (IOException e) {
             throw new IllegalStateException("Upload failed", e);
         }
     }
 
-    private String generateS3FileName(String originalFilename) {
-        return UUID.randomUUID() + "-" + originalFilename;
+    private String generateS3FileName() {
+        return UUID.randomUUID().toString();
     }
 
     private ObjectMetadata createObjectMetadata(MultipartFile multipartFile) {
@@ -47,7 +50,29 @@ public class S3UploaderService {
     }
 
     private String generateS3FileUrl(String s3FileName) {
-        return amazonS3.getUrl(s3Properties.getS3().getBucket() + filePath, s3FileName).toString();
+        String bucket = s3Properties.getS3().getBucket();
+        return amazonS3.getUrl(bucket + filePath, s3FileName).toString();
     }
 
+    public void delete(String s3FileName) {
+        String fileName = extractFileNameFromUrl(s3FileName);
+        String keyName = KEY_PATH + fileName;
+        String bucket = s3Properties.getS3().getBucket();
+
+        boolean isObjectExist = amazonS3.doesObjectExist(bucket, keyName);
+        if (isObjectExist) {
+            amazonS3.deleteObject(bucket, keyName);
+        } else {
+            throw new IllegalStateException("File not found: " + keyName);
+        }
+    }
+
+    public String extractFileNameFromUrl(String url) {
+        try {
+            String[] pathSegments = url.split("/");
+            return pathSegments[pathSegments.length - 1];
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to extract file name from URL", e);
+        }
+    }
 }
