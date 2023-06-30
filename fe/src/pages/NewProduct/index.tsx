@@ -50,6 +50,7 @@ export const NewProduct = () => {
       isGetData: true,
       method: 'POST',
       body: formData,
+      contentsType: 'multipart-formdata',
     });
   };
 
@@ -98,8 +99,8 @@ export const NewProduct = () => {
         center="내 물건 팔기"
         right="완료"
         prevHandler={() => navigation(-1)}
-        rightHandler={() => {
-          handlePost();
+        rightHandler={async () => {
+          await handlePost();
           navigation('/home');
         }}
       />
