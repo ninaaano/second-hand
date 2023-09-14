@@ -4,6 +4,7 @@ import { TabBarHome } from '@Components/common/TabBar';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { ROUTE_PATH } from '@Constants/route';
 import { UserContextProps } from '@Types/index';
 
 import * as S from './style';
@@ -15,7 +16,7 @@ const MyAccount = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem('JWTToken');
-    navigate('/');
+    navigate(ROUTE_PATH.ROOT);
   };
 
   return (

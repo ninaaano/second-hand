@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ERROR_MESSAGE } from '@Constants/index';
 
+import { ROUTE_PATH } from '@Constants/route';
 import * as S from './style';
 
 interface NotFoundProps {
@@ -12,7 +13,8 @@ interface NotFoundProps {
 const NotFound = ({ errorMessage }: NotFoundProps) => {
   const navigate = useNavigate();
   useEffect(() => {
-    if (errorMessage === ERROR_MESSAGE.timeOut) setTimeout(() => navigate('/'));
+    if (errorMessage === ERROR_MESSAGE.timeOut)
+      setTimeout(() => navigate(ROUTE_PATH.ROOT));
   }, [errorMessage]);
 
   return (

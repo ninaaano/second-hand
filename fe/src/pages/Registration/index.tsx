@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { END_POINT } from '@Constants/endpoint';
 
+import { ROUTE_PATH } from '@Constants/route';
 import useFetch from '@Hooks/useFetch';
 
 import * as S from './style';
@@ -32,7 +33,7 @@ const Registration = () => {
   };
 
   const handleCloseBtnClick = () => {
-    navigate('/');
+    navigate(ROUTE_PATH.ROOT);
   };
 
   const handleSubmitBtnClick = async () => {
