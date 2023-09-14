@@ -1,71 +1,48 @@
 import { useEffect, useState } from 'react';
 
-import { ERROR_MESSAGE } from '@Constants/index';
+import { API_STATUS, ERROR_MESSAGE } from '@Constants/index';
+import { apiStutus } from '@Types/index';
 
-const useFetch = <T,>(url?: string) => {
-  const [data, setData] = useState<T>();
-  const [status, setStatus] = useState<'loading' | 'error' | 'success'>(
-    'loading',
-  );
+type responseCallback = () => Promise<Response>;
+
+interface fetchProps {
+  callback?: responseCallback;
+}
+
+const useFetch = <R,>(callback?: responseCallback) => {
+  const [data, setData] = useState<R>();
+  const [status, setStatus] = useState<apiStutus>(API_STATUS.IDLE);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const fetchData = async ({
-    url,
-    isGetData = false,
-    method = 'GET',
-    contentsType = { 'Content-Type': 'application/json' },
-    body,
-  }: {
-    url?: string;
-    isGetData: boolean;
-    method?: string;
-    contentsType?: object;
-    body?: BodyInit | null | undefined;
-  }) => {
-    try {
-      if (!url) return;
 
-      const JWTToken = localStorage.getItem('JWTToken');
-      const headers = {
-        Authorization: `Bearer ${JWTToken}`,
-        ...contentsType,
-      };
-      const res = await fetch(url, {
-        method,
-        headers,
-        body,
-      });
+  const fetch = async ({ callback }: fetchProps) => {
+    try {
+      if (!callback) return;
+      setStatus(API_STATUS.LOADING);
+
+      const res = await callback();
       const data = await res.json();
 
-      if (isGetData || res.status === 302) {
+      if (data) {
         setData(data);
       }
 
       if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
-      if (res.status === 404) {
-        if (data.message === '토큰 시간 만료') {
-          localStorage.removeItem('JWTToken');
-          throw new Error(ERROR_MESSAGE.timeOut);
-        }
-        throw new Error(ERROR_MESSAGE[404]);
-      }
+      if (res.status === 404) throw new Error(ERROR_MESSAGE[404]);
+      if (!res.ok) throw new Error(ERROR_MESSAGE.default);
 
-      if (!res.ok) {
-        throw new Error(ERROR_MESSAGE.default);
-      }
-
-      setStatus('success');
+      setStatus(API_STATUS.SUCCESS);
     } catch (error) {
       if (error instanceof Error) {
-        setStatus('error');
+        setStatus(API_STATUS.ERROR);
         setErrorMessage(error.message);
       }
     }
   };
   useEffect(() => {
-    fetchData({ url, isGetData: true });
-  }, [url]);
+    fetch({ callback });
+  }, [callback]);
 
-  return { data, status, errorMessage, fetchData };
+  return { data, status, errorMessage, fetch };
 };
 
 export default useFetch;
