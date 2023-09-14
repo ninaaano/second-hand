@@ -4,10 +4,11 @@ import useFetch from '@Hooks/useFetch';
 import { LocationData, apiStutus } from '@Types/index';
 
 interface UserLocationContextProps {
-  status: apiStutus;
-  userLocationList: LocationData[];
+  userLocationApiStatus: apiStutus;
+  userLocationInfo: LocationData[];
+  userCurrentTown: string;
+  userTownList: string[];
   fetchUserLocation: () => void;
-  setUserLocationInfo: (userLocationInfo: LocationData[]) => void;
 }
 
 interface UserLocationProviderProps {
@@ -20,38 +21,43 @@ export const userLocationContext =
 export const UserLocationProvider = ({
   children,
 }: UserLocationProviderProps) => {
-  const [userLocationList, setUserLocation] = useState<LocationData[]>([]);
-  const [currentTown, setCurrentTown] = useState<LocationData | null>(null);
-  const { data, status, fetch } = useFetch<LocationData[]>();
+  const [userLocationInfo, setUserLocationInfo] = useState<LocationData[]>([]);
+  const [userTownList, setUserTownList] = useState<string[]>([]);
+  const {
+    data: userLocationData,
+    status: userLocationApiStatus,
+    fetch,
+  } = useFetch<LocationData[]>();
+
+  const userCurrentTown = userTownList[0];
 
   const fetchUserLocation = () => {
     fetch({ callback: getUserLocations });
   };
 
-  const setUserLocationInfo = (userLocationInfo: LocationData[]) => {
-    setUserLocation(userLocationInfo);
-  };
-
   useEffect(() => {
-    if (data) {
-      const userLocationData = data as LocationData[];
-      const towns = Object.entries(userLocationData)
-        .map(([, locationInfo]) => locationInfo)
-        .filter((locationInfo) => {
-          if (locationInfo) return locationInfo.town;
-        });
+    if (userLocationData) {
+      const locationList = Object.entries(userLocationData).map(
+        ([, locationInfo]) => locationInfo,
+      );
 
-      setUserLocation(towns);
+      const townList = locationList.filter((locationInfo) => {
+        if (locationInfo) return locationInfo.town;
+      });
+
+      setUserLocationInfo(locationList);
+      setUserTownList(townList as unknown as string[]);
     }
-  }, [data]);
+  }, [userLocationData]);
 
   return (
     <userLocationContext.Provider
       value={{
-        status,
-        userLocationList,
+        userLocationApiStatus,
+        userLocationInfo,
+        userCurrentTown,
+        userTownList,
         fetchUserLocation,
-        setUserLocationInfo,
       }}
     >
       {children}
