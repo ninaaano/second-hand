@@ -77,6 +77,9 @@ const Registration = () => {
           <S.UserId>{username}</S.UserId>
           <S.Notice>🥕</S.Notice>
         </S.NoticeBox>
+        <S.LocationBox>
+          {primaryLocation ? primaryLocation.town : ''}
+        </S.LocationBox>
         <S.AddLocationButtonBox>
           <Button
             buttonType="rectangle"
