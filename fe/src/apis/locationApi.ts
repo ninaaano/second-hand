@@ -1,8 +1,8 @@
 import { END_POINT } from '@Constants/endpoint';
 import { persistentStorage } from '../App';
 
-export const getUserLocations = async () => {
-  const response = await fetch(`${END_POINT.userLocation}`, {
+export const getUserLocations = async () =>
+  await fetch(`${END_POINT.userLocation}`, {
     method: 'GET',
     headers: {
       Authorization: 'Bearer ' + persistentStorage.get(),
@@ -10,5 +10,11 @@ export const getUserLocations = async () => {
     },
   });
 
-  return await response.json();
-};
+export const getAllLocations = async () =>
+  await fetch(`${END_POINT.locations}`, {
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer ' + persistentStorage.get(),
+      'Content-Type': 'application/json',
+    },
+  });
