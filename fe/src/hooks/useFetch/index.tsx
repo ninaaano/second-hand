@@ -17,6 +17,7 @@ const useFetch = <R,>(callback?: responseCallback) => {
   const fetch = async ({ callback }: fetchProps) => {
     try {
       if (!callback) return;
+
       setStatus(API_STATUS.LOADING);
 
       const res = await callback();
@@ -28,7 +29,6 @@ const useFetch = <R,>(callback?: responseCallback) => {
 
       if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
       if (res.status === 404) throw new Error(ERROR_MESSAGE[404]);
-      if (!res.ok) throw new Error(ERROR_MESSAGE.default);
 
       setStatus(API_STATUS.SUCCESS);
     } catch (error) {
