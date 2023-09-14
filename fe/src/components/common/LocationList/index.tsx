@@ -4,30 +4,19 @@ import * as S from './style';
 
 interface LocationListProps {
   locations: LocationData[];
-  handleItemClick: React.Dispatch<React.SetStateAction<LocationData>>;
+  handleItemClick: (location: LocationData) => void;
 }
 
 const LocationList = ({ locations, handleItemClick }: LocationListProps) => (
   <S.Box>
-    {locations.map(({ locationId, district, city, town }) => {
-      const location = {
-        locationId,
-        district,
-        city,
-        town,
-      };
-
-      return (
-        <S.Item
-          key={`${district} ${city} ${town}`}
-          onClick={() => {
-            handleItemClick(location);
-          }}
-        >
-          {district} {city} {town}
-        </S.Item>
-      );
-    })}
+    {locations.map(({ locationId, district, city, town }) => (
+      <S.Item
+        key={`${district} ${city} ${town}`}
+        onClick={() => handleItemClick({ locationId, district, city, town })}
+      >
+        {district} {city} {town}
+      </S.Item>
+    ))}
   </S.Box>
 );
 
