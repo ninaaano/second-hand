@@ -1,78 +1,52 @@
 import { Spinner } from '@Components/common/Spinner';
+import { useAuthContext } from '@Contexts/authContext';
+import { useUserContext } from '@Contexts/userContext';
+import { useUserLocationContext } from '@Contexts/userTownContext';
 import jwt_decode from 'jwt-decode';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { END_POINT } from '@Constants/endpoint';
-
-import useFetch from '@Hooks/useFetch';
-
-import { User, UserContextProps } from '@Types/index';
-
+import { API_STATUS } from '@Constants/index';
+import { ROUTE_PATH } from '@Constants/route';
+import { User } from '@Types/index';
 import { USER_ALREADY_REGISTERED, USER_SIGN_UP_IN_PROGRESS } from './constant';
 import * as S from './style';
-import { UserContext } from '../../App';
-
-interface AuthData {
-  code: string;
-  message: string;
-  data: string;
-}
 
 const Auth = () => {
-  const { setUserInfo } = useContext(
-    UserContext as React.Context<UserContextProps>,
-  );
   const navigate = useNavigate();
-  const { data, status, fetchData } = useFetch<AuthData>();
-
-  const url = new URL(window.location.href);
-  const queryCode = url.searchParams.get('code');
+  const { authInfo, authApiStatus, login } = useAuthContext();
+  const { setUserInfo } = useUserContext();
+  const { status: locationApiStatus, fetchUserLocation } =
+    useUserLocationContext();
 
   useEffect(() => {
-    const getToken = async () => {
-      await fetchData({
-        url: `${END_POINT.login}?code=${queryCode}&clientType=fe`,
-        isGetData: true,
-      });
-    };
-    getToken();
+    login();
   }, []);
 
   useEffect(() => {
-    if (data) {
-      const JWTToken = data.data;
-      const payload = jwt_decode<User>(JWTToken);
+    if (authInfo && authApiStatus === API_STATUS.SUCCESS) {
+      const JWTToken = authInfo.data;
+      const { userId, username, avatar } = jwt_decode<User>(JWTToken);
 
-      const userInfo = {
-        userId: payload.userId,
-        username: payload.username,
-        avatar: payload.avatar,
-      };
+      setUserInfo({ userId, username, avatar });
 
-      setUserInfo(userInfo);
-
-      if (!localStorage.getItem('JWTToken')) {
-        localStorage.setItem('JWTToken', JWTToken);
+      if (authInfo.message === USER_SIGN_UP_IN_PROGRESS) {
+        navigate(ROUTE_PATH.REGISTRATION);
       }
 
-      if (data.message === USER_SIGN_UP_IN_PROGRESS) {
-        navigate('/registration', {
-          state: {
-            username: payload.username,
-            avatar: payload.avatar,
-          },
-        });
-      }
-
-      if (data.message === USER_ALREADY_REGISTERED) {
-        // TODO(덴): 유저 동네 api 나오면, Get 요청 보내서 context에 set하기.
-        navigate('/home');
+      if (authInfo.message === USER_ALREADY_REGISTERED) {
+        fetchUserLocation();
+        navigate(ROUTE_PATH.HOME);
       }
     }
-  }, [data]);
+  }, [authInfo, authApiStatus]);
 
-  return <S.Box>{status === 'loading' && <Spinner isDynamic={false} />}</S.Box>;
+  return (
+    <S.Box>
+      {[authApiStatus, locationApiStatus].includes(API_STATUS.LOADING) && (
+        <Spinner isDynamic={false} />
+      )}
+    </S.Box>
+  );
 };
 
 export default Auth;
