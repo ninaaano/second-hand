@@ -18,7 +18,14 @@ export const UserImg = styled.img`
 `;
 
 export const NoticeBox = styled.div`
-  height: 15vh;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LocationBox = styled.div`
+  height: 5vh;
   display: flex;
   justify-content: center;
   align-items: center;
