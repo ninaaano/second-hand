@@ -1,4 +1,4 @@
-import { authLogin } from '@Apis/authApi';
+import { authLogin, authSignUp } from '@Apis/authApi';
 import { createContext, useContext } from 'react';
 import useFetch from '@Hooks/useFetch';
 import { PersistentStorage } from '@Utils/persistentStorage';
@@ -14,6 +14,7 @@ interface AuthContextProps {
   authInfo: AuthData | undefined;
   authApiStatus: apiStutus;
   login: () => void;
+  signUp: (locationId: number) => void;
 }
 
 interface AuthProviderProps {
@@ -30,13 +31,17 @@ export const AuthProvider = ({ children, storage }: AuthProviderProps) => {
     fetch({ callback: authLogin });
   };
 
+  const signUp = (locationId: number) => {
+    fetch({ callback: () => authSignUp(locationId) });
+  };
+
   if (authInfo) {
     const JWTToken = authInfo.data;
     storage.set(JWTToken);
   }
 
   return (
-    <authContext.Provider value={{ authInfo, authApiStatus, login }}>
+    <authContext.Provider value={{ authInfo, authApiStatus, login, signUp }}>
       {children}
     </authContext.Provider>
   );
