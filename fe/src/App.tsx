@@ -1,40 +1,26 @@
-import { createContext, useState } from 'react';
+import { AuthProvider } from '@Contexts/authContext';
+import { UserProvider } from '@Contexts/userContext';
+import { UserLocationProvider } from '@Contexts/userTownContext';
 import { Outlet } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { GlobalStyle } from '@Styles/GlobalStyle';
 import { theme } from '@Styles/theme';
+import { PersistentStorage } from '@Utils/persistentStorage';
 
-import { User, UserContextProps } from './types';
+export const persistentStorage = new PersistentStorage('JWTToken');
 
-export const UserContext = createContext<UserContextProps | null>(null);
-
-const userInitialState = {
-  userId: 0,
-  avatar: '',
-  username: '',
-  towns: [],
-};
-
-const App = () => {
-  const [user, setUser] = useState<User>(userInitialState);
-
-  const setUserInfo = (updatedUserInfo: Partial<User>) => {
-    const userInfo = (prevUserInfo: User): User => ({
-      ...prevUserInfo,
-      ...updatedUserInfo,
-    });
-    setUser(userInfo);
-  };
-
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <UserContext.Provider value={{ user, setUserInfo }}>
-        <Outlet />
-      </UserContext.Provider>
-    </ThemeProvider>
-  );
-};
+const App = () => (
+  <ThemeProvider theme={theme}>
+    <GlobalStyle />
+    <AuthProvider storage={persistentStorage}>
+      <UserProvider>
+        <UserLocationProvider>
+          <Outlet />
+        </UserLocationProvider>
+      </UserProvider>
+    </AuthProvider>
+  </ThemeProvider>
+);
 
 export default App;
