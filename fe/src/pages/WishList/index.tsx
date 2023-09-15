@@ -1,5 +1,5 @@
 import Button from '@Components/common/Button';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarDefault } from '@Components/common/NavBar/NabBarDefault';
 import { ProductItem } from '@Components/common/ProductList/ProductItem';
 import { TabBarHome } from '@Components/common/TabBar';
 import { Fragment, useEffect, useState } from 'react';
@@ -66,7 +66,7 @@ const WishList = () => {
 
   return (
     <>
-      <NavigationBar type="defaultLayout" title="관심 목록" />
+      <NavBarDefault title="관심 목록" />
       <S.CategoryBox>
         <Button
           buttonType="ellipse"

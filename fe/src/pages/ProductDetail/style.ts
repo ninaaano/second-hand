@@ -33,16 +33,6 @@ export const UserInfoBox = styled.div`
   }
 `;
 
-export const NavBarBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 94vw;
-  height: 5vh;
-  align-items: center;
-  padding: 10px;
-  position: absolute;
-`;
-
 export const DimmedBox = styled.div`
   position: absolute;
   background: ${({ theme }) => theme.color.colors.neutralOverlay};

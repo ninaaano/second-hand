@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 
-export const Box = styled.div`
-  width: 100%;
-  display: flex;
+export const Layout = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0px 0.8em 0.2em;
+
+  border: 1px solid ${({ theme }) => theme.color.palette.gray200};
+  ${({ theme }) => theme.mixin.navBarMixin.commonNavBar({ width: '92.5vw' })};
 `;
 
-export const AddressBox = styled.div`
+export const AddressBox = styled.button`
   display: flex;
-  position: relative;
+  border: none;
+  background: ${({ theme }) => theme.color.colors.neutralBackgroundBlur};
   align-items: center;
 `;
 

@@ -1,5 +1,5 @@
 import ChatList from '@Components/Chat/ChatList';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarDefault } from '@Components/common/NavBar/NabBarDefault';
 import NotFound from '@Components/common/NotFound';
 import { TabBarHome } from '@Components/common/TabBar';
 
@@ -12,7 +12,7 @@ const Chat = () => {
 
   return (
     <>
-      <NavigationBar type="defaultLayout" title="채팅" />
+      <NavBarDefault title="채팅" />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
       {!data && <ChatList />}
       <TabBarHome currentPage="chat" />

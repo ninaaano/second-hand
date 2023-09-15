@@ -1,5 +1,5 @@
 import Button from '@Components/common/Button';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarDefault } from '@Components/common/NavBar/NabBarDefault';
 import { TabBarHome } from '@Components/common/TabBar';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +20,7 @@ const MyAccount = () => {
 
   return (
     <>
-      <NavigationBar type="defaultLayout" title="내 계정" />
+      <NavBarDefault title="내 계정" />
       <S.InfoBox>
         <S.ImgBox>
           <S.UserImg src={user?.avatar} />

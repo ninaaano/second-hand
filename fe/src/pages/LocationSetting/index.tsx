@@ -1,5 +1,5 @@
 import Button from '@Components/common/Button';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarModal } from '@Components/common/NavBar/NavBarModal';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,11 +30,16 @@ const LocationSetting = () => {
 
   return (
     <>
-      <NavigationBar
+      {/* <NavigationBar
         type="modalLayout"
         prev="닫기"
         center="동네 설정"
         prevHandler={handleBackBtnClick}
+      /> */}
+      <NavBarModal
+        prev="닫기"
+        center="동네 설정"
+        handlePrev={handleBackBtnClick}
       />
       <S.Layout>
         <S.Notice>

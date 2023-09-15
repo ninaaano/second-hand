@@ -4,28 +4,30 @@ import * as S from './style';
 interface ModalProps {
   prev?: string;
   center?: string;
-  right?: string;
-  prevHandler?: (e: MouseEvent<HTMLButtonElement>) => void;
-  rightHandler?: (e: MouseEvent<HTMLButtonElement>) => void;
-  isRightActive?: boolean;
+  next?: string;
+  handlePrev?: (e: MouseEvent<HTMLButtonElement>) => void;
+  handleNext?: (e: MouseEvent<HTMLButtonElement>) => void;
+  isActivePrev?: boolean;
+  isActiveNext?: boolean;
 }
 export const NavBarModal = ({
   prev,
   center,
-  right,
-  prevHandler,
-  rightHandler,
-  isRightActive,
+  next,
+  handlePrev,
+  handleNext,
+  isActivePrev = false,
+  isActiveNext = true,
 }: ModalProps) => (
-  <S.Box>
+  <S.Layout>
     <S.ModalText>
-      <S.Button onClick={prevHandler} isActive={true}>
+      <S.ButtonBox onClick={handlePrev} disabled={isActivePrev}>
         {prev}
-      </S.Button>
+      </S.ButtonBox>
       <div>{center}</div>
-      <S.Button onClick={rightHandler} isActive={isRightActive}>
-        {right}
-      </S.Button>
+      <S.ButtonBox onClick={handleNext} disabled={isActiveNext}>
+        {next}
+      </S.ButtonBox>
     </S.ModalText>
-  </S.Box>
+  </S.Layout>
 );

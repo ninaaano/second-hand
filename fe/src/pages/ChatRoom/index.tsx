@@ -1,5 +1,5 @@
 import ChatBubble from '@Components/ChatRoom/ChatBubble';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarBackBtn } from '@Components/common/NavBar/NavBarBackBtn';
 import { TabBarChat } from '@Components/common/TabBar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -19,10 +19,9 @@ const ChatRoom = () => {
 
   return (
     <>
-      <NavigationBar
-        type="backBtnLayout"
+      <NavBarBackBtn
         prev="뒤로"
-        prevHandler={handleBackBtnClick}
+        handlePrev={handleBackBtnClick}
         center="삼만보"
       />
       <S.Product>
