@@ -6,7 +6,6 @@ export class PersistentStorage {
   }
 
   set(value: unknown) {
-    console.log('set', value);
     window.localStorage.setItem(this.key, JSON.stringify(value));
   }
 
