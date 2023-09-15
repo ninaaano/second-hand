@@ -1,5 +1,5 @@
 import Button from '@Components/common/Button';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarHome } from '@Components/common/NavBar/NavBarHome';
 import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
 import { TabBarHome } from '@Components/common/TabBar';
@@ -80,9 +80,7 @@ const Home = () => {
 
   return (
     <>
-      <NavigationBar
-        type="homeLayout"
-        title="title1"
+      <NavBarHome
         towns={targetTownIndex === 0 ? towns : towns.reverse()}
         modalHanlder={handleModalClick}
       />

@@ -21,12 +21,12 @@ export const NavBarPicker = ({
   };
   return (
     <S.Layout>
-      <S.LeftBox isLeft={isActiveValue} onClick={handleChange}>
+      <S.PickerBox isLeft={isActiveValue} onClick={handleChange}>
         {leftLabel}
-      </S.LeftBox>
-      <S.RightBox isLeft={isActiveValue} onClick={handleChange}>
+      </S.PickerBox>
+      <S.PickerBox isLeft={isActiveValue} onClick={handleChange}>
         {RightLabel}
-      </S.RightBox>
+      </S.PickerBox>
     </S.Layout>
   );
 };

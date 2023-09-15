@@ -1,5 +1,5 @@
 import Button from '@Components/common/Button';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarModal } from '@Components/common/NavBar/NavBarModal';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -60,14 +60,13 @@ const Registration = () => {
 
   return (
     <>
-      <NavigationBar
-        type="modalLayout"
+      <NavBarModal
         prev="닫기"
         center="회원가입"
-        right="완료"
-        prevHandler={handleCloseBtnClick}
-        rightHandler={handleSubmitBtnClick}
-        isRightActive={primaryLocation !== undefined}
+        next="완료"
+        handlePrev={handleCloseBtnClick}
+        handleNext={handleSubmitBtnClick}
+        isActiveNext={primaryLocation !== undefined}
       />
       <S.InfoBox>
         <S.ImgBox>

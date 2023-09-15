@@ -1,5 +1,5 @@
 import LocationList from '@Components/common/LocationList';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarModalSearch } from '@Components/common/NavBar/NavBarModalSearch';
 import NotFound from '@Components/common/NotFound';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -73,7 +73,7 @@ const LocationSearch = () => {
 
   return (
     <>
-      <NavigationBar type="modalSearchLayout" prevHandler={goToPreviousPage} />
+      <NavBarModalSearch prevHandler={goToPreviousPage} />
       {status === 'error' && <NotFound errorMessage={errorMessage} />}
       {status !== 'error' && locations && (
         <LocationList locations={locations} handleItemClick={setLocation} />

@@ -3,6 +3,7 @@ import { ProductDetailImg } from '@Components/ProductDetail/ProductDetailImg';
 import Button from '@Components/common/Button';
 import { Icon } from '@Components/common/Icon';
 import { Modal } from '@Components/common/Modal';
+import { NavBarBackBtn } from '@Components/common/NavBar/NavBarBackBtn';
 import { TabBarProductDetail } from '@Components/common/TabBar';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -131,19 +132,10 @@ export const ProductDetail = () => {
           />
         )}
         {data?.data && <ProductDetailImg detailData={data?.data} />}
-        <S.NavBarBox>
-          <Icon
-            iconType="chevronLeft"
-            width={23}
-            onClick={() => navigation(-1)}
-          />
-          <Icon
-            iconType="ellipsis"
-            fill="brack"
-            width={23}
-            onClick={handleProductDetail}
-          />
-        </S.NavBarBox>
+        <NavBarBackBtn
+          handlePrev={() => navigation(-1)}
+          handleModal={handleProductDetail}
+        />
         <S.DotBox>
           {data?.data.images.map((item, index) => (
             <Icon

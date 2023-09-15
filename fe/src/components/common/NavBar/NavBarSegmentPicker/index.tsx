@@ -13,8 +13,8 @@ export const NavBarSegmentPicker = ({
   <S.Layout>
     <div>{title}</div>
     <NavBarPicker
-      leftLabel={'판매중'}
-      RightLabel={'판매완료'}
+      leftLabel="판매중"
+      RightLabel="판매완료"
       isActiveSetValue={isActiveSetValue}
       isActiveValue={isActiveValue}
     />
