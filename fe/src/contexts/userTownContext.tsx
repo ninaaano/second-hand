@@ -8,7 +8,7 @@ interface UserLocationContextProps {
   userLocationInfo: LocationData[];
   userCurrentTown: string;
   userTownList: string[];
-  fetchUserLocation: () => void;
+  getUserLocation: () => void;
 }
 
 interface UserLocationProviderProps {
@@ -31,7 +31,7 @@ export const UserLocationProvider = ({
 
   const userCurrentTown = userTownList[0];
 
-  const fetchUserLocation = () => {
+  const getUserLocation = () => {
     fetch({ callback: getUserLocations });
   };
 
@@ -57,7 +57,7 @@ export const UserLocationProvider = ({
         userLocationInfo,
         userCurrentTown,
         userTownList,
-        fetchUserLocation,
+        getUserLocation,
       }}
     >
       {children}

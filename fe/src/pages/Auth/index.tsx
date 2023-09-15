@@ -18,7 +18,7 @@ const Auth = () => {
   const navigate = useNavigate();
   const { authInfo, authApiStatus, login } = useAuthContext();
   const { setUserInfo } = useUserContext();
-  const { userLocationApiStatus, fetchUserLocation } = useUserLocationContext();
+  const { userLocationApiStatus, getUserLocation } = useUserLocationContext();
 
   useEffect(() => {
     login();
@@ -35,7 +35,7 @@ const Auth = () => {
       }
 
       if (authInfo.message === USER_ALREADY_REGISTERED) {
-        fetchUserLocation();
+        getUserLocation();
         navigate(ROUTE_PATH.HOME);
       }
     }

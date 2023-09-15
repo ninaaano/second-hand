@@ -19,7 +19,7 @@ const Registration = () => {
     ? location.state.primaryLocation
     : undefined;
   const { user } = useUserContext();
-  const { userLocationApiStatus, fetchUserLocation } = useUserLocationContext();
+  const { userLocationApiStatus, getUserLocation } = useUserLocationContext();
   const { authInfo, authApiStatus, signUp } = useAuthContext();
 
   const handleLocationBtnClick = () => {
@@ -41,7 +41,7 @@ const Registration = () => {
 
   useEffect(() => {
     if (primaryLocation && authInfo?.message !== USER_SIGN_UP_IN_PROGRESS) {
-      fetchUserLocation();
+      getUserLocation();
     }
   }, [primaryLocation, authApiStatus, authInfo]);
 
