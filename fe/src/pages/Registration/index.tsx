@@ -2,7 +2,7 @@ import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
 import { useAuthContext } from '@Contexts/authContext';
 import { useUserInfoContext } from '@Contexts/userInfoContext';
-import { useUserLocationContext } from '@Contexts/userTownContext';
+import { useUserLocationContext } from '@Contexts/userLocationContext';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { USER_SIGN_UP_IN_PROGRESS } from '@Constants/auth';

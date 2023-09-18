@@ -1,7 +1,7 @@
 import { AuthProvider } from '@Contexts/authContext';
 import { HomeProductsProvider } from '@Contexts/homeProductContext';
 import { UserInfoProvider } from '@Contexts/userInfoContext';
-import { UserLocationProvider } from '@Contexts/userTownContext';
+import { UserLocationProvider } from '@Contexts/userLocationContext';
 import { Outlet } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 

@@ -3,7 +3,7 @@ import LocationList from '@Components/common/LocationList';
 import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { Spinner } from '@Components/common/Spinner';
-import { useUserLocationContext } from '@Contexts/userTownContext';
+import { useUserLocationContext } from '@Contexts/userLocationContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { API_STATUS } from '@Constants/index';
 import { ROUTE_PATH } from '@Constants/route';

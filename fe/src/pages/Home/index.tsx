@@ -5,7 +5,7 @@ import { ProductList } from '@Components/common/ProductList';
 import { Spinner } from '@Components/common/Spinner';
 import { TabBarHome } from '@Components/common/TabBar';
 import { useHomeProductsContext } from '@Contexts/homeProductContext';
-import { useUserLocationContext } from '@Contexts/userTownContext';
+import { useUserLocationContext } from '@Contexts/userLocationContext';
 import { useEffect } from 'react';
 import { API_STATUS } from '@Constants/index';
 

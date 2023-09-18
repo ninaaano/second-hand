@@ -1,7 +1,7 @@
 import { Spinner } from '@Components/common/Spinner';
 import { useAuthContext } from '@Contexts/authContext';
 import { useUserInfoContext } from '@Contexts/userInfoContext';
-import { useUserLocationContext } from '@Contexts/userTownContext';
+import { useUserLocationContext } from '@Contexts/userLocationContext';
 import jwt_decode from 'jwt-decode';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';

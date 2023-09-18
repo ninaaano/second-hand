@@ -1,6 +1,6 @@
 import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
-import { useUserLocationContext } from '@Contexts/userTownContext';
+import { useUserLocationContext } from '@Contexts/userLocationContext';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LEAST_LOCATION, MAXIMUM_LOCATION } from '@Constants/location';
