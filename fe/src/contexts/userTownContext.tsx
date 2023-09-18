@@ -1,13 +1,15 @@
 import { getUserLocations } from '@Apis/locationApi';
 import { createContext, useContext, useEffect, useState } from 'react';
 import useFetch from '@Hooks/useFetch';
-import { LocationData, apiStutus } from '@Types/index';
+import {
+  LocationData,
+  UserLocationResponseData,
+  apiStutus,
+} from '@Types/index';
 
 interface UserLocationContextProps {
+  userLocationList: LocationData[];
   userLocationApiStatus: apiStutus;
-  userLocationInfo: LocationData[];
-  userCurrentTown: string;
-  userTownList: string[];
   getUserLocation: () => void;
 }
 
@@ -21,15 +23,12 @@ export const userLocationContext =
 export const UserLocationProvider = ({
   children,
 }: UserLocationProviderProps) => {
-  const [userLocationInfo, setUserLocationInfo] = useState<LocationData[]>([]);
-  const [userTownList, setUserTownList] = useState<string[]>([]);
+  const [userLocationList, setUserLocationInfo] = useState<LocationData[]>([]);
   const {
     data: userLocationData,
     status: userLocationApiStatus,
     fetch,
-  } = useFetch<LocationData[]>();
-
-  const userCurrentTown = userTownList[0];
+  } = useFetch<UserLocationResponseData>();
 
   const getUserLocation = () => {
     fetch({ callback: getUserLocations });
@@ -37,26 +36,18 @@ export const UserLocationProvider = ({
 
   useEffect(() => {
     if (userLocationData) {
-      const locationList = Object.entries(userLocationData).map(
+      const locationList = Object.entries(userLocationData.data).map(
         ([, locationInfo]) => locationInfo,
       );
-
-      const townList = locationList.filter((locationInfo) => {
-        if (locationInfo) return locationInfo.town;
-      });
-
       setUserLocationInfo(locationList);
-      setUserTownList(townList as unknown as string[]);
     }
   }, [userLocationData]);
 
   return (
     <userLocationContext.Provider
       value={{
+        userLocationList,
         userLocationApiStatus,
-        userLocationInfo,
-        userCurrentTown,
-        userTownList,
         getUserLocation,
       }}
     >
