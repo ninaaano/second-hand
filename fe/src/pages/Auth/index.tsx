@@ -1,6 +1,6 @@
 import { Spinner } from '@Components/common/Spinner';
 import { useAuthContext } from '@Contexts/authContext';
-import { useUserContext } from '@Contexts/userContext';
+import { useUserInfoContext } from '@Contexts/userInfoContext';
 import { useUserLocationContext } from '@Contexts/userTownContext';
 import jwt_decode from 'jwt-decode';
 import { useEffect } from 'react';
@@ -17,7 +17,7 @@ import * as S from './style';
 const Auth = () => {
   const navigate = useNavigate();
   const { authInfo, authApiStatus, login } = useAuthContext();
-  const { setUserInfo } = useUserContext();
+  const { updateUserInfo } = useUserInfoContext();
   const { userLocationApiStatus, getUserLocation } = useUserLocationContext();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const Auth = () => {
       const JWTToken = authInfo.data;
       const { userId, username, avatar } = jwt_decode<User>(JWTToken);
 
-      setUserInfo({ userId, username, avatar });
+      updateUserInfo({ userId, username, avatar });
       if (authInfo.message === USER_SIGN_UP_IN_PROGRESS) {
         navigate(ROUTE_PATH.REGISTRATION);
       }

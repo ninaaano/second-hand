@@ -1,7 +1,7 @@
 import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
 import { useAuthContext } from '@Contexts/authContext';
-import { useUserContext } from '@Contexts/userContext';
+import { useUserInfoContext } from '@Contexts/userInfoContext';
 import { useUserLocationContext } from '@Contexts/userTownContext';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ const Registration = () => {
   const primaryLocation = location.state
     ? location.state.primaryLocation
     : undefined;
-  const { user } = useUserContext();
+  const { userInfo } = useUserInfoContext();
   const { userLocationApiStatus, getUserLocation } = useUserLocationContext();
   const { authInfo, authApiStatus, signUp } = useAuthContext();
 
@@ -64,10 +64,10 @@ const Registration = () => {
       />
       <S.InfoBox>
         <S.ImgBox>
-          <S.UserImg src={user.avatar} />
+          <S.UserImg src={userInfo.avatar} />
         </S.ImgBox>
         <S.NoticeBox>
-          <S.UserId>{user.username}</S.UserId>
+          <S.UserId>{userInfo.username}</S.UserId>
           <S.Notice>🥕</S.Notice>
         </S.NoticeBox>
         <S.LocationBox>

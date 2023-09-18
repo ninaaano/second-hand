@@ -1,18 +1,14 @@
 import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
 import { TabBarHome } from '@Components/common/TabBar';
-import { useContext } from 'react';
+import { useUserInfoContext } from '@Contexts/userInfoContext';
 import { useNavigate } from 'react-router-dom';
-
 import { ROUTE_PATH } from '@Constants/route';
-import { UserContextProps } from '@Types/index';
-
 import * as S from './style';
-import { UserContext } from '../../App';
 
 const MyAccount = () => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext as React.Context<UserContextProps>);
+  const { userInfo } = useUserInfoContext();
 
   const logoutHandler = () => {
     localStorage.removeItem('JWTToken');
@@ -24,10 +20,10 @@ const MyAccount = () => {
       <NavigationBar type="defaultLayout" title="내 계정" />
       <S.InfoBox>
         <S.ImgBox>
-          <S.UserImg src={user?.avatar} />
+          <S.UserImg src={userInfo.avatar} />
         </S.ImgBox>
         <S.NoticeBox>
-          <S.UserId>{user?.username} 🥕</S.UserId>
+          <S.UserId>{userInfo.username} 🥕</S.UserId>
         </S.NoticeBox>
         <S.AddLocationButtonBox>
           <Button

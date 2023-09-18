@@ -1,6 +1,6 @@
 import { AuthProvider } from '@Contexts/authContext';
 import { HomeProductsProvider } from '@Contexts/homeProductContext';
-import { UserProvider } from '@Contexts/userContext';
+import { UserInfoProvider } from '@Contexts/userInfoContext';
 import { UserLocationProvider } from '@Contexts/userTownContext';
 import { Outlet } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -15,13 +15,13 @@ const App = () => (
   <ThemeProvider theme={theme}>
     <GlobalStyle />
     <AuthProvider storage={persistentStorage}>
-      <UserProvider>
+      <UserInfoProvider>
         <UserLocationProvider>
           <HomeProductsProvider>
             <Outlet />
           </HomeProductsProvider>
         </UserLocationProvider>
-      </UserProvider>
+      </UserInfoProvider>
     </AuthProvider>
   </ThemeProvider>
 );
