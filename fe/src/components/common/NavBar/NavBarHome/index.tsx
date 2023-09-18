@@ -52,8 +52,9 @@ export const NavBarHome = ({ towns, modalHanlder }: NavBarHomeProps) => {
               <S.Town
                 key={town}
                 onClick={() => {
-                  modalHanlder(index);
                   setIsOpen(false);
+                  if (index === 0) return;
+                  modalHanlder(index);
                 }}
               >
                 {town}

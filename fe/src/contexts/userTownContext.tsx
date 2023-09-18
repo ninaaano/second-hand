@@ -14,6 +14,7 @@ interface UserLocationContextProps {
   getUserLocation: () => void;
   addUserLocation: (locationData: LocationData) => void;
   deleteUserLocation: (index: number) => void;
+  reverseUserLocationList: () => void;
 }
 
 interface UserLocationProviderProps {
@@ -60,6 +61,10 @@ export const UserLocationProvider = ({
     });
   };
 
+  const reverseUserLocationList = () => {
+    setUserLocationInfo([...userLocationList].reverse());
+  };
+
   useEffect(() => {
     if (userLocationData) {
       const locationList = Object.entries(userLocationData.data).map(
@@ -77,6 +82,7 @@ export const UserLocationProvider = ({
         getUserLocation,
         addUserLocation,
         deleteUserLocation,
+        reverseUserLocationList,
       }}
     >
       {children}

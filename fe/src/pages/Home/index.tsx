@@ -8,18 +8,16 @@ import { useHomeProductsContext } from '@Contexts/homeProductContext';
 import { useUserLocationContext } from '@Contexts/userTownContext';
 import { useEffect } from 'react';
 import { API_STATUS } from '@Constants/index';
-import { useFilter } from '@Hooks/useFilter';
 
 const Home = () => {
-  const { userLocationList } = useUserLocationContext();
+  const { userLocationList, reverseUserLocationList } =
+    useUserLocationContext();
   const {
     homeProductList,
     homeProductsApiStatus,
     getHomeProducts,
     errorMessage,
   } = useHomeProductsContext();
-
-  const { currentIndex, handleFilter } = useFilter();
 
   // TODO(덴): 위치 수정 필요
   const userTownList = userLocationList
@@ -29,22 +27,18 @@ const Home = () => {
   useEffect(() => {
     if (userLocationList.length !== 0) {
       getHomeProducts({
-        locationId: userLocationList[currentIndex].locationId,
+        locationId: userLocationList[0].locationId,
       });
     }
-  }, [userLocationList, currentIndex]);
+  }, [userLocationList]);
 
   return (
     <>
       <NavigationBar
         type="homeLayout"
         title="title1"
-        towns={
-          currentIndex === 0
-            ? (userTownList as unknown as string[])
-            : (userTownList.reverse() as unknown as string[])
-        }
-        modalHanlder={handleFilter}
+        towns={userTownList}
+        modalHanlder={reverseUserLocationList}
       />
       {homeProductsApiStatus === API_STATUS.ERROR && (
         <NotFound errorMessage={errorMessage} />
