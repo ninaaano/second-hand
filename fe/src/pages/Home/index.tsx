@@ -1,4 +1,4 @@
-import Button from '@Components/common/Button';
+import { NewProductButton } from '@Components/Home/NewProductButton';
 import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
@@ -7,15 +7,10 @@ import { TabBarHome } from '@Components/common/TabBar';
 import { useHomeProductsContext } from '@Contexts/homeProductContext';
 import { useUserLocationContext } from '@Contexts/userTownContext';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { API_STATUS } from '@Constants/index';
-import { ROUTE_PATH } from '@Constants/route';
 import { useFilter } from '@Hooks/useFilter';
-import * as S from './style';
 
 const Home = () => {
-  const navigate = useNavigate();
-
   const { userLocationList } = useUserLocationContext();
   const {
     homeProductList,
@@ -58,15 +53,7 @@ const Home = () => {
       {homeProductsApiStatus === API_STATUS.SUCCESS && homeProductList && (
         <ProductList list={homeProductList} />
       )}
-      <S.ButtonBox>
-        <Button
-          buttonType="circle"
-          buttonState="active"
-          size="L"
-          iconType="plus"
-          onClick={() => navigate(ROUTE_PATH.NEW_PRODUCT)}
-        />
-      </S.ButtonBox>
+      <NewProductButton />
       <TabBarHome currentPage="home" />
     </>
   );
