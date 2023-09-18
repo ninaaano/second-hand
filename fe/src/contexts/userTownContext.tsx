@@ -1,6 +1,7 @@
-import { getUserLocations } from '@Apis/locationApi';
+import { getUserLocations, updateUserLocations } from '@Apis/locationApi';
 import { createContext, useContext, useEffect, useState } from 'react';
 import useFetch from '@Hooks/useFetch';
+import { getLocationIds } from '@Utils/getLocationIds';
 import {
   LocationData,
   UserLocationResponseData,
@@ -11,6 +12,8 @@ interface UserLocationContextProps {
   userLocationList: LocationData[];
   userLocationApiStatus: apiStutus;
   getUserLocation: () => void;
+  addUserLocation: (locationData: LocationData) => void;
+  deleteUserLocation: (index: number) => void;
 }
 
 interface UserLocationProviderProps {
@@ -34,6 +37,29 @@ export const UserLocationProvider = ({
     fetch({ callback: getUserLocations });
   };
 
+  const addUserLocation = (locationData: LocationData) => {
+    const locationIds = {
+      primaryLocationId: userLocationList[0].locationId,
+      secondaryLocationId: locationData.locationId,
+    };
+
+    fetch({
+      callback: () => updateUserLocations(locationIds),
+    });
+  };
+
+  const deleteUserLocation = (index: number) => {
+    const [primaryLocation, secondaryLocation] = [...userLocationList].filter(
+      (_, locationIndex) => locationIndex !== index,
+    );
+
+    const locationIds = getLocationIds(primaryLocation, secondaryLocation);
+
+    fetch({
+      callback: () => updateUserLocations(locationIds),
+    });
+  };
+
   useEffect(() => {
     if (userLocationData) {
       const locationList = Object.entries(userLocationData.data).map(
@@ -49,6 +75,8 @@ export const UserLocationProvider = ({
         userLocationList,
         userLocationApiStatus,
         getUserLocation,
+        addUserLocation,
+        deleteUserLocation,
       }}
     >
       {children}

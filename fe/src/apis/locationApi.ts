@@ -18,3 +18,17 @@ export const getAllLocations = async () =>
       'Content-Type': 'application/json',
     },
   });
+
+export const updateUserLocations = async (
+  updatedUserLocation: Record<string, number>,
+) =>
+  await fetch(`${END_POINT.userLocation}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: 'Bearer ' + persistentStorage.get(),
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      ...updatedUserLocation,
+    }),
+  });

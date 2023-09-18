@@ -3,7 +3,7 @@ import LocationList from '@Components/common/LocationList';
 import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { Spinner } from '@Components/common/Spinner';
-import { useEffect, useState } from 'react';
+import { useUserLocationContext } from '@Contexts/userTownContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { API_STATUS } from '@Constants/index';
 import { ROUTE_PATH } from '@Constants/route';
@@ -27,41 +27,25 @@ const LocationSearch = () => {
     status: locationApiStatus,
     errorMessage,
   } = useFetch<LocationResponseData>(getAllLocations);
-
-  const [primaryLocation, setPrimaryLocation] = useState<LocationData>();
+  const { addUserLocation } = useUserLocationContext();
 
   const locations = data?.data.locations;
 
-  const setLocation = (location: LocationData) => {
-    setPrimaryLocation(location);
-  };
-
-  const goToRegistrationPage = (primaryLocation: LocationData) => {
-    navigate(ROUTE_PATH.REGISTRATION, {
-      state: { primaryLocation },
-    });
-  };
-
-  const goToLocationSettingPage = (primaryLocation: LocationData) => {
-    navigate(ROUTE_PATH.LOCATION_SETTING, {
-      state: { primaryLocation },
-    });
+  const setLocation = (locationData: LocationData) => {
+    if (location.state.from === ROUTE_PATH.REGISTRATION) {
+      navigate(ROUTE_PATH.REGISTRATION, {
+        state: { locationData },
+      });
+    }
+    if (location.state.from === ROUTE_PATH.LOCATION_SETTING) {
+      addUserLocation(locationData);
+      navigate(ROUTE_PATH.LOCATION_SETTING);
+    }
   };
 
   const goToPreviousPage = () => {
     navigate(-1);
   };
-
-  useEffect(() => {
-    if (primaryLocation) {
-      if (location.state.from === ROUTE_PATH.REGISTRATION) {
-        goToRegistrationPage(primaryLocation);
-      }
-      if (location.state.from === ROUTE_PATH.LOCATION_SETTING) {
-        goToLocationSettingPage(primaryLocation);
-      }
-    }
-  }, [primaryLocation]);
 
   return (
     <>
