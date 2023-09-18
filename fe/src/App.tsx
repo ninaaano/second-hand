@@ -1,4 +1,5 @@
 import { AuthProvider } from '@Contexts/authContext';
+import { HomeProductsProvider } from '@Contexts/homeProductContext';
 import { UserProvider } from '@Contexts/userContext';
 import { UserLocationProvider } from '@Contexts/userTownContext';
 import { Outlet } from 'react-router-dom';
@@ -16,7 +17,9 @@ const App = () => (
     <AuthProvider storage={persistentStorage}>
       <UserProvider>
         <UserLocationProvider>
-          <Outlet />
+          <HomeProductsProvider>
+            <Outlet />
+          </HomeProductsProvider>
         </UserLocationProvider>
       </UserProvider>
     </AuthProvider>

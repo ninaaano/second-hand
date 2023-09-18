@@ -2,97 +2,61 @@ import Button from '@Components/common/Button';
 import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';
 import { ProductList } from '@Components/common/ProductList';
+import { Spinner } from '@Components/common/Spinner';
 import { TabBarHome } from '@Components/common/TabBar';
-import { useContext, useEffect, useState } from 'react';
+import { useHomeProductsContext } from '@Contexts/homeProductContext';
+import { useUserLocationContext } from '@Contexts/userTownContext';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { END_POINT } from '@Constants/endpoint';
-
-import useFetch from '@Hooks/useFetch';
-
-import {
-  LocationData,
-  Product,
-  ProductResponseData,
-  UserContextProps,
-  UserLocationResponseData,
-} from '@Types/index';
-
+import { API_STATUS } from '@Constants/index';
+import { ROUTE_PATH } from '@Constants/route';
+import { useFilter } from '@Hooks/useFilter';
 import * as S from './style';
-import { UserContext } from '../../App';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { user, setUserInfo } = useContext(UserContext) as UserContextProps;
 
-  const [userLocations, setUserLocations] = useState<LocationData[]>([]);
-  const [products, setProducts] = useState<Product[] | null>(null);
-  const [targetTownIndex, setTargetTownIndex] = useState(0);
+  const { userLocationList } = useUserLocationContext();
+  const {
+    homeProductList,
+    homeProductsApiStatus,
+    getHomeProducts,
+    errorMessage,
+  } = useHomeProductsContext();
 
-  const { data, status, errorMessage, fetchData } = useFetch<
-    UserLocationResponseData | ProductResponseData
-  >(`${END_POINT.userLocation}`);
+  const { currentIndex, handleFilter } = useFilter();
 
-  const towns = user.towns.map(({ town }) => town);
-
-  const getProduct = async (locationId: number) => {
-    await fetchData({
-      url: `${END_POINT.products}?page=0&size=10&locationId=${locationId}`,
-      isGetData: true,
-    });
-  };
-
-  const handleModalClick = (townIndex: number) => {
-    if (towns.length === 1) return;
-    if (userLocations) {
-      setTargetTownIndex(townIndex);
-      setUserLocations([...userLocations]);
-      setUserInfo({ towns: [...userLocations] });
-    }
-  };
+  // TODO(덴): 위치 수정 필요
+  const userTownList = userLocationList
+    .filter((location) => location && location.town)
+    .map((location) => location.town);
 
   useEffect(() => {
-    if (data && !userLocations.length) {
-      const userLocationsData = data as UserLocationResponseData;
-      const towns = Object.entries(userLocationsData.data)
-        .map(([, locationInfo]) => locationInfo)
-        .filter((locationInfo) => {
-          if (locationInfo) return locationInfo.town;
-        });
-
-      setUserInfo({ towns: towns });
-      setUserLocations(towns);
+    if (userLocationList.length !== 0) {
+      getHomeProducts({
+        locationId: userLocationList[currentIndex].locationId,
+      });
     }
-  }, [data]);
-
-  useEffect(() => {
-    if (data && userLocations.length) {
-      const productsData = data as ProductResponseData;
-      setProducts(productsData.data.products);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (userLocations.length) {
-      getProduct(userLocations[targetTownIndex].locationId);
-    }
-  }, [userLocations]);
+  }, [userLocationList, currentIndex]);
 
   return (
     <>
       <NavigationBar
         type="homeLayout"
         title="title1"
-        towns={targetTownIndex === 0 ? towns : towns.reverse()}
-        modalHanlder={handleModalClick}
+        towns={
+          currentIndex === 0
+            ? (userTownList as unknown as string[])
+            : (userTownList.reverse() as unknown as string[])
+        }
+        modalHanlder={handleFilter}
       />
-      {status === 'error' && <NotFound errorMessage={errorMessage} />}
-      {products && (
-        <ProductList
-          key={products.length}
-          itemData={products}
-          targetLocationId={userLocations[targetTownIndex].locationId}
-        />
+      {homeProductsApiStatus === API_STATUS.ERROR && (
+        <NotFound errorMessage={errorMessage} />
+      )}
+      {homeProductsApiStatus === API_STATUS.LOADING && <Spinner isDynamic />}
+      {homeProductsApiStatus === API_STATUS.SUCCESS && homeProductList && (
+        <ProductList list={homeProductList} />
       )}
       <S.ButtonBox>
         <Button
@@ -100,7 +64,7 @@ const Home = () => {
           buttonState="active"
           size="L"
           iconType="plus"
-          onClick={() => navigate('/newproduct')}
+          onClick={() => navigate(ROUTE_PATH.NEW_PRODUCT)}
         />
       </S.ButtonBox>
       <TabBarHome currentPage="home" />
