@@ -12,7 +12,7 @@ export const CategoryBox = styled.div`
 `;
 
 export const TopBox = styled.div`
-  height: 15vh;
+  height: 8vh;
   background: ${({ theme }) => theme.color.palette.white};
 `;
 

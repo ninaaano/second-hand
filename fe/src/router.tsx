@@ -6,6 +6,7 @@ import Auth from '@Pages/Auth';
 import { Category } from '@Pages/Category';
 import Chat from '@Pages/Chat';
 import ChatRoom from '@Pages/ChatRoom';
+import Favorites from '@Pages/Favorites';
 import Home from '@Pages/Home';
 import LocationSearch from '@Pages/LocationSearch';
 import LocationSetting from '@Pages/LocationSetting';
@@ -15,7 +16,6 @@ import { NewProduct } from '@Pages/NewProduct';
 import { ProductDetail } from '@Pages/ProductDetail';
 import Registration from '@Pages/Registration';
 import SalesList from '@Pages/SalesList';
-import WishList from '@Pages/WishList';
 
 import App from './App';
 
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/heart',
-        element: <WishList />,
+        element: <Favorites />,
       },
       {
         path: '/Chat',
