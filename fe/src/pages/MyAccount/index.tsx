@@ -35,7 +35,6 @@ const MyAccount = () => {
           />
         </S.AddLocationButtonBox>
       </S.InfoBox>
-      ;
       <TabBarHome currentPage="account" />
     </>
   );
