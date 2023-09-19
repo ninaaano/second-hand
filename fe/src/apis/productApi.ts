@@ -17,3 +17,12 @@ export const getProducts = async ({
       },
     },
   );
+
+export const getProductDetail = async (productId: number) =>
+  await fetch(`${END_POINT.products}/${productId}`, {
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer ' + persistentStorage.get(),
+      'Content-Type': 'application/json',
+    },
+  });

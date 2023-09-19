@@ -23,3 +23,15 @@ export const getCurrentCategoryProducts = async (categoryId?: number) => {
     },
   });
 };
+
+export const updateProductFavorite = async (
+  productId: number,
+  method: string,
+) =>
+  await fetch(`${END_POINT.watchlist}/${productId}/watchlist`, {
+    method,
+    headers: {
+      Authorization: 'Bearer ' + persistentStorage.get(),
+      'Content-Type': 'application/json',
+    },
+  });
