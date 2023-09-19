@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { API_STATUS } from '@Constants/index';
 
 const Home = () => {
-  const { userLocationList, reverseUserLocationList } =
+  const { userLocationList, userTownList, reverseUserLocationList } =
     useUserLocationContext();
   const {
     homeProductList,
@@ -18,11 +18,6 @@ const Home = () => {
     getHomeProducts,
     errorMessage,
   } = useHomeProductsContext();
-
-  // TODO(덴): 위치 수정 필요
-  const userTownList = userLocationList
-    .filter((location) => location && location.town)
-    .map((location) => location.town);
 
   useEffect(() => {
     if (userLocationList.length !== 0) {

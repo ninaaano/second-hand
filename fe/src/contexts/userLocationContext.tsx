@@ -1,5 +1,5 @@
 import { getUserLocations, updateUserLocations } from '@Apis/locationApi';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import useFetch from '@Hooks/useFetch';
 import { getLocationIds } from '@Utils/getLocationIds';
 import {
@@ -10,6 +10,7 @@ import {
 
 interface UserLocationContextProps {
   userLocationList: LocationData[];
+  userTownList: string[];
   userLocationApiStatus: apiStutus;
   getUserLocation: () => void;
   addUserLocation: (locationData: LocationData) => void;
@@ -33,6 +34,14 @@ export const UserLocationProvider = ({
     status: userLocationApiStatus,
     fetch,
   } = useFetch<UserLocationResponseData>();
+
+  const userTownList = useMemo(
+    () =>
+      userLocationList
+        .filter((location) => location && location.town)
+        .map((location) => location.town),
+    [userLocationList],
+  );
 
   const getUserLocation = () => {
     fetch({ callback: getUserLocations });
@@ -78,6 +87,7 @@ export const UserLocationProvider = ({
     <userLocationContext.Provider
       value={{
         userLocationList,
+        userTownList,
         userLocationApiStatus,
         getUserLocation,
         addUserLocation,

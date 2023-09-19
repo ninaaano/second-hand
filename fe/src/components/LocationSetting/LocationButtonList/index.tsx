@@ -11,11 +11,7 @@ interface LocationButtonListProps {
 
 const LocationButtonList = ({ handleIcon }: LocationButtonListProps) => {
   const navigate = useNavigate();
-  const { userLocationList } = useUserLocationContext();
-
-  const userTownList = userLocationList
-    .filter((location) => location && location.town)
-    .map((location) => location.town);
+  const { userTownList } = useUserLocationContext();
 
   return (
     <S.ButtonBox>

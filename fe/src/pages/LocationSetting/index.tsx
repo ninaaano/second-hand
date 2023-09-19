@@ -11,12 +11,8 @@ import * as S from './style';
 
 const LocationSetting = () => {
   const navigate = useNavigate();
-  const { userLocationList, deleteUserLocation } = useUserLocationContext();
+  const { userTownList, deleteUserLocation } = useUserLocationContext();
   const [isShowNotice, setIsShowNotice] = useState(false);
-
-  const userTownList = userLocationList
-    .filter((location) => location && location.town)
-    .map((location) => location.town);
 
   const handleBackBtnClick = () => {
     navigate(ROUTE_PATH.HOME);
