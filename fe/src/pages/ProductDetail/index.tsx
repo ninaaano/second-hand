@@ -1,5 +1,5 @@
-import { updateProductFavorite } from '@Apis/favoritesApi';
-import { getProductDetail } from '@Apis/productApi';
+import { updateProductFavorite } from '@Apis/favorites';
+import { getProductDetail } from '@Apis/product';
 import { ProductDetailContent } from '@Components/ProductDetail/ProductDetailContent';
 import { ProductDetailImg } from '@Components/ProductDetail/ProductDetailImg';
 import Button from '@Components/common/Button';

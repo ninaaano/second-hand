@@ -1,21 +1,17 @@
+import { postNewProduct } from '@Apis/product';
 import { NewImg } from '@Components/NewProduct/NewImg';
 import { NewTitle } from '@Components/NewProduct/NewTitle';
 import { NavigationBar } from '@Components/common/NavBar';
 import { TabBarSellProduct } from '@Components/common/TabBar';
-import { useContext, useEffect, useState } from 'react';
+import { useUserLocationContext } from '@Contexts/userLocationContext';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { END_POINT } from '@Constants/endpoint';
-
 import useFetch from '@Hooks/useFetch';
-
-import { SaleResponseData, UserContextProps } from '@Types/index';
-
+import { SaleResponseData } from '@Types/index';
 import * as S from './style';
-import { UserContext } from '../../App';
 
 export const NewProduct = () => {
-  const { user } = useContext(UserContext) as UserContextProps;
+  const { userLocationList } = useUserLocationContext();
   const [price, setPrice] = useState<string>('0');
   const [title, setTitle] = useState<string>('');
   const [contentes, setContents] = useState<string>('');
@@ -24,7 +20,7 @@ export const NewProduct = () => {
 
   const formData = new FormData();
 
-  const { fetchData } = useFetch<SaleResponseData>();
+  const { fetch } = useFetch<SaleResponseData>();
 
   const handelSavePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -43,14 +39,10 @@ export const NewProduct = () => {
       formData.append('productImages', product),
     );
     formData.append('categoryId', categoryId.toString());
-    formData.append('locationId', user.towns[0].locationId.toString());
+    formData.append('locationId', userLocationList[0].locationId.toString());
 
-    await fetchData({
-      url: END_POINT.products,
-      isGetData: true,
-      method: 'POST',
-      body: formData,
-      contentsType: { 'contents-type': 'multipart-formdata' },
+    await fetch({
+      callback: () => postNewProduct(formData),
     });
   };
 

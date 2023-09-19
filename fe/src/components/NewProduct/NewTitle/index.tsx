@@ -1,14 +1,10 @@
+import { getCategories } from '@Apis/category';
 import Button from '@Components/common/Button';
 import { Icon } from '@Components/common/Icon';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { END_POINT } from '@Constants/endpoint';
-
 import useFetch from '@Hooks/useFetch';
-
 import { CategoryType, CategoryResponseData } from '@Types/index';
-
 import * as S from './style';
 
 interface NewTitleProps {
@@ -17,7 +13,7 @@ interface NewTitleProps {
 }
 
 export const NewTitle = ({ titleProps, titleValueProps }: NewTitleProps) => {
-  const { data } = useFetch<CategoryResponseData>(END_POINT.category);
+  const { data } = useFetch<CategoryResponseData>(getCategories);
   const navigation = useNavigate();
   const [randomCategory, setRandomCategory] = useState<CategoryType[]>([]);
   const [selectCategory, setSelectCategory] = useState<CategoryType>();

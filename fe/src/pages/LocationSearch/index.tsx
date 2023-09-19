@@ -1,4 +1,4 @@
-import { getAllLocations } from '@Apis/locationApi';
+import { getAllLocations } from '@Apis/location';
 import LocationList from '@Components/common/LocationList';
 import { NavigationBar } from '@Components/common/NavBar';
 import NotFound from '@Components/common/NotFound';

@@ -1,4 +1,4 @@
-import { getUserLocations, updateUserLocations } from '@Apis/locationApi';
+import { getUserLocations, updateUserLocations } from '@Apis/location';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import useFetch from '@Hooks/useFetch';
 import { getLocationIds } from '@Utils/getLocationIds';

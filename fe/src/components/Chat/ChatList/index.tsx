@@ -3,9 +3,7 @@ import NotFound from '@Components/common/NotFound';
 import { Spinner } from '@Components/common/Spinner';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { END_POINT } from '@Constants/endpoint';
-
+import { API_STATUS } from '@Constants/index';
 import useInfiniteScroll from '@Hooks/useInfiniteScroll';
 import usePullToRefresh from '@Hooks/usePullToRefresh';
 
@@ -30,9 +28,9 @@ const ChatList = () => {
   ]);
 
   const { refreshing, distance, status, errorMessage, refreshedData } =
-    usePullToRefresh<ChatResponseData>(`${END_POINT.products}?page=0&size=10`);
+    usePullToRefresh<ChatResponseData>();
   const { scrolledData } = useInfiniteScroll<ChatResponseData>({
-    URL: END_POINT.products,
+    locationId: 0,
     target: productListRef,
   });
 
@@ -63,8 +61,8 @@ const ChatList = () => {
           <Spinner isDynamic={true} />
         </S.SpinnerBox>
       )}
-      {status === 'error' && <NotFound errorMessage={errorMessage} />}
-      {status !== 'error' &&
+      {status === API_STATUS.ERROR && <NotFound errorMessage={errorMessage} />}
+      {status !== API_STATUS.ERROR &&
         Products.map(
           ({
             chatId,

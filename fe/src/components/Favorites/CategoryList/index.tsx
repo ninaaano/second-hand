@@ -1,4 +1,4 @@
-import { getFavoritesCategory } from '@Apis/favoritesApi';
+import { getFavoritesCategory } from '@Apis/favorites';
 import Button from '@Components/common/Button';
 import { useState } from 'react';
 import useFetch from '@Hooks/useFetch';

@@ -8,7 +8,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { USER_SIGN_UP_IN_PROGRESS } from '@Constants/auth';
 import { API_STATUS } from '@Constants/index';
 import { ROUTE_PATH } from '@Constants/route';
-
 import * as S from './style';
 
 const Registration = () => {

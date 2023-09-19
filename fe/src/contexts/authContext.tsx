@@ -1,4 +1,4 @@
-import { authLogin, authSignUp } from '@Apis/authApi';
+import { authLogin, authSignUp } from '@Apis/auth';
 import { createContext, useContext } from 'react';
 import useFetch from '@Hooks/useFetch';
 import { PersistentStorage } from '@Utils/persistentStorage';

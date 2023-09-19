@@ -1,4 +1,4 @@
-import { getProducts } from '@Apis/productApi';
+import { getProducts } from '@Apis/product';
 import { createContext, useContext, useEffect, useState } from 'react';
 import useFetch from '@Hooks/useFetch';
 import { IGetHomeProducts } from '@Types/homeProducts';

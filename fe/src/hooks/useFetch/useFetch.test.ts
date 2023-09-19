@@ -33,7 +33,7 @@ describe('useFetch 커스텀 훅은', () => {
       ),
     );
 
-    const { result } = renderHook(() => useFetch(url));
+    const { result } = renderHook(() => useFetch());
 
     expect(result.current.status).toBe('loading');
 
@@ -56,7 +56,7 @@ describe('useFetch 커스텀 훅은', () => {
       ),
     );
 
-    const { result } = renderHook(() => useFetch(url));
+    const { result } = renderHook(() => useFetch());
 
     await waitForNextUpdate();
 

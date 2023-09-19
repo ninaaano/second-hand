@@ -1,13 +1,14 @@
+import { getProducts } from '@Apis/product';
 import { useState, useEffect } from 'react';
 
 import useFetch from '@Hooks/useFetch';
 
-const usePullToRefresh = <T,>(URL: string) => {
+const usePullToRefresh = <T,>() => {
   const [refreshedData, setRefreshedData] = useState<T | null>();
   const [refreshing, setRefreshing] = useState(false);
   const [distance, setDistance] = useState(0);
 
-  const { data, status, errorMessage, fetchData } = useFetch<T>(URL);
+  const { data, status, errorMessage, fetch } = useFetch<T>();
 
   const resetState = () => {
     setRefreshing(false);
@@ -19,9 +20,8 @@ const usePullToRefresh = <T,>(URL: string) => {
     setRefreshing(true);
 
     setTimeout(async () => {
-      await fetchData({
-        url: URL,
-        isGetData: true,
+      await fetch({
+        callback: () => getProducts({ page: 0, locationId: 0 }),
       });
       if (data) {
         setRefreshedData(data);

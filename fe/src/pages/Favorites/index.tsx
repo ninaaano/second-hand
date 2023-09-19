@@ -1,4 +1,4 @@
-import { getCurrentCategoryProducts } from '@Apis/favoritesApi';
+import { getCurrentCategoryProducts } from '@Apis/favorites';
 import CategoryList from '@Components/Favorites/CategoryList';
 import { NavigationBar } from '@Components/common/NavBar';
 import { ProductList } from '@Components/common/ProductList';

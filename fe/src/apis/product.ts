@@ -26,3 +26,13 @@ export const getProductDetail = async (productId: number) =>
       'Content-Type': 'application/json',
     },
   });
+
+export const postNewProduct = async (body: FormData) =>
+  await fetch(`${END_POINT.products}`, {
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer ' + persistentStorage.get(),
+      'Content-Type': 'multipart/form-data',
+    },
+    body,
+  });
