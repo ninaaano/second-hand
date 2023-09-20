@@ -1,5 +1,6 @@
-import Button from '@Components/common/Button';
+import LocationSelectField from '@Components/Registration/LocationSelectField';
 import { NavigationBar } from '@Components/common/NavBar';
+import UserProfile from '@Components/common/UserProfile';
 import { useAuthContext } from '@Contexts/authContext';
 import { useUserInfoContext } from '@Contexts/userInfoContext';
 import { useUserLocationContext } from '@Contexts/userLocationContext';
@@ -8,7 +9,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { USER_SIGN_UP_IN_PROGRESS } from '@Constants/auth';
 import { API_STATUS } from '@Constants/index';
 import { ROUTE_PATH } from '@Constants/route';
-import * as S from './style';
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const Registration = () => {
   const { userLocationApiStatus, getUserLocation } = useUserLocationContext();
   const { authInfo, authApiStatus, signUp } = useAuthContext();
 
-  const handleLocationBtnClick = () => {
+  const goToLocationSearch = () => {
     navigate(ROUTE_PATH.LOCATION_SEARCH, {
       state: {
         from: ROUTE_PATH.REGISTRATION,
@@ -61,28 +61,12 @@ const Registration = () => {
         rightHandler={handleSubmitBtnClick}
         isRightActive={primaryLocation !== undefined}
       />
-      <S.InfoBox>
-        <S.ImgBox>
-          <S.UserImg src={userInfo.avatar} />
-        </S.ImgBox>
-        <S.NoticeBox>
-          <S.UserId>{userInfo.username}</S.UserId>
-          <S.Notice>🥕</S.Notice>
-        </S.NoticeBox>
-        <S.LocationBox>
-          {primaryLocation ? primaryLocation.town : '위치를 선택해주세요'}
-        </S.LocationBox>
-        <S.AddLocationButtonBox>
-          <Button
-            buttonType="rectangle"
-            buttonState="active"
-            size="L"
-            iconType="plus"
-            title="위치 추가"
-            onClick={handleLocationBtnClick}
-          />
-        </S.AddLocationButtonBox>
-      </S.InfoBox>
+      <UserProfile avatar={userInfo.avatar} username={userInfo.username}>
+        <LocationSelectField
+          handleBtnClick={goToLocationSearch}
+          primaryLocation={primaryLocation}
+        />
+      </UserProfile>
     </>
   );
 };
