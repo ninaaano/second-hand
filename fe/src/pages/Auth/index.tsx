@@ -25,6 +25,12 @@ const Auth = () => {
   }, []);
 
   useEffect(() => {
+    if (userLocationApiStatus === API_STATUS.SUCCESS) {
+      navigate(ROUTE_PATH.HOME);
+    }
+  }, [userLocationApiStatus]);
+
+  useEffect(() => {
     if (authInfo) {
       const JWTToken = authInfo.data;
       const { userId, username, avatar } = jwt_decode<User>(JWTToken);
@@ -36,7 +42,6 @@ const Auth = () => {
 
       if (authInfo.message === USER_ALREADY_REGISTERED) {
         getUserLocation();
-        navigate(ROUTE_PATH.HOME);
       }
     }
   }, [authInfo, authApiStatus]);
