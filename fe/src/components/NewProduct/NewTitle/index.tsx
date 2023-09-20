@@ -13,7 +13,9 @@ interface NewTitleProps {
 }
 
 export const NewTitle = ({ titleProps, titleValueProps }: NewTitleProps) => {
-  const { data } = useFetch<CategoryResponseData>(getCategories);
+  const { data } = useFetch<CategoryResponseData>({
+    fetchFn: getCategories,
+  });
   const navigation = useNavigate();
   const [randomCategory, setRandomCategory] = useState<CategoryType[]>([]);
   const [selectCategory, setSelectCategory] = useState<CategoryType>();

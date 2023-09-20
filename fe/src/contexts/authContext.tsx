@@ -25,14 +25,20 @@ interface AuthProviderProps {
 export const authContext = createContext<AuthContextProps | null>(null);
 
 export const AuthProvider = ({ children, storage }: AuthProviderProps) => {
-  const { data: authInfo, status: authApiStatus, fetch } = useFetch<AuthData>();
+  const {
+    data: authInfo,
+    status: authApiStatus,
+    fetch,
+  } = useFetch<AuthData>({
+    suspense: false,
+  });
 
   const login = () => {
-    fetch({ callback: authLogin });
+    fetch({ fetchFn: authLogin });
   };
 
   const signUp = (locationId: number) => {
-    fetch({ callback: () => authSignUp(locationId) });
+    fetch({ fetchFn: () => authSignUp(locationId) });
   };
 
   if (authInfo) {

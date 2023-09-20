@@ -1,5 +1,5 @@
 import { getProducts } from '@Apis/product';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext } from 'react';
 import useFetch from '@Hooks/useFetch';
 import { IGetHomeProducts } from '@Types/homeProducts';
 import { Product, ProductResponseData, apiStutus } from '@Types/index';
@@ -21,13 +21,15 @@ export const homeProductsContext =
 export const HomeProductsProvider = ({
   children,
 }: HomeProductsProviderProps) => {
-  const [homeProductList, setHomeProductList] = useState<Product[]>();
   const {
     data: homeProductData,
     status: homeProductsApiStatus,
-    errorMessage,
     fetch,
-  } = useFetch<ProductResponseData>();
+    errorMessage,
+  } = useFetch<ProductResponseData>({
+    suspense: true,
+  });
+  const homeProductList = homeProductData?.data.products;
 
   const getHomeProducts = ({
     page = 0,
@@ -35,7 +37,7 @@ export const HomeProductsProvider = ({
     locationId,
   }: IGetHomeProducts) => {
     fetch({
-      callback: () =>
+      fetchFn: () =>
         getProducts({
           page,
           size,
@@ -43,12 +45,6 @@ export const HomeProductsProvider = ({
         }),
     });
   };
-
-  useEffect(() => {
-    if (homeProductData) {
-      setHomeProductList(homeProductData.data.products);
-    }
-  }, [homeProductData]);
 
   return (
     <homeProductsContext.Provider

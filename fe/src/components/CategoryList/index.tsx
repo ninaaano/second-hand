@@ -9,8 +9,9 @@ import { CategoryResponseData, CategoryType } from '@Types/index';
 import * as S from './style';
 
 export const CategoryList = () => {
-  const { data, status, errorMessage } =
-    useFetch<CategoryResponseData>(getCategories);
+  const { data, status, errorMessage } = useFetch<CategoryResponseData>({
+    fetchFn: getCategories,
+  });
 
   const handleCategory = (e: React.MouseEvent<HTMLDivElement>) => {
     const categoryId = (e.target as HTMLDivElement).getAttribute('data-id');

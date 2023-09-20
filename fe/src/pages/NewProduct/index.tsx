@@ -20,7 +20,9 @@ export const NewProduct = () => {
 
   const formData = new FormData();
 
-  const { fetch } = useFetch<SaleResponseData>();
+  const { fetch } = useFetch<SaleResponseData>({
+    suspense: false,
+  });
 
   const handelSavePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -42,7 +44,7 @@ export const NewProduct = () => {
     formData.append('locationId', userLocationList[0].locationId.toString());
 
     await fetch({
-      callback: () => postNewProduct(formData),
+      fetchFn: () => postNewProduct(formData),
     });
   };
 

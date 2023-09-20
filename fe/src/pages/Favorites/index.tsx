@@ -9,12 +9,12 @@ import { ProductResponseData } from '@Types/index';
 import * as S from './style';
 
 const Favorites = () => {
-  const { data: productListData, fetch } = useFetch<ProductResponseData>(
-    getCurrentCategoryProducts,
-  );
+  const { data: productListData, fetch } = useFetch<ProductResponseData>({
+    fetchFn: getCurrentCategoryProducts,
+  });
 
   const getProductsBy = (categoryId: number) => {
-    fetch({ callback: () => getCurrentCategoryProducts(categoryId) });
+    fetch({ fetchFn: () => getCurrentCategoryProducts(categoryId) });
   };
 
   return (

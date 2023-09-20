@@ -17,13 +17,15 @@ const useInfiniteScroll = <T,>({
   const [scrolledData, setScrolledData] = useState<T>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [page, setPage] = useState(1);
-  const { data, fetch } = useFetch<T>();
+  const { data, fetch } = useFetch<T>({
+    suspense: false,
+  });
 
-  const loadMoreData = async () => {
+  const loadMoreData = () => {
     setIsLoading(true);
 
-    await fetch({
-      callback: () => getProducts({ page, locationId }),
+    fetch({
+      fetchFn: () => getProducts({ page, locationId }),
     });
 
     setPage((prevPage) => prevPage + 1);

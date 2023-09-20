@@ -9,7 +9,9 @@ import useFetch from '@Hooks/useFetch';
 import { ChatResponseData } from '@Types/index';
 
 const Chat = () => {
-  const { data, status, errorMessage } = useFetch<ChatResponseData>();
+  const { data, status, errorMessage } = useFetch<ChatResponseData>({
+    suspense: false,
+  });
 
   return (
     <>

@@ -11,8 +11,9 @@ interface CategoryListProps {
 
 const CategoryList = ({ handleCategory }: CategoryListProps) => {
   const [currentCategoryId, setCurrentCategoryId] = useState(0);
-  const { data: categoryData } =
-    useFetch<CategoryResponseData>(getFavoritesCategory);
+  const { data: categoryData } = useFetch<CategoryResponseData>({
+    fetchFn: getFavoritesCategory,
+  });
 
   return (
     <S.CategoryBox>

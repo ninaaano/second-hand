@@ -1,5 +1,5 @@
 import { getUserLocations, updateUserLocations } from '@Apis/location';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import useFetch from '@Hooks/useFetch';
 import { getLocationIds } from '@Utils/getLocationIds';
 import {
@@ -28,12 +28,23 @@ export const userLocationContext =
 export const UserLocationProvider = ({
   children,
 }: UserLocationProviderProps) => {
-  const [userLocationList, setUserLocationInfo] = useState<LocationData[]>([]);
   const {
     data: userLocationData,
     status: userLocationApiStatus,
     fetch,
-  } = useFetch<UserLocationResponseData>();
+  } = useFetch<UserLocationResponseData>({
+    suspense: false,
+  });
+
+  const userLocationList = useMemo(
+    () =>
+      userLocationData
+        ? Object.entries(userLocationData.data).map(
+            ([, locationInfo]) => locationInfo,
+          )
+        : [],
+    [userLocationData],
+  );
 
   const userTownList = useMemo(
     () =>
@@ -44,7 +55,7 @@ export const UserLocationProvider = ({
   );
 
   const getUserLocation = () => {
-    fetch({ callback: getUserLocations });
+    fetch({ fetchFn: getUserLocations });
   };
 
   const addUserLocation = (locationData: LocationData) => {
@@ -54,7 +65,7 @@ export const UserLocationProvider = ({
     };
 
     fetch({
-      callback: () => updateUserLocations(locationIds),
+      fetchFn: () => updateUserLocations(locationIds),
     });
   };
 
@@ -66,22 +77,21 @@ export const UserLocationProvider = ({
     const locationIds = getLocationIds(primaryLocation, secondaryLocation);
 
     fetch({
-      callback: () => updateUserLocations(locationIds),
+      fetchFn: () => updateUserLocations(locationIds),
     });
   };
 
   const reverseUserLocationList = () => {
-    setUserLocationInfo([...userLocationList].reverse());
-  };
+    const [primaryLocation, secondaryLocation] = [
+      ...userLocationList,
+    ].reverse();
 
-  useEffect(() => {
-    if (userLocationData) {
-      const locationList = Object.entries(userLocationData.data).map(
-        ([, locationInfo]) => locationInfo,
-      );
-      setUserLocationInfo(locationList);
-    }
-  }, [userLocationData]);
+    const locationIds = getLocationIds(primaryLocation, secondaryLocation);
+
+    fetch({
+      fetchFn: () => updateUserLocations(locationIds),
+    });
+  };
 
   return (
     <userLocationContext.Provider

@@ -26,7 +26,9 @@ const LocationSearch = () => {
     data,
     status: locationApiStatus,
     errorMessage,
-  } = useFetch<LocationResponseData>(getAllLocations);
+  } = useFetch<LocationResponseData>({
+    fetchFn: getAllLocations,
+  });
   const { addUserLocation } = useUserLocationContext();
 
   const locations = data?.data.locations;

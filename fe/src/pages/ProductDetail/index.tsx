@@ -21,7 +21,9 @@ export const ProductDetail = () => {
   const location = useLocation();
 
   const { id } = useParams();
-  const { data, fetch } = useFetch<ProductDetailResponseData>();
+  const { data, fetch } = useFetch<ProductDetailResponseData>({
+    suspense: false,
+  });
 
   const [isActiv, setIsActiv] = useState<boolean>(false);
   const [isActivSaleModal, setIsActiveSaleModal] = useState<boolean>(false);
@@ -61,7 +63,7 @@ export const ProductDetail = () => {
 
   const changeWatchList = async (method: string) => {
     await fetch({
-      callback: () => updateProductFavorite(Number(id), method),
+      fetchFn: () => updateProductFavorite(Number(id), method),
     });
   };
 
@@ -84,7 +86,7 @@ export const ProductDetail = () => {
 
   useEffect(() => {
     fetch({
-      callback: () => getProductDetail(Number(id)),
+      fetchFn: () => getProductDetail(Number(id)),
     });
   }, []);
 

@@ -9,7 +9,9 @@ import * as S from './style';
 
 const SalesList = () => {
   const [isActive, setIsActive] = useState<boolean>(true);
-  const { data } = useFetch<ProductResponseData>(getSales);
+  const { data } = useFetch<ProductResponseData>({
+    fetchFn: getSales,
+  });
 
   return (
     <S.Layout>
