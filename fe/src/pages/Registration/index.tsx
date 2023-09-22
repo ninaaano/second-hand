@@ -6,9 +6,9 @@ import { useUserInfoContext } from '@Contexts/userInfoContext';
 import { useUserLocationContext } from '@Contexts/userLocationContext';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { USER_SIGN_UP_IN_PROGRESS } from '@Constants/auth';
 import { API_STATUS } from '@Constants/index';
 import { ROUTE_PATH } from '@Constants/route';
+import { SERVER_MESSAGE } from '@Constants/server';
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -39,7 +39,10 @@ const Registration = () => {
   };
 
   useEffect(() => {
-    if (primaryLocation && authInfo?.message !== USER_SIGN_UP_IN_PROGRESS) {
+    if (
+      primaryLocation &&
+      authInfo?.message !== SERVER_MESSAGE.USER_SIGN_UP_IN_PROGRESS
+    ) {
       getUserLocation();
     }
   }, [primaryLocation, authApiStatus, authInfo]);
