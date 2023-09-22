@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ERROR_MESSAGE } from '@Constants/index';
 import { ROUTE_PATH } from '@Constants/route';
 import * as S from './style';
 
@@ -9,17 +8,14 @@ interface NotFoundProps {
   redirectTime?: number;
 }
 
-const NotFound = ({ errorMessage, redirectTime = 2000 }: NotFoundProps) => {
+const NotFound = ({ errorMessage, redirectTime = 1000 }: NotFoundProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (errorMessage === ERROR_MESSAGE.timeOut)
-      setTimeout(() => navigate(ROUTE_PATH.ROOT), redirectTime);
-    if (errorMessage === ERROR_MESSAGE.refresh)
-      setTimeout(() => {
-        navigate(ROUTE_PATH.ROOT);
-        window.location.reload();
-      }, redirectTime);
+    setTimeout(() => {
+      navigate(ROUTE_PATH.ROOT);
+      window.location.reload();
+    }, redirectTime);
   }, [errorMessage]);
 
   return (
