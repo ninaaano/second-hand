@@ -1,4 +1,3 @@
-import { Outlet } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@Styles/GlobalStyle';
 import { theme } from '@Styles/theme';
