@@ -1,11 +1,10 @@
 import { getAllLocations } from '@Apis/location';
 import LocationList from '@Components/common/LocationList';
 import { NavigationBar } from '@Components/common/NavBar';
-import NotFound from '@Components/common/NotFound';
-import { Spinner } from '@Components/common/Spinner';
 import { useUserLocationContext } from '@Contexts/userLocationContext';
+import { LocalError } from '@Error/LocalError';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { API_STATUS } from '@Constants/index';
+import { ERROR_MESSAGE } from '@Constants/index';
 import { ROUTE_PATH } from '@Constants/route';
 import useFetch from '@Hooks/useFetch';
 import { LocationData } from '@Types/index';
@@ -22,16 +21,12 @@ const LocationSearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const {
-    data,
-    status: locationApiStatus,
-    errorMessage,
-  } = useFetch<LocationResponseData>({
+  const { data: LocationListData } = useFetch<LocationResponseData>({
     fetchFn: getAllLocations,
   });
   const { addUserLocation } = useUserLocationContext();
 
-  const locations = data?.data.locations;
+  const locations = LocationListData?.data.locations;
 
   const setLocation = (locationData: LocationData) => {
     if (location.state.from === ROUTE_PATH.REGISTRATION) {
@@ -52,13 +47,7 @@ const LocationSearch = () => {
   return (
     <>
       <NavigationBar type="modalSearchLayout" prevHandler={goToPreviousPage} />
-      {locationApiStatus === API_STATUS.ERROR && (
-        <NotFound errorMessage={errorMessage} />
-      )}
-      {locationApiStatus === API_STATUS.LOADING && (
-        <Spinner isDynamic={false} />
-      )}
-      {locationApiStatus === API_STATUS.SUCCESS && locations && (
+      {locations && (
         <LocationList locations={locations} handleItemClick={setLocation} />
       )}
     </>

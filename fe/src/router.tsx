@@ -1,6 +1,9 @@
-import NotFound from '@Components/common/NotFound';
-import { createBrowserRouter } from 'react-router-dom';
-
+import { AuthProvider } from '@Contexts/authContext';
+import { HomeProductsProvider } from '@Contexts/homeProductContext';
+import { UserInfoProvider } from '@Contexts/userInfoContext';
+import { UserLocationProvider } from '@Contexts/userLocationContext';
+import { GlobalErrorBoundary } from '@Error/GlobalErrorBoundary';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ROUTE_PATH } from '@Constants/route';
 import Auth from '@Pages/Auth';
 import { Category } from '@Pages/Category';
@@ -16,72 +19,53 @@ import { NewProduct } from '@Pages/NewProduct';
 import { ProductDetail } from '@Pages/ProductDetail';
 import Registration from '@Pages/Registration';
 import SalesList from '@Pages/SalesList';
+import { persistentStorage } from './App';
 
-import App from './App';
+const Routers = () => (
+  <BrowserRouter>
+    <GlobalErrorBoundary>
+      <AuthProvider storage={persistentStorage}>
+        <UserInfoProvider>
+          <UserLocationProvider>
+            <HomeProductsProvider>
+              <Routes>
+                <Route path={ROUTE_PATH.ROOT} element={<Login />} />
+                <Route path={ROUTE_PATH.AUTH} element={<Auth />} />
+                <Route
+                  path={ROUTE_PATH.REGISTRATION}
+                  element={<Registration />}
+                />
+                <Route
+                  path={ROUTE_PATH.LOCATION_SEARCH}
+                  element={<LocationSearch />}
+                />
+                <Route path={ROUTE_PATH.HOME} element={<Home />} />
+                <Route
+                  path={ROUTE_PATH.LOCATION_SETTING}
+                  element={<LocationSetting />}
+                />
+                <Route path={ROUTE_PATH.SALES} element={<SalesList />} />
+                <Route path={ROUTE_PATH.HEART} element={<Favorites />} />
+                <Route path={ROUTE_PATH.CHAT} element={<Chat />} />
+                <Route
+                  path={`${ROUTE_PATH.CHAT_ROOM}/:id`}
+                  element={<ChatRoom />}
+                />
+                <Route path={ROUTE_PATH.ACCOUNT} element={<MyAccount />} />
+                <Route path={ROUTE_PATH.NEW_PRODUCT} element={<NewProduct />} />
+                <Route path={ROUTE_PATH.CATEGORY} element={<Category />} />
+                <Route
+                  path={`${ROUTE_PATH.PRODUCT_DETAIL}/:id`}
+                  element={<ProductDetail />}
+                />
+                <Route path={ROUTE_PATH.ERROR} element={<Login />} />
+              </Routes>
+            </HomeProductsProvider>
+          </UserLocationProvider>
+        </UserInfoProvider>
+      </AuthProvider>
+    </GlobalErrorBoundary>
+  </BrowserRouter>
+);
 
-const router = createBrowserRouter([
-  {
-    element: <App />,
-    errorElement: <NotFound errorMessage="에러" />,
-    children: [
-      {
-        path: ROUTE_PATH.ROOT,
-        element: <Login />,
-      },
-      {
-        path: '/auth',
-        element: <Auth />,
-      },
-      {
-        path: '/registration',
-        element: <Registration />,
-      },
-      {
-        path: '/locationSearch',
-        element: <LocationSearch />,
-      },
-      {
-        path: '/home',
-        element: <Home />,
-      },
-      {
-        path: '/locationSetting',
-        element: <LocationSetting />,
-      },
-      {
-        path: '/sales',
-        element: <SalesList />,
-      },
-      {
-        path: '/heart',
-        element: <Favorites />,
-      },
-      {
-        path: '/Chat',
-        element: <Chat />,
-      },
-      {
-        path: '/chatRoom/:id',
-        element: <ChatRoom />,
-      },
-      {
-        path: '/account',
-        element: <MyAccount />,
-      },
-      {
-        path: '/newproduct',
-        element: <NewProduct />,
-      },
-      {
-        path: '/category',
-        element: <Category />,
-      },
-      {
-        path: '/productDetail/:id',
-        element: <ProductDetail />,
-      },
-    ],
-  },
-]);
-
-export default router;
+export default Routers;

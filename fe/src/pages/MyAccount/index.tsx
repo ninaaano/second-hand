@@ -3,9 +3,15 @@ import { NavigationBar } from '@Components/common/NavBar';
 import { TabBarHome } from '@Components/common/TabBar';
 import UserProfile from '@Components/common/UserProfile';
 import { useUserInfoContext } from '@Contexts/userInfoContext';
+import { LocalError } from '@Error/LocalError';
+import { ERROR_MESSAGE } from '@Constants/index';
 
 const MyAccount = () => {
   const { userInfo } = useUserInfoContext();
+
+  if (!userInfo) {
+    throw new LocalError(ERROR_MESSAGE.refresh);
+  }
 
   return (
     <>

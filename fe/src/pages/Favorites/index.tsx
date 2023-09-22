@@ -5,7 +5,6 @@ import { ProductList } from '@Components/common/ProductList';
 import { TabBarHome } from '@Components/common/TabBar';
 import useFetch from '@Hooks/useFetch';
 import { ProductResponseData } from '@Types/index';
-
 import * as S from './style';
 
 const Favorites = () => {

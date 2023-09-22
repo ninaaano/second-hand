@@ -1,20 +1,13 @@
 import Button from '@Components/common/Button';
-import NotFound from '@Components/common/NotFound';
-import { Spinner } from '@Components/common/Spinner';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_STATUS } from '@Constants/index';
-import useInfiniteScroll from '@Hooks/useInfiniteScroll';
-import usePullToRefresh from '@Hooks/usePullToRefresh';
-
-import { Chat, ChatResponseData } from '@Types/index';
-
+import { ROUTE_PATH } from '@Constants/route';
+import { Chat } from '@Types/index';
 import * as S from './style';
 
 const ChatList = () => {
   const navigate = useNavigate();
-  const productListRef = useRef<HTMLDivElement>(null);
-  const [Products, setProducts] = useState<Chat[]>([
+  const [Products] = useState<Chat[]>([
     {
       chatId: 1,
       profileImage:
@@ -27,42 +20,14 @@ const ChatList = () => {
     },
   ]);
 
-  const { refreshing, distance, status, errorMessage, refreshedData } =
-    usePullToRefresh<ChatResponseData>();
-  const { scrolledData } = useInfiniteScroll<ChatResponseData>({
-    locationId: 0,
-    target: productListRef,
-  });
-
   const handleItemClick = (chatId: number) => {
-    navigate(`/chatRoom/${chatId}`);
+    navigate(`${ROUTE_PATH.CHAT_ROOM}/${chatId}`);
   };
-
-  useEffect(() => {
-    if (refreshedData) {
-      setProducts(refreshedData?.data.chats);
-    }
-  }, [refreshedData]);
-
-  useEffect(() => {
-    if (scrolledData) {
-      setProducts((prevProducts) => [
-        ...prevProducts,
-        ...scrolledData.data.chats,
-      ]);
-    }
-  }, [scrolledData]);
 
   return (
     <>
       <S.TopBox />
-      {refreshing && (
-        <S.SpinnerBox distanceY={distance}>
-          <Spinner isDynamic={true} />
-        </S.SpinnerBox>
-      )}
-      {status === API_STATUS.ERROR && <NotFound errorMessage={errorMessage} />}
-      {status !== API_STATUS.ERROR &&
+      {Products &&
         Products.map(
           ({
             chatId,

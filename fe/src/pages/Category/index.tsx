@@ -1,9 +1,9 @@
 import { NavigationBar } from '@Components/common/NavBar';
+import { ApiErrorBoundary } from '@Error/ApiErrorBoundary';
 import { useNavigate } from 'react-router-dom';
-
 import { CategoryList } from '@Components/CategoryList';
-
 import * as S from './style';
+
 export const Category = () => {
   const navigation = useNavigate();
   return (
@@ -15,7 +15,9 @@ export const Category = () => {
         prevHandler={() => navigation(-1)}
       />
       <div className="empty" />
-      <CategoryList />
+      <ApiErrorBoundary>
+        <CategoryList />
+      </ApiErrorBoundary>
     </S.Layout>
   );
 };

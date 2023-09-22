@@ -9,7 +9,7 @@ import * as S from './style';
 
 const SalesList = () => {
   const [isActive, setIsActive] = useState<boolean>(true);
-  const { data } = useFetch<ProductResponseData>({
+  const { data: SalesListData } = useFetch<ProductResponseData>({
     fetchFn: getSales,
   });
 
@@ -21,7 +21,7 @@ const SalesList = () => {
         isActiveValue={isActive}
       />
       <div className="empty" />
-      {data && <ProductList list={data?.data.products} />}
+      {SalesListData && <ProductList list={SalesListData.data.products} />}
       <TabBarHome currentPage="sales" />
     </S.Layout>
   );

@@ -1,14 +1,12 @@
 import { getProducts } from '@Apis/product';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import useFetch from '@Hooks/useFetch';
 import { IGetHomeProducts } from '@Types/homeProducts';
-import { Product, ProductResponseData, apiStutus } from '@Types/index';
+import { Product, ProductResponseData } from '@Types/index';
 
 interface HomeProductsContextProps {
   homeProductList: Product[] | undefined;
-  homeProductsApiStatus: apiStutus;
   getHomeProducts: ({ page, size, locationId }: IGetHomeProducts) => void;
-  errorMessage: string | null;
 }
 
 interface HomeProductsProviderProps {
@@ -21,15 +19,14 @@ export const homeProductsContext =
 export const HomeProductsProvider = ({
   children,
 }: HomeProductsProviderProps) => {
-  const {
-    data: homeProductData,
-    status: homeProductsApiStatus,
-    fetch,
-    errorMessage,
-  } = useFetch<ProductResponseData>({
+  const { data: homeProductData, fetch } = useFetch<ProductResponseData>({
     suspense: true,
   });
-  const homeProductList = homeProductData?.data.products;
+
+  const homeProductList = useMemo(
+    () => (homeProductData ? homeProductData?.data.products : []),
+    [homeProductData],
+  );
 
   const getHomeProducts = ({
     page = 0,
@@ -50,9 +47,7 @@ export const HomeProductsProvider = ({
     <homeProductsContext.Provider
       value={{
         homeProductList,
-        homeProductsApiStatus,
         getHomeProducts,
-        errorMessage,
       }}
     >
       {children}

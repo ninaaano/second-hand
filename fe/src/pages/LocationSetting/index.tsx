@@ -3,8 +3,10 @@ import LocationNotice from '@Components/LocationSetting/LocationNotice';
 import MessageAlert from '@Components/LocationSetting/MessageAlert';
 import { NavigationBar } from '@Components/common/NavBar';
 import { useUserLocationContext } from '@Contexts/userLocationContext';
+import { LocalError } from '@Error/LocalError';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ERROR_MESSAGE } from '@Constants/index';
 import { LEAST_LOCATION } from '@Constants/location';
 import { ROUTE_PATH } from '@Constants/route';
 import * as S from './style';
@@ -13,6 +15,10 @@ const LocationSetting = () => {
   const navigate = useNavigate();
   const { userTownList, deleteUserLocation } = useUserLocationContext();
   const [isShowNotice, setIsShowNotice] = useState(false);
+
+  if (!userTownList.length) {
+    throw new LocalError(ERROR_MESSAGE.refresh);
+  }
 
   const handleBackBtnClick = () => {
     navigate(ROUTE_PATH.HOME);

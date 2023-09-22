@@ -1,8 +1,7 @@
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { ROUTE_PATH } from '@Constants/route';
 import { Product } from '@Types/index';
-
 import { ProductItem } from './ProductItem';
 import * as S from './style';
 interface ProductListProps {
@@ -32,7 +31,7 @@ export const ProductList = ({ list }: ProductListProps) => {
               isCategory={true}
               isCount={true}
               onClick={() =>
-                navigate(`/productDetail/${item.productId}`, {
+                navigate(`${ROUTE_PATH.PRODUCT_DETAIL}/${item.productId}`, {
                   state: {
                     counts: item.watchlistCounts,
                   },

@@ -12,7 +12,8 @@
       "@Components/*": ["./components/*"],
       "@Pages/*": ["./pages/*"],
       "@Apis/*": ["./apis/*"],
-      "@Contexts/*": ["./contexts/*"]
+      "@Contexts/*": ["./contexts/*"],
+      "@Error/*": ["./error/*"]
     }
   }
 }

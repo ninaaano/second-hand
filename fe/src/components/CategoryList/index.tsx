@@ -1,15 +1,13 @@
 import { getCategories } from '@Apis/category';
 import { Icon } from '@Components/common/Icon';
-import NotFound from '@Components/common/NotFound';
 import { Fragment, useEffect, useState } from 'react';
-import { API_STATUS } from '@Constants/index';
 import { palette } from '@Styles/color';
 import useFetch from '@Hooks/useFetch';
 import { CategoryResponseData, CategoryType } from '@Types/index';
 import * as S from './style';
 
 export const CategoryList = () => {
-  const { data, status, errorMessage } = useFetch<CategoryResponseData>({
+  const { data } = useFetch<CategoryResponseData>({
     fetchFn: getCategories,
   });
 
@@ -38,7 +36,6 @@ export const CategoryList = () => {
 
   return (
     <S.Layout onClick={handleCategory}>
-      {status === API_STATUS.ERROR && <NotFound errorMessage={errorMessage} />}
       {data &&
         data.data?.category.map((item) => (
           <Fragment key={item.categoryId}>

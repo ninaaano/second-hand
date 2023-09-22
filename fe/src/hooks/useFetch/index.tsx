@@ -1,5 +1,7 @@
+import { ApiError } from '@Error/ApiError';
 import { useCallback, useEffect, useState } from 'react';
 import { API_STATUS } from '@Constants/index';
+import { SERVER_MESSAGE } from '@Constants/server';
 import { apiStutus } from '@Types/index';
 
 type responseCallback = () => Promise<Response>;
@@ -17,26 +19,29 @@ const useFetch = <R,>({ fetchFn, suspense = false }: useFetchProps) => {
   const [data, setData] = useState<R>();
   const [status, setStatus] = useState<apiStutus>(API_STATUS.IDLE);
   const [error, setError] = useState<Error | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const fetch = useCallback(
-    ({ fetchFn }: fetchProps) => {
+    async ({ fetchFn }: fetchProps) => {
       if (!fetchFn) return;
       setStatus(API_STATUS.LOADING);
 
       const resolvePromise = async (res: Response) => {
         const data = await res.json();
+
+        if (data.message === SERVER_MESSAGE.USER_TOKEN_EXPIRED) {
+          throw new ApiError(data.message, res.status);
+        }
+
         setData(data);
         setStatus(API_STATUS.SUCCESS);
       };
 
-      const rejectPromise = (error: Error) => {
+      const handleError = (error: Error) => {
         setStatus(API_STATUS.ERROR);
         setError(error);
-        setErrorMessage(error.message);
       };
 
-      setPromise(fetchFn().then(resolvePromise, rejectPromise));
+      setPromise(fetchFn().then(resolvePromise).catch(handleError));
     },
     [fetchFn],
   );
@@ -45,16 +50,14 @@ const useFetch = <R,>({ fetchFn, suspense = false }: useFetchProps) => {
     fetch({ fetchFn });
   }, [fetchFn]);
 
-  if (suspense) {
-    if (status === API_STATUS.LOADING && promise) {
-      throw promise;
-    }
-    if (status === API_STATUS.ERROR) {
-      throw error;
-    }
+  if (suspense && status === API_STATUS.LOADING && promise) {
+    throw promise;
+  }
+  if (status === API_STATUS.ERROR) {
+    throw error;
   }
 
-  return { data, status, errorMessage, fetch };
+  return { data, status, fetch };
 };
 
 export default useFetch;
