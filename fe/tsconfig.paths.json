@@ -10,7 +10,10 @@
       "@Types/*": ["./types/*"],
       "@Common/*": ["./common/*"],
       "@Components/*": ["./components/*"],
-      "@Pages/*": ["./pages/*"]
+      "@Pages/*": ["./pages/*"],
+      "@Apis/*": ["./apis/*"],
+      "@Contexts/*": ["./contexts/*"],
+      "@Error/*": ["./error/*"]
     }
   }
 }

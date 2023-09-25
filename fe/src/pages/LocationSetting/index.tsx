@@ -1,27 +1,35 @@
-import Button from '@Components/common/Button';
+import LocationButtonList from '@Components/LocationSetting/LocationButtonList';
+import LocationNotice from '@Components/LocationSetting/LocationNotice';
+import MessageAlert from '@Components/LocationSetting/MessageAlert';
 import { NavBarModal } from '@Components/common/NavBar/NavBarModal';
+import { useUserLocationContext } from '@Contexts/userLocationContext';
+import { LocalError } from '@Error/LocalError';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import useLocationSet from '@Hooks/useLocationSet';
-
+import { ERROR_MESSAGE } from '@Constants/index';
+import { LEAST_LOCATION } from '@Constants/location';
+import { ROUTE_PATH } from '@Constants/route';
 import * as S from './style';
 
 const LocationSetting = () => {
   const navigate = useNavigate();
-  const { locations, setContextUserLocation } = useLocationSet();
+  const { userTownList, deleteUserLocation } = useUserLocationContext();
   const [isShowNotice, setIsShowNotice] = useState(false);
 
+  if (!userTownList.length) {
+    throw new LocalError(ERROR_MESSAGE.refresh);
+  }
+
   const handleBackBtnClick = () => {
-    navigate('/home');
+    navigate(ROUTE_PATH.HOME);
   };
 
-  const handleIconClick = (index: number) => {
-    if (locations.length === 1) {
+  const updateUserLocation = (index: number) => {
+    if (userTownList.length === LEAST_LOCATION) {
       setIsShowNotice(true);
       return;
     }
-    setContextUserLocation(index);
+    deleteUserLocation(index);
   };
 
   useEffect(() => {
@@ -30,54 +38,15 @@ const LocationSetting = () => {
 
   return (
     <>
-      {/* <NavigationBar
-        type="modalLayout"
-        prev="닫기"
-        center="동네 설정"
-        prevHandler={handleBackBtnClick}
-      /> */}
       <NavBarModal
         prev="닫기"
         center="동네 설정"
         handlePrev={handleBackBtnClick}
       />
       <S.Layout>
-        <S.Notice>
-          <span>지역은 최소 1개,</span>
-          <span>최대 2개까지 설정 가능해요.</span>
-        </S.Notice>
-        <S.ButtonBox>
-          {locations.map(({ locationId, town }, index) => (
-            <Button
-              key={locationId}
-              buttonType="rectangle"
-              buttonState="active"
-              size="M"
-              title={town}
-              iconType="multiply"
-              textAlign="left"
-              iconHandler={() => handleIconClick(index)}
-            />
-          ))}
-          {locations.length < 2 && (
-            <Button
-              buttonType="rectangle"
-              buttonState="default"
-              size="M"
-              iconType="plus"
-              onClick={() =>
-                navigate('/locationSearch', {
-                  state: {
-                    from: '/locationSetting',
-                  },
-                })
-              }
-            />
-          )}
-        </S.ButtonBox>
-        {isShowNotice && (
-          <S.AlertNotice>동네는 최소 1개 이상 선택해야해요.</S.AlertNotice>
-        )}
+        <LocationNotice />
+        <LocationButtonList handleIcon={updateUserLocation} />
+        {isShowNotice && <MessageAlert />}
       </S.Layout>
     </>
   );

@@ -1,4 +1,7 @@
+import { API_STATUS } from '@Constants/index';
+
 export type tabBarList = 'home' | 'sales' | 'heart' | 'chat' | 'account';
+export type apiStutus = keyof typeof API_STATUS;
 export type Product = {
   productId: number;
   title: string;
@@ -61,12 +64,6 @@ export type User = {
   userId: number;
   avatar: string;
   username: string;
-  towns: LocationData[];
-};
-
-export type UserContextProps = {
-  user: User;
-  setUserInfo: (updatedUserInfo: Partial<User>) => void;
 };
 
 export type CategoryResponseData = {

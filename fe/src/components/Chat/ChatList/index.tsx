@@ -1,22 +1,13 @@
 import Button from '@Components/common/Button';
-import NotFound from '@Components/common/NotFound';
-import { Spinner } from '@Components/common/Spinner';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { END_POINT } from '@Constants/endpoint';
-
-import useInfiniteScroll from '@Hooks/useInfiniteScroll';
-import usePullToRefresh from '@Hooks/usePullToRefresh';
-
-import { Chat, ChatResponseData } from '@Types/index';
-
+import { ROUTE_PATH } from '@Constants/route';
+import { Chat } from '@Types/index';
 import * as S from './style';
 
 const ChatList = () => {
   const navigate = useNavigate();
-  const productListRef = useRef<HTMLDivElement>(null);
-  const [Products, setProducts] = useState<Chat[]>([
+  const [Products] = useState<Chat[]>([
     {
       chatId: 1,
       profileImage:
@@ -29,42 +20,14 @@ const ChatList = () => {
     },
   ]);
 
-  const { refreshing, distance, status, errorMessage, refreshedData } =
-    usePullToRefresh<ChatResponseData>(`${END_POINT.products}?page=0&size=10`);
-  const { scrolledData } = useInfiniteScroll<ChatResponseData>({
-    URL: END_POINT.products,
-    target: productListRef,
-  });
-
   const handleItemClick = (chatId: number) => {
-    navigate(`/chatRoom/${chatId}`);
+    navigate(`${ROUTE_PATH.CHAT_ROOM}/${chatId}`);
   };
-
-  useEffect(() => {
-    if (refreshedData) {
-      setProducts(refreshedData?.data.chats);
-    }
-  }, [refreshedData]);
-
-  useEffect(() => {
-    if (scrolledData) {
-      setProducts((prevProducts) => [
-        ...prevProducts,
-        ...scrolledData.data.chats,
-      ]);
-    }
-  }, [scrolledData]);
 
   return (
     <>
       <S.TopBox />
-      {refreshing && (
-        <S.SpinnerBox distanceY={distance}>
-          <Spinner isDynamic={true} />
-        </S.SpinnerBox>
-      )}
-      {status === 'error' && <NotFound errorMessage={errorMessage} />}
-      {status !== 'error' &&
+      {Products &&
         Products.map(
           ({
             chatId,

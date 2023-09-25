@@ -1,3 +1,5 @@
+import { updateProductFavorite } from '@Apis/favorites';
+import { getProductDetail } from '@Apis/product';
 import { ProductDetailContent } from '@Components/ProductDetail/ProductDetailContent';
 import { ProductDetailImg } from '@Components/ProductDetail/ProductDetailImg';
 import Button from '@Components/common/Button';
@@ -7,8 +9,6 @@ import { NavBarBackBtn } from '@Components/common/NavBar/NavBarBackBtn';
 import { TabBarProductDetail } from '@Components/common/TabBar';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-
-import { END_POINT } from '@Constants/endpoint';
 
 import { colors } from '@Styles/color';
 
@@ -22,9 +22,9 @@ export const ProductDetail = () => {
   const location = useLocation();
 
   const { id } = useParams();
-  const { data, fetchData } = useFetch<ProductDetailResponseData>(
-    `${END_POINT.products}/${id}`,
-  );
+  const { data, fetch } = useFetch<ProductDetailResponseData>({
+    suspense: false,
+  });
 
   const [isActiv, setIsActiv] = useState<boolean>(false);
   const [isActivSaleModal, setIsActiveSaleModal] = useState<boolean>(false);
@@ -63,10 +63,8 @@ export const ProductDetail = () => {
   };
 
   const changeWatchList = async (method: string) => {
-    await fetchData({
-      url: `${END_POINT.products}/${id}/watchlist`,
-      isGetData: false,
-      method,
+    await fetch({
+      fetchFn: () => updateProductFavorite(Number(id), method),
     });
   };
 
@@ -86,6 +84,12 @@ export const ProductDetail = () => {
       setWatchCount(data.data.watchlistCounts);
     }
   }, [data]);
+
+  useEffect(() => {
+    fetch({
+      fetchFn: () => getProductDetail(Number(id)),
+    });
+  }, []);
 
   useEffect(() => {
     const handleClickSaleOutside = ({ target }: MouseEvent) => {

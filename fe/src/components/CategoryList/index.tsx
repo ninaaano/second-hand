@@ -1,21 +1,15 @@
+import { getCategories } from '@Apis/category';
 import { Icon } from '@Components/common/Icon';
-import NotFound from '@Components/common/NotFound';
 import { Fragment, useEffect, useState } from 'react';
-
-import { END_POINT } from '@Constants/endpoint';
-
 import { palette } from '@Styles/color';
-
 import useFetch from '@Hooks/useFetch';
-
 import { CategoryResponseData, CategoryType } from '@Types/index';
-
 import * as S from './style';
 
 export const CategoryList = () => {
-  const { data, status, errorMessage } = useFetch<CategoryResponseData>(
-    END_POINT.category,
-  );
+  const { data } = useFetch<CategoryResponseData>({
+    fetchFn: getCategories,
+  });
 
   const handleCategory = (e: React.MouseEvent<HTMLDivElement>) => {
     const categoryId = (e.target as HTMLDivElement).getAttribute('data-id');
@@ -42,7 +36,6 @@ export const CategoryList = () => {
 
   return (
     <S.Layout onClick={handleCategory}>
-      {status === 'error' && <NotFound errorMessage={errorMessage} />}
       {data &&
         data.data?.category.map((item) => (
           <Fragment key={item.categoryId}>

@@ -1,9 +1,9 @@
 import { NavBarBackBtn } from '@Components/common/NavBar/NavBarBackBtn';
+import { ApiErrorBoundary } from '@Error/ApiErrorBoundary';
 import { useNavigate } from 'react-router-dom';
-
 import { CategoryList } from '@Components/CategoryList';
-
 import * as S from './style';
+
 export const Category = () => {
   const navigation = useNavigate();
   return (
@@ -14,7 +14,9 @@ export const Category = () => {
         handlePrev={() => navigation(-1)}
       />
       <div className="empty" />
-      <CategoryList />
+      <ApiErrorBoundary>
+        <CategoryList />
+      </ApiErrorBoundary>
     </S.Layout>
   );
 };

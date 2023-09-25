@@ -1,3 +1,4 @@
+import { getProducts } from '@Apis/product';
 import { RefObject, useEffect, useState } from 'react';
 
 import useFetch from '@Hooks/useFetch';
@@ -5,29 +6,26 @@ import useFetch from '@Hooks/useFetch';
 import { debounce } from '@Utils/debounce';
 
 interface useInfiniteScrollProps {
-  URL: string;
-  locationId?: number;
+  locationId: number;
   target: RefObject<HTMLElement>;
 }
 
 const useInfiniteScroll = <T,>({
-  URL,
   locationId,
   target,
 }: useInfiniteScrollProps) => {
   const [scrolledData, setScrolledData] = useState<T>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [page, setPage] = useState(1);
-  const { data, fetchData } = useFetch<T>();
+  const { data, fetch } = useFetch<T>({
+    suspense: false,
+  });
 
-  const loadMoreData = async () => {
+  const loadMoreData = () => {
     setIsLoading(true);
 
-    await fetchData({
-      url: `${URL}?page=${page}&size=10${
-        locationId && `&locationId=${locationId}`
-      }`,
-      isGetData: true,
+    fetch({
+      fetchFn: () => getProducts({ page, locationId }),
     });
 
     setPage((prevPage) => prevPage + 1);

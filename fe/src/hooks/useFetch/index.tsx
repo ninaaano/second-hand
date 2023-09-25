@@ -1,71 +1,63 @@
-import { useEffect, useState } from 'react';
+import { ApiError } from '@Error/ApiError';
+import { useCallback, useEffect, useState } from 'react';
+import { API_STATUS } from '@Constants/index';
+import { SERVER_MESSAGE } from '@Constants/server';
+import { apiStutus } from '@Types/index';
 
-import { ERROR_MESSAGE } from '@Constants/index';
+type responseCallback = () => Promise<Response>;
 
-const useFetch = <T,>(url?: string) => {
-  const [data, setData] = useState<T>();
-  const [status, setStatus] = useState<'loading' | 'error' | 'success'>(
-    'loading',
-  );
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const fetchData = async ({
-    url,
-    isGetData = false,
-    method = 'GET',
-    contentsType = { 'Content-Type': 'application/json' },
-    body,
-  }: {
-    url?: string;
-    isGetData: boolean;
-    method?: string;
-    contentsType?: object;
-    body?: BodyInit | null | undefined;
-  }) => {
-    try {
-      if (!url) return;
+interface fetchProps {
+  fetchFn?: responseCallback;
+}
 
-      const JWTToken = localStorage.getItem('JWTToken');
-      const headers = {
-        Authorization: `Bearer ${JWTToken}`,
-        ...contentsType,
-      };
-      const res = await fetch(url, {
-        method,
-        headers,
-        body,
-      });
-      const data = await res.json();
+interface useFetchProps extends fetchProps {
+  suspense?: boolean;
+}
 
-      if (isGetData || res.status === 302) {
-        setData(data);
-      }
+const useFetch = <R,>({ fetchFn, suspense = false }: useFetchProps) => {
+  const [promise, setPromise] = useState<Promise<void>>();
+  const [data, setData] = useState<R>();
+  const [status, setStatus] = useState<apiStutus>(API_STATUS.IDLE);
+  const [error, setError] = useState<Error | null>(null);
 
-      if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
-      if (res.status === 404) {
-        if (data.message === '토큰 시간 만료') {
-          localStorage.removeItem('JWTToken');
-          throw new Error(ERROR_MESSAGE.timeOut);
+  const fetch = useCallback(
+    ({ fetchFn }: fetchProps) => {
+      if (!fetchFn) return;
+      setStatus(API_STATUS.LOADING);
+
+      const resolvePromise = async (res: Response) => {
+        const data = await res.json();
+
+        if (data.message === SERVER_MESSAGE.USER_TOKEN_EXPIRED) {
+          throw new ApiError(data.message, res.status);
         }
-        throw new Error(ERROR_MESSAGE[404]);
-      }
 
-      if (!res.ok) {
-        throw new Error(ERROR_MESSAGE.default);
-      }
+        setData(data);
+        setStatus(API_STATUS.SUCCESS);
+      };
 
-      setStatus('success');
-    } catch (error) {
-      if (error instanceof Error) {
-        setStatus('error');
-        setErrorMessage(error.message);
-      }
-    }
-  };
+      const handleError = (error: Error) => {
+        setStatus(API_STATUS.ERROR);
+        setError(error);
+      };
+
+      setPromise(fetchFn().then(resolvePromise).catch(handleError));
+    },
+    [fetchFn],
+  );
+
   useEffect(() => {
-    fetchData({ url, isGetData: true });
-  }, [url]);
+    fetch({ fetchFn });
+  }, [fetchFn]);
 
-  return { data, status, errorMessage, fetchData };
+  if (suspense && status === API_STATUS.LOADING && promise) {
+    throw promise;
+  }
+  if (status === API_STATUS.ERROR) {
+    throw error;
+  }
+
+  return { data, status, fetch };
 };
 
 export default useFetch;

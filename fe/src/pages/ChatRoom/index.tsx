@@ -3,7 +3,6 @@ import { NavBarBackBtn } from '@Components/common/NavBar/NavBarBackBtn';
 import { TabBarChat } from '@Components/common/TabBar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import * as S from './style';
 
 const ChatRoom = () => {

@@ -1,62 +1,57 @@
-import Button from '@Components/common/Button';
+import LocationSelectField from '@Components/Registration/LocationSelectField';
 import { NavBarModal } from '@Components/common/NavBar/NavBarModal';
+import UserProfile from '@Components/common/UserProfile';
+import { useAuthContext } from '@Contexts/authContext';
+import { useUserInfoContext } from '@Contexts/userInfoContext';
+import { useUserLocationContext } from '@Contexts/userLocationContext';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-import { END_POINT } from '@Constants/endpoint';
-
-import useFetch from '@Hooks/useFetch';
-
-import * as S from './style';
-
-interface AuthData {
-  code: string;
-  message: string;
-  data: string;
-}
+import { API_STATUS } from '@Constants/index';
+import { ROUTE_PATH } from '@Constants/route';
+import { SERVER_MESSAGE } from '@Constants/server';
 
 const Registration = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { data, fetchData } = useFetch<AuthData>();
-  const { username, avatar, primaryLocation } = location.state;
+  const primaryLocation = location.state
+    ? location.state.primaryLocation
+    : undefined;
+  const { userInfo } = useUserInfoContext();
+  const { userLocationApiStatus, getUserLocation } = useUserLocationContext();
+  const { authInfo, authApiStatus, signUp } = useAuthContext();
 
-  const handleLocationBtnClick = () => {
-    navigate('/locationSearch', {
+  const goToLocationSearch = () => {
+    navigate(ROUTE_PATH.LOCATION_SEARCH, {
       state: {
-        ...location.state,
-        from: '/registration',
+        from: ROUTE_PATH.REGISTRATION,
       },
     });
   };
 
   const handleCloseBtnClick = () => {
-    navigate('/');
+    navigate(ROUTE_PATH.ROOT);
   };
 
   const handleSubmitBtnClick = async () => {
     if (!primaryLocation) return;
-    if (primaryLocation.locationId) {
-      await fetchData({
-        url: END_POINT.signUp,
-        isGetData: true,
-        method: 'POST',
-        body: JSON.stringify({
-          locationId: primaryLocation.locationId,
-        }),
-      });
-    }
+    signUp(primaryLocation.locationId);
   };
 
   useEffect(() => {
-    if (data && data.data) {
-      localStorage.removeItem('JWTToken');
-      const JWTToken = data.data;
-      localStorage.setItem('JWTToken', JWTToken);
-      navigate('/home');
+    if (
+      primaryLocation &&
+      authInfo?.message !== SERVER_MESSAGE.USER_SIGN_UP_IN_PROGRESS
+    ) {
+      getUserLocation();
     }
-  }, [data]);
+  }, [primaryLocation, authApiStatus, authInfo]);
+
+  useEffect(() => {
+    if (userLocationApiStatus === API_STATUS.SUCCESS) {
+      navigate(ROUTE_PATH.HOME);
+    }
+  }, [userLocationApiStatus]);
 
   return (
     <>
@@ -68,28 +63,12 @@ const Registration = () => {
         handleNext={handleSubmitBtnClick}
         isActiveNext={primaryLocation !== undefined}
       />
-      <S.InfoBox>
-        <S.ImgBox>
-          <S.UserImg src={avatar} />
-        </S.ImgBox>
-        <S.NoticeBox>
-          <S.UserId>{username}</S.UserId>
-          <S.Notice>🥕</S.Notice>
-        </S.NoticeBox>
-        <S.LocationBox>
-          {primaryLocation ? primaryLocation.town : ''}
-        </S.LocationBox>
-        <S.AddLocationButtonBox>
-          <Button
-            buttonType="rectangle"
-            buttonState="active"
-            size="L"
-            iconType="plus"
-            title="위치 추가"
-            onClick={handleLocationBtnClick}
-          />
-        </S.AddLocationButtonBox>
-      </S.InfoBox>
+      <UserProfile avatar={userInfo.avatar} username={userInfo.username}>
+        <LocationSelectField
+          handleBtnClick={goToLocationSearch}
+          primaryLocation={primaryLocation}
+        />
+      </UserProfile>
     </>
   );
 };

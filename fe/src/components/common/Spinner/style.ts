@@ -11,7 +11,6 @@ export const spinAnimation = keyframes`
 
 export const Spinner = styled.div<SpinnerProps>`
   display: flex;
-  position: relative;
   box-sizing: border-box;
   width: 33px;
   height: 33px;

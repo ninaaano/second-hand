@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { fontType } from '@Styles/font';
-
 export const Layout = styled.div`
   width: 46vw;
   height: 3.3vh;

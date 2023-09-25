@@ -1,44 +1,24 @@
-import Button from '@Components/common/Button';
+import Logout from '@Components/MyAccount/Logout';
 import { NavBarDefault } from '@Components/common/NavBar/NabBarDefault';
 import { TabBarHome } from '@Components/common/TabBar';
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import { UserContextProps } from '@Types/index';
-
-import * as S from './style';
-import { UserContext } from '../../App';
+import UserProfile from '@Components/common/UserProfile';
+import { useUserInfoContext } from '@Contexts/userInfoContext';
+import { LocalError } from '@Error/LocalError';
+import { ERROR_MESSAGE } from '@Constants/index';
 
 const MyAccount = () => {
-  const navigate = useNavigate();
-  const { user } = useContext(UserContext as React.Context<UserContextProps>);
+  const { userInfo } = useUserInfoContext();
 
-  const logoutHandler = () => {
-    localStorage.removeItem('JWTToken');
-    navigate('/');
-  };
+  if (!userInfo) {
+    throw new LocalError(ERROR_MESSAGE.refresh);
+  }
 
   return (
     <>
       <NavBarDefault title="내 계정" />
-      <S.InfoBox>
-        <S.ImgBox>
-          <S.UserImg src={user?.avatar} />
-        </S.ImgBox>
-        <S.NoticeBox>
-          <S.UserId>{user?.username} 🥕</S.UserId>
-        </S.NoticeBox>
-        <S.AddLocationButtonBox>
-          <Button
-            buttonType="rectangle"
-            buttonState="active"
-            size="L"
-            title="로그아웃"
-            onClick={logoutHandler}
-          />
-        </S.AddLocationButtonBox>
-      </S.InfoBox>
-      ;
+      <UserProfile avatar={userInfo.avatar} username={userInfo.username}>
+        <Logout />
+      </UserProfile>
       <TabBarHome currentPage="account" />
     </>
   );
