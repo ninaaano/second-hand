@@ -21,7 +21,7 @@ const useFetch = <R,>({ fetchFn, suspense = false }: useFetchProps) => {
   const [error, setError] = useState<Error | null>(null);
 
   const fetch = useCallback(
-    async ({ fetchFn }: fetchProps) => {
+    ({ fetchFn }: fetchProps) => {
       if (!fetchFn) return;
       setStatus(API_STATUS.LOADING);
 

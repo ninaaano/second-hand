@@ -84,7 +84,7 @@ const usePullToRefresh = ({
     container.addEventListener('touchend', handleTouchEnd);
 
     return () => {
-      container.addEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchstart', handleTouchStart);
       container.removeEventListener('touchmove', handleTouchMove);
       container.removeEventListener('touchend', handleTouchEnd);
     };
