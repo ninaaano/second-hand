@@ -1,7 +1,7 @@
 import { postNewProduct } from '@Apis/product';
 import { NewImg } from '@Components/NewProduct/NewImg';
 import { NewTitle } from '@Components/NewProduct/NewTitle';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarModal } from '@Components/common/NavBar/NavBarModal';
 import { TabBarSellProduct } from '@Components/common/TabBar';
 import { useUserLocationContext } from '@Contexts/userLocationContext';
 import { useEffect, useState } from 'react';
@@ -87,13 +87,12 @@ export const NewProduct = () => {
 
   return (
     <S.Layout>
-      <NavigationBar
-        type="modalLayout"
+      <NavBarModal
         prev="닫기"
         center="내 물건 팔기"
-        right="완료"
-        prevHandler={() => navigation(-1)}
-        rightHandler={async () => {
+        next="완료"
+        handlePrev={() => navigation(-1)}
+        handleNext={async () => {
           await handlePost();
           navigation('/home');
         }}

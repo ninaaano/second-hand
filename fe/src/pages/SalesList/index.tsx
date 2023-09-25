@@ -16,7 +16,7 @@ const SalesList = () => {
   return (
     <S.Layout>
       <NavBarSegmentPicker
-        title={'판매내역'}
+        title="판매내역"
         isActiveSetValue={setIsActive}
         isActiveValue={isActive}
       />

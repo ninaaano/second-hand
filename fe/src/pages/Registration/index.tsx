@@ -1,5 +1,5 @@
 import LocationSelectField from '@Components/Registration/LocationSelectField';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarModal } from '@Components/common/NavBar/NavBarModal';
 import UserProfile from '@Components/common/UserProfile';
 import { useAuthContext } from '@Contexts/authContext';
 import { useUserInfoContext } from '@Contexts/userInfoContext';
@@ -55,14 +55,13 @@ const Registration = () => {
 
   return (
     <>
-      <NavigationBar
-        type="modalLayout"
+      <NavBarModal
         prev="닫기"
         center="회원가입"
-        right="완료"
-        prevHandler={handleCloseBtnClick}
-        rightHandler={handleSubmitBtnClick}
-        isRightActive={primaryLocation !== undefined}
+        next="완료"
+        handlePrev={handleCloseBtnClick}
+        handleNext={handleSubmitBtnClick}
+        isActiveNext={primaryLocation !== undefined}
       />
       <UserProfile avatar={userInfo.avatar} username={userInfo.username}>
         <LocationSelectField

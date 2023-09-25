@@ -1,5 +1,5 @@
 import ChatList from '@Components/Chat/ChatList';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarDefault } from '@Components/common/NavBar/NabBarDefault';
 import { TabBarHome } from '@Components/common/TabBar';
 import useFetch from '@Hooks/useFetch';
 import { ChatResponseData } from '@Types/index';
@@ -11,7 +11,7 @@ const Chat = () => {
 
   return (
     <>
-      <NavigationBar type="defaultLayout" title="채팅" />
+      <NavBarDefault title="채팅" />
       {!ChatData && <ChatList />}
       <TabBarHome currentPage="chat" />
     </>

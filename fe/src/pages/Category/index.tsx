@@ -1,4 +1,4 @@
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarBackBtn } from '@Components/common/NavBar/NavBarBackBtn';
 import { ApiErrorBoundary } from '@Error/ApiErrorBoundary';
 import { useNavigate } from 'react-router-dom';
 import { CategoryList } from '@Components/CategoryList';
@@ -8,11 +8,10 @@ export const Category = () => {
   const navigation = useNavigate();
   return (
     <S.Layout>
-      <NavigationBar
-        type="backBtnLayout"
+      <NavBarBackBtn
         prev="닫기"
         center="카테고리"
-        prevHandler={() => navigation(-1)}
+        handlePrev={() => navigation(-1)}
       />
       <div className="empty" />
       <ApiErrorBoundary>

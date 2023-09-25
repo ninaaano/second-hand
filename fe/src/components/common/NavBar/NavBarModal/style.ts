@@ -10,22 +10,15 @@ interface ButtonProps {
   isActive?: boolean;
 }
 
-export const Box = styled.div`
+export const Layout = styled.div`
   display: flex;
   justify-content: center;
   padding: 3vh 0 0;
   border-radius: 10px 10px 0px 0px;
   background: ${palette.white};
   width: 100vw;
-  & div {
-    :last-child,
-    :first-child {
-      ${({ theme }) => theme.font.fontType.body}
-    }
-    :nth-child(2) {
-      ${({ theme }) => theme.font.fontType.headline}
-    }
-  }
+  ${({ theme }) => theme.mixin.navBarMixin.commonNavBar({ height: '5vh' })}
+  ${({ theme }) => theme.font.fontType.body}
 `;
 export const ModalText = styled.div`
   width: 90vw;
@@ -33,11 +26,12 @@ export const ModalText = styled.div`
   justify-content: space-between;
 `;
 
-export const Button = styled.button<ButtonProps>`
+export const ButtonBox = styled.button<ButtonProps>`
   border: none;
   background: none;
-  color: ${({ theme, isActive }) =>
-    isActive
-      ? theme.color.colors.neutralTextStrong
-      : theme.color.colors.neutralTextWeak};
+  color: ${({ theme }) => theme.color.colors.neutralTextStrong};
+
+  :disabled {
+    color: ${({ theme }) => theme.color.colors.neutralTextWeak};
+  }
 `;

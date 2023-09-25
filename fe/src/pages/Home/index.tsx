@@ -1,6 +1,6 @@
-import Contents from '@Components/Home/\bContents';
+import Contents from '@Components/Home/Contents';
 import { NewProductButton } from '@Components/Home/NewProductButton';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarHome } from '@Components/common/NavBar/NavBarHome';
 import { Spinner } from '@Components/common/Spinner';
 import { TabBarHome } from '@Components/common/TabBar';
 import { useUserLocationContext } from '@Contexts/userLocationContext';
@@ -18,12 +18,7 @@ const Home = () => {
 
   return (
     <>
-      <NavigationBar
-        type="homeLayout"
-        title="title1"
-        towns={userTownList}
-        modalHanlder={reverseUserLocationList}
-      />
+      <NavBarHome towns={userTownList} modalHanlder={reverseUserLocationList} />
       <ApiErrorBoundary>
         <Suspense fallback={<Spinner isDynamic={false} />}>
           <Contents />

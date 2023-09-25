@@ -11,7 +11,7 @@ interface NavBarHomeProps {
 
 export const NavBarHome = ({ towns, modalHanlder }: NavBarHomeProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const DropDownRef = useRef<HTMLDivElement>(null);
+  const DropDownRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,13 +36,13 @@ export const NavBarHome = ({ towns, modalHanlder }: NavBarHomeProps) => {
   };
 
   return (
-    <S.Box>
+    <S.Layout>
       <S.AddressBox
         ref={DropDownRef}
         onClick={() => setIsOpen((prevIsOpen) => !prevIsOpen)}
       >
         {towns && <span>{towns[0]}</span>}
-        <Icon iconType="chevronDown" />
+        <Icon iconType="chevronDown" fill="black" />
       </S.AddressBox>
       {isOpen && (
         <S.DropDown onClick={handleDropDownClick}>
@@ -68,6 +68,6 @@ export const NavBarHome = ({ towns, modalHanlder }: NavBarHomeProps) => {
       <S.CategoryBox>
         <Icon iconType="line" />
       </S.CategoryBox>
-    </S.Box>
+    </S.Layout>
   );
 };

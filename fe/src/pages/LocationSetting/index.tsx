@@ -1,7 +1,7 @@
 import LocationButtonList from '@Components/LocationSetting/LocationButtonList';
 import LocationNotice from '@Components/LocationSetting/LocationNotice';
 import MessageAlert from '@Components/LocationSetting/MessageAlert';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarModal } from '@Components/common/NavBar/NavBarModal';
 import { useUserLocationContext } from '@Contexts/userLocationContext';
 import { LocalError } from '@Error/LocalError';
 import { useEffect, useState } from 'react';
@@ -38,11 +38,10 @@ const LocationSetting = () => {
 
   return (
     <>
-      <NavigationBar
-        type="modalLayout"
+      <NavBarModal
         prev="닫기"
         center="동네 설정"
-        prevHandler={handleBackBtnClick}
+        handlePrev={handleBackBtnClick}
       />
       <S.Layout>
         <LocationNotice />

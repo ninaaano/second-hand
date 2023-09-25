@@ -1,6 +1,6 @@
 import { getAllLocations } from '@Apis/location';
 import LocationList from '@Components/common/LocationList';
-import { NavigationBar } from '@Components/common/NavBar';
+import { NavBarModalSearch } from '@Components/common/NavBar/NavBarModalSearch';
 import { useUserLocationContext } from '@Contexts/userLocationContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@Constants/route';
@@ -44,7 +44,7 @@ const LocationSearch = () => {
 
   return (
     <>
-      <NavigationBar type="modalSearchLayout" prevHandler={goToPreviousPage} />
+      <NavBarModalSearch prevHandler={goToPreviousPage} />
       {locations && (
         <LocationList locations={locations} handleItemClick={setLocation} />
       )}
