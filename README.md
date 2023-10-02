@@ -42,16 +42,16 @@
 
 ## 🌐 Infra Structure
 
-![img_1.png](img_1.png)
-![img_3.png](img_3.png)
+![image](https://github.com/codesquad-members-2023-proj02-team04/second-hand/assets/95615105/1569f5f9-9c28-46e7-8c56-43668c29addd)
+![image](https://github.com/codesquad-members-2023-proj02-team04/second-hand/assets/95615105/05c3c75b-da88-4213-8940-f41d56df6078)
 
 ## ⚙️ ERD
 
-![img.png](img.png)
+![image](https://github.com/codesquad-members-2023-proj02-team04/second-hand/assets/95615105/b9aa551c-0377-4c3c-9c9f-5531c92a8ee6)
 
 ## 📄 API 명세서
+<img width="1029" alt="스크린샷 2023-10-02 오후 5 03 03" src="https://github.com/codesquad-members-2023-proj02-team04/second-hand/assets/95615105/692560ea-a27a-46f6-b397-a7c7ead47a13">
 
-![스크린샷 2023-10-02 오후 3.02.51.png](..%2F..%2F..%2F..%2F..%2Fvar%2Ffolders%2F4k%2F50jw2vv566z5wxd0z6rf1sgw0000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_bbsvIG%2F%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202023-10-02%20%EC%98%A4%ED%9B%84%203.02.51.png)
 [API 명세서](..%2F324bd240-14cd-4a02-9a1a-3144ff23a12b_Export-5c4df90f-db07-4c83-bde5-ef044e59509b%2FAPI%20%EB%AA%85%EC%84%B8%EC%84%9C.html)
 
 ## 🤝 그라운드 룰
