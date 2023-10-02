@@ -1,4 +1,5 @@
 # SECOND-HAND
+> 프로젝트 기간 : 2023.06.05~2023.06.31
 
 <div align="center">
   <img src="https://github.com/codesquad-members-2023-proj02-team04/second-hand/assets/56967908/5117b246-191e-4490-9160-d15ed3fada07" width="40%">
