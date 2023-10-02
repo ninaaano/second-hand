@@ -35,6 +35,10 @@
 <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/></img>
 <img src="https://img.shields.io/badge/nginx-009639?style=flat&logo=nginx&logoColor=white"/></img>
 
+## 프로젝트 내용
+- AWS EC2, Github action, Docker, Docker Hub를 이용한 배포 자동화
+- AWS S3를 이용하여 이미지 업로드, 수정, 삭제 구현
+- 백엔드, 프론트엔드, iOS 협업 경험
 
 ## 🌐 Infra Structure
 
