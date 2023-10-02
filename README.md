@@ -1,6 +1,5 @@
 # SECOND-HAND
 
--------
 <div align="center">
   <img src="https://github.com/codesquad-members-2023-proj02-team04/second-hand/assets/56967908/5117b246-191e-4490-9160-d15ed3fada07" width="40%">
 </div>
@@ -8,9 +7,6 @@
 
 
 ## 🥕 프로젝트 소개
-
----
-
 중고 거래 플랫폼 서비스 당근마켓 클론 프로젝트, SECOND-HAND
 
 ## 👨‍👩‍👧‍👦 팀원 소개
