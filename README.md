@@ -46,7 +46,6 @@
 ## 🌐 Infra Structure
 
 ![image](https://github.com/codesquad-members-2023-proj02-team04/second-hand/assets/95615105/1569f5f9-9c28-46e7-8c56-43668c29addd)
-![image](https://github.com/codesquad-members-2023-proj02-team04/second-hand/assets/95615105/05c3c75b-da88-4213-8940-f41d56df6078)
 
 ## ⚙️ ERD
 
